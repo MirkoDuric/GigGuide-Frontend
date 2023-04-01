@@ -91,6 +91,7 @@ const ControlledCarousel = (props) => {
       createdAt: "2023-04-01T09:50:36.320Z",
       updatedAt: "2023-04-01T09:50:36.320Z",
       __v: 0,
+      upcomingEvents: [1],
     },
   ];
 

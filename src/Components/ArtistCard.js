@@ -17,7 +17,9 @@ const ArtistCard = (props) => {
         <Card.ImgOverlay>
           <Card.Title className="bandName">{bandName}</Card.Title>
           {isTouring ? (
-            <span className="isTouring">Band has Upcoming Shows</span>
+            <Card.Footer className="isTouring">
+              Band has Upcoming Shows
+            </Card.Footer>
           ) : null}
         </Card.ImgOverlay>
       </Card>
