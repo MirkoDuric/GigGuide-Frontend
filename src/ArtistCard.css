@@ -1,0 +1,27 @@
+
+.card-img-overlay {
+    display:flex;
+    flex-direction: column;
+    -webkit-text-fill-color: white;
+    -webkit-text-stroke: 0.5px black;
+    text-align: center;
+    justify-content: center;
+}
+
+.bandName {
+    align-self: center;
+    justify-content: center;
+    margin: 0 auto;
+    font-size: 5vw;
+}
+
+.isTouring {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-size: 1.5vw;
+}
+
+.artistCard {
+    margin: 0.2rem
+}
