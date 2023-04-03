@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
 import Stack from "react-bootstrap/Stack";
 import Card from "react-bootstrap/Card";
 import Figure from "react-bootstrap/Figure";
-
-import { NavLink } from "react-router-dom";
 
 const Event = (props) => {
   //const bands = props.bands;
@@ -32,7 +29,7 @@ const Event = (props) => {
           startTime: "2023-03-30T20:40:29.292Z",
           venue: "Ed's House",
           address: "123 Fake Street",
-          ticketUrl: "ticket url",
+          ticketUrl: "www.google.com",
           info: "Small and intimate venue with great acoustics",
           _id: "6425f3bdb08f3d401bad0c7f",
         },
@@ -98,56 +95,57 @@ const Event = (props) => {
   ];
 
   return (
-    <Stack>
+    <Stack gap={2}>
       {bands.length
-        ? bands.type === "local"
+        ? bands.type !== "local"
           ? bands.map((band) => {
-              return (
-                <NavLink to={band.upcomingEvents[0].ticketUrl}>
-                  <div className="row">
-                    <div className="col">
-                      <Figure>
-                        <Figure.Image
-                          width={171}
-                          height={180}
-                          alt="171x180"
-                          src={band.profilePicture}
-                        />
-                      </Figure>
+              return band.upcomingEvents ? (
+                band.upcomingEvents.length ? (
+                  <a href={`https://${band.upcomingEvents[0].ticketUrl}`}>
+                    <div className="row">
+                      <div className="col-2">
+                        <Figure>
+                          <Figure.Image
+                            width={"100%"}
+                            alt="171x180"
+                            src={band.profilePicture}
+                          />
+                        </Figure>
+                      </div>
+                      <div className="col">
+                        <Card>
+                          <Card.Header>
+                            <h2>{band.name}</h2>
+                          </Card.Header>
+                          <Card.Body>
+                            <div className="row">
+                              <h4>
+                                {band.upcomingEvents[0].venue} -{" "}
+                                {band.upcomingEvents[0].date},{" "}
+                                {band.upcomingEvents[0].startTime}
+                              </h4>
+
+                              <p className="venueAddress">
+                                {band.upcomingEvents[0].address}
+                              </p>
+                            </div>
+                            <div className="row">
+                              <p className="eventInfo">
+                                {band.upcomingEvents[0].info}
+                              </p>
+                            </div>
+                          </Card.Body>
+                        </Card>
+                      </div>
                     </div>
-                    <div className="col">
-                      <Card>
-                        <Card.Body>
-                          <div className="row">
-                            <h3>{band.name}</h3>
-                          </div>
-                          <div className="row">
-                            <h6>{band.upcomingEvents[0].venue}</h6>
-                            <br />
-                            <p>{band.upcomingEvents[0].address}</p>
-                          </div>
-                          <div className="row">
-                            <p className="eventDate">
-                              {band.upcomingEvents[0].date},{" "}
-                              {band.upcomingEvents[0].startTime}
-                            </p>
-                          </div>
-                          <div className="row">
-                            <p className="eventInfo">
-                              {band.upcomingEvents[0].info}
-                            </p>
-                          </div>
-                        </Card.Body>
-                      </Card>
-                    </div>
-                  </div>
-                  <div className="hr" />
-                </NavLink>
-              );
+                    <div className="hr" />
+                  </a>
+                ) : null
+              ) : null;
             })
           : bands.map((band) => {
               return (
-                <NavLink to={band._embedded.venues[0].url}>
+                <a href={band._embedded.venues[0].url}>
                   <div className="row">
                     <div className="col">
                       <Figure>
@@ -189,7 +187,7 @@ const Event = (props) => {
                     </div>
                   </div>
                   <div className="hr" />
-                </NavLink>
+                </a>
               );
             })
         : null}
