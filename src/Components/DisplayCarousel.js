@@ -103,7 +103,8 @@ const ControlledCarousel = (props) => {
       loop={true}
       scrollSnap={true}
       hideArrow={false}
-      style={{ height: "25%" }}
+      showDots={true}
+      //mobileBreakpoint={650}
     >
       {bands.length
         ? bands.map((band, index) => {
