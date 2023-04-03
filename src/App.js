@@ -1,11 +1,11 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Routes } from "react-router";
-import DisplayCarousel from "./Components/DisplayCarousel";
+import Event from "./Components/Event";
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<DisplayCarousel />} />
+        <Route path="/" element={<Event />} />
       </Routes>
     </div>
   );
