@@ -8,19 +8,20 @@ const ControlledCarousel = (props) => {
 
   return (
     <Carousel
-      cols={3}
+      cols={6}
       rows={1}
       gap={10}
       loop={true}
       scrollSnap={true}
       hideArrow={false}
       showDots={true}
+      style={{ height: "100%" }}
       //mobileBreakpoint={650}
     >
       {bands.length
         ? bands.map((band, index) => {
             return (
-              index < 15 && (
+              index < 18 && (
                 <Carousel.Item>
                   <ArtistCard
                     className="band"

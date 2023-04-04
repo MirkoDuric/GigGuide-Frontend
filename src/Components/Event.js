@@ -1,5 +1,6 @@
 import Stack from "react-bootstrap/Stack";
 import Card from "react-bootstrap/Card";
+import Image from "react-bootstrap/Image";
 import Figure from "react-bootstrap/Figure";
 import Accordion from "react-bootstrap/Accordion";
 import AccordionHeader from "react-bootstrap/esm/AccordionHeader";
@@ -94,7 +95,7 @@ const Event = (props) => {
   ];
 
   return (
-    <Accordion>
+    <Accordion style={{ marginLeft: "3rem", marginRight: "3rem" }}>
       {bands.length
         ? type === "local"
           ? bands.map((band) => {
@@ -103,19 +104,38 @@ const Event = (props) => {
                 band.upcomingEvents.length ? (
                   <Accordion.Item eventKey={eventKey}>
                     <Accordion.Header className="row">
-                      <div className="col-2">
+                      <div className="col-4">
                         <a href={`https://${band.upcomingEvents[0].ticketUrl}`}>
-                          <Figure>
-                            <Figure.Image
-                              width={"100%"}
-                              alt="171x180"
-                              src={band.profilePicture}
-                            />
-                          </Figure>
+                          <Image
+                            fluid={true}
+                            alt="Artist Image"
+                            src={`http://localhost:8000/${band.profilePicture}`}
+                            style={{
+                              objectFit: "fill",
+                              maxHeight: "10rem",
+                            }}
+                          />
                         </a>
                       </div>
-                      <div className="col">
+                      <div className="col" style={{ marginLeft: "2rem" }}>
                         <h2>{band.name}</h2>
+                        <h3>
+                          {new Date(
+                            band.upcomingEvents[0].date
+                          ).toLocaleDateString("en-US", {
+                            weekday: "long",
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
+                          ,{" "}
+                          {new Date(
+                            band.upcomingEvents[0].startTime
+                          ).toLocaleTimeString("en-US", {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
+                        </h3>
                       </div>
                     </Accordion.Header>
                     <Accordion.Body
@@ -124,12 +144,7 @@ const Event = (props) => {
                     >
                       <a href={`https://${band.upcomingEvents[0].ticketUrl}`}>
                         <div className="row">
-                          <h4>
-                            {band.upcomingEvents[0].venue} -{" "}
-                            {band.upcomingEvents[0].date},{" "}
-                            {band.upcomingEvents[0].startTime}
-                          </h4>
-
+                          <p>{band.upcomingEvents[0].venue} </p>
                           <p className="venueAddress">
                             {band.upcomingEvents[0].address}
                           </p>
@@ -163,19 +178,19 @@ const Event = (props) => {
                     </div>
                     <div className="col">
                       <h2>{band.name}</h2>
+                      <h3>
+                        {band.dates.start.localDate},{" "}
+                        {band.dates.start.localTime}
+                      </h3>
                     </div>
                   </Accordion.Header>
                   <Accordion.Body
                     className="overflow-auto"
                     style={{ maxHeight: "20vw" }}
                   >
-                    <a href={`https://${band.upcomingEvents[0].ticketUrl}`}>
+                    <a href={`${band.url}`}>
                       <div className="row">
-                        <h4>
-                          {band._embedded.venues[0].name} -{" "}
-                          {band.dates.start.localDate},{" "}
-                          {band.dates.start.localTime}
-                        </h4>
+                        <h4>{band._embedded.venues[0].name}</h4>
 
                         <p className="venueAddress">
                           {band._embedded.venues[0].address.line1},{" "}
