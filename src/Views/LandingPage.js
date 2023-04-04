@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Button from "../Components/Button";
 import Event from "../Components/Event";
-import Carousel from "../Components/Carousel";
+import DisplayCarousel from "../Components/DisplayCarousel";
 
 const LandingPage = (props) => {
   //const bands = props.bands;
