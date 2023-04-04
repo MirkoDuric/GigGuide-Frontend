@@ -1,10 +1,14 @@
 import Stack from "react-bootstrap/Stack";
 import Card from "react-bootstrap/Card";
 import Figure from "react-bootstrap/Figure";
+import Accordion from "react-bootstrap/Accordion";
+import AccordionHeader from "react-bootstrap/esm/AccordionHeader";
+import AccordionItem from "react-bootstrap/esm/AccordionItem";
 
 const Event = (props) => {
   //const bands = props.bands;
   //const type = props.type;
+  let eventKey = 0;
   const type = "";
   const bands = [
     {
@@ -79,6 +83,17 @@ const Event = (props) => {
       createdAt: "2023-04-01T09:50:36.320Z",
       updatedAt: "2023-04-01T09:50:36.320Z",
       __v: 0,
+      upcomingEvents: [
+        {
+          date: "2023-03-30T20:40:29.292Z",
+          startTime: "2023-03-30T20:40:29.292Z",
+          venue: "Ed's House",
+          address: "123 Fake Street",
+          ticketUrl: "www.google.com",
+          info: "Small and intimate venue with great acoustics",
+          _id: "6425f3bdb08f3d401bad0c7f",
+        },
+      ],
     },
     {
       _id: "6427fe6cacc63a072c26b2e9",
@@ -92,7 +107,17 @@ const Event = (props) => {
       createdAt: "2023-04-01T09:50:36.320Z",
       updatedAt: "2023-04-01T09:50:36.320Z",
       __v: 0,
-      upcomingEvents: [1],
+      upcomingEvents: [
+        {
+          date: "2023-03-30T20:40:29.292Z",
+          startTime: "2023-03-30T20:40:29.292Z",
+          venue: "Ed's House",
+          address: "123 Fake Street",
+          ticketUrl: "www.google.com",
+          info: "Small and intimate venue with great acoustics",
+          _id: "6425f3bdb08f3d401bad0c7f",
+        },
+      ],
     },
   ];
 
@@ -180,101 +205,107 @@ const Event = (props) => {
   ];
 
   return (
-    <Stack gap={2}>
+    <Accordion>
       {bands.length
         ? type !== "local"
           ? bands.map((band) => {
+              eventKey++;
               return band.upcomingEvents ? (
                 band.upcomingEvents.length ? (
-                  <a href={`https://${band.upcomingEvents[0].ticketUrl}`}>
-                    <div className="row">
+                  <Accordion.Item eventKey={eventKey}>
+                    <Accordion.Header className="row">
                       <div className="col-2">
-                        <Figure>
-                          <Figure.Image
-                            width={"100%"}
-                            alt="171x180"
-                            src={band.profilePicture}
-                          />
-                        </Figure>
+                        <a href={`https://${band.upcomingEvents[0].ticketUrl}`}>
+                          <Figure>
+                            <Figure.Image
+                              width={"100%"}
+                              alt="171x180"
+                              src={band.profilePicture}
+                            />
+                          </Figure>
+                        </a>
                       </div>
                       <div className="col">
-                        <Card>
-                          <Card.Header>
-                            <h2>{band.name}</h2>
-                          </Card.Header>
-                          <Card.Body>
-                            <div className="row">
-                              <h4>
-                                {band.upcomingEvents[0].venue} -{" "}
-                                {band.upcomingEvents[0].date},{" "}
-                                {band.upcomingEvents[0].startTime}
-                              </h4>
-
-                              <p className="venueAddress">
-                                {band.upcomingEvents[0].address}
-                              </p>
-                            </div>
-                            <div className="row">
-                              <p className="eventInfo">
-                                {band.upcomingEvents[0].info}
-                              </p>
-                            </div>
-                          </Card.Body>
-                        </Card>
+                        <h2>{band.name}</h2>
                       </div>
-                    </div>
-                    <div className="hr" />
-                  </a>
+                    </Accordion.Header>
+                    <Accordion.Body
+                    //className="overflow-auto"
+                    //style={{ maxHeight: "20vw" }}
+                    >
+                      <a href={`https://${band.upcomingEvents[0].ticketUrl}`}>
+                        <div className="row">
+                          <h4>
+                            {band.upcomingEvents[0].venue} -{" "}
+                            {band.upcomingEvents[0].date},{" "}
+                            {band.upcomingEvents[0].startTime}
+                          </h4>
+
+                          <p className="venueAddress">
+                            {band.upcomingEvents[0].address}
+                          </p>
+                        </div>
+                        <div className="row">
+                          <p className="eventInfo">
+                            {band.upcomingEvents[0].info}
+                          </p>
+                        </div>
+                      </a>
+                    </Accordion.Body>
+                  </Accordion.Item>
                 ) : null
               ) : null;
             })
           : shania.map((band) => {
+              eventKey++;
               return (
-                <a href={band._embedded.venues[0].url}>
-                  <div className="row">
+                <Accordion.Item eventKey={eventKey}>
+                  <Accordion.Header className="row">
                     <div className="col-2">
-                      <Figure>
-                        <Figure.Image
-                          width={"100%"}
-                          alt="171x180"
-                          src={band.images[1].url}
-                        />
-                      </Figure>
+                      <a href={band._embedded.venues[0].url}>
+                        <Figure>
+                          <Figure.Image
+                            width={"100%"}
+                            alt="171x180"
+                            src={band.images[1].url}
+                          />
+                        </Figure>
+                      </a>
                     </div>
                     <div className="col">
-                      <Card>
-                        <Card.Header>
-                          <h2>{band.name}</h2>
-                        </Card.Header>
-                        <Card.Body>
-                          <div className="row">
-                            <h4>
-                              {band._embedded.venues[0].name} -{" "}
-                              {band.dates.start.localDate},{" "}
-                              {band.dates.start.localTime}
-                            </h4>
-
-                            <p className="venueAddress">
-                              {band._embedded.venues[0].address.line1},{" "}
-                              {band._embedded.venues[0].city.name},{" "}
-                              {band._embedded.venues[0].state.name}{" "}
-                              {band._embedded.venues[0].postalCode},{" "}
-                              {band._embedded.venues[0].country.name}
-                            </p>
-                          </div>
-                          <div className="row">
-                            <p className="eventInfo">{band.info}</p>
-                          </div>
-                        </Card.Body>
-                      </Card>
+                      <h2>{band.name}</h2>
                     </div>
-                  </div>
-                  <div className="hr" />
-                </a>
+                  </Accordion.Header>
+                  <Accordion.Body
+                    className="overflow-auto"
+                    style={{ maxHeight: "20vw" }}
+                  >
+                    <a href={`https://${band.upcomingEvents[0].ticketUrl}`}>
+                      <div className="row">
+                        <h4>
+                          {band._embedded.venues[0].name} -{" "}
+                          {band.dates.start.localDate},{" "}
+                          {band.dates.start.localTime}
+                        </h4>
+
+                        <p className="venueAddress">
+                          {band._embedded.venues[0].address.line1},{" "}
+                          {band._embedded.venues[0].city.name},{" "}
+                          {band._embedded.venues[0].state.name}{" "}
+                          {band._embedded.venues[0].postalCode},{" "}
+                          {band._embedded.venues[0].country.name}
+                        </p>
+                      </div>
+                      <div className="row">
+                        <p className="eventInfo">{band.info}</p>
+                      </div>
+                    </a>
+                  </Accordion.Body>
+                </Accordion.Item>
               );
             })
         : null}
-    </Stack>
+    </Accordion>
   );
 };
 
