@@ -13,13 +13,11 @@ const ArtistCard = (props) => {
   return (
     <NavLink to={"artist/" + bandId}>
       <Card className="bg-dark text-white artistCard" style={{ width: "auto" }}>
-        <Card.Img src={`http://localhost:8000/${bandPic}`} alt="Band Pic" />
+        <Card.Img src={bandPic} alt="Band Pic" />
         <Card.ImgOverlay>
           <Card.Title className="bandName">{bandName}</Card.Title>
           {isTouring ? (
-            <Card.Footer className="isTouring">
-              Band has Upcoming Shows
-            </Card.Footer>
+            <Card.Footer className="isTouring">Upcoming Shows</Card.Footer>
           ) : null}
         </Card.ImgOverlay>
       </Card>
