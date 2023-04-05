@@ -16,18 +16,42 @@ const Signup = () => {
   const [city, setCity] = useState("");
   const [country, setCountry] = useState("");
   const [userType, setUserType] = useState("fan");
+  const [profile, setProfile] = useState({});
+  const [email, setEmail] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    let formData = new FormData();
+    formData.append("profile", profile);
+    formData.append("name", name);
+    formData.append("age", age);
+    formData.append("username", username);
+    formData.append("email", email);
+    formData.append("password", password);
+    formData.append("city", city);
+    formData.append("country", country);
+    formData.append("userType", userType);
 
-    const payload = { name, age, username, password, city, country, userType };
-    const headers = { "Content-Type": "aplication/json" };
-
+    /*   const payload = {
+      name,
+      age,
+      username,
+      password,
+      city,
+      country,
+      userType,
+      profile: profile,
+    }; */
+    //const headers = { "Content-Type": "aplication/json" };
+    //const headers = { "Content-Type": "multipart/form-data" };
+    console.log(formData);
     try {
       const response = await fetch("http://localhost:8000/api/user/signup", {
         method: "POST",
-        headers,
-        body: JSON.stringify(payload),
+
+        //headers,
+        //body: payload,
+        body: formData,
       });
       if (response.ok) {
         setTimeout(() => {
@@ -46,10 +70,15 @@ const Signup = () => {
     }
   };
 
+  const handleFileChange = (e) => {
+    const img = e.target.files[0];
+    setProfile(img);
+  };
+
   return (
     <div className="container">
       <img className="logo" src={logo}></img>
-      <Form className="signup-form" onSubmit={() => handleSubmit()}>
+      <Form className="signup-form" onSubmit={handleSubmit}>
         <p className="signup-title">
           <span className="signup-title-span">Sign up</span> and enjoy our
           GigGuide<span className="signup-title-span">!</span>
@@ -64,7 +93,12 @@ const Signup = () => {
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" />
+          <Form.Control
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter email"
+          />
           <Form.Text className="text-muted">
             We'll never share your email with anyone else.
           </Form.Text>
@@ -91,7 +125,7 @@ const Signup = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            autocomplete="new-password"
+            autoComplete="new-password"
           />
         </Form.Group>
         <Form.Group controlId="formConfirmPassword">
@@ -101,12 +135,16 @@ const Signup = () => {
             value={confirmPassword}
             placeholder="Repeat the password"
             onChange={(e) => setConfirmPassword(e.target.value)}
-            autocomplete="new-password"
+            autoComplete="new-password"
           />
         </Form.Group>
         <Form.Group>
           <Form.Label>Choose your profile image:</Form.Label>
-          <Form.Control type="file" />
+          <Form.Control
+            type="file"
+            name="profile"
+            onChange={handleFileChange}
+          />
           <Form.Text className="text-muted">
             Please select an image to upload.
           </Form.Text>
@@ -143,10 +181,10 @@ const Signup = () => {
             inline
             label="Artist"
             type="radio"
-            id="artist"
+            id="Artist"
             name="userType"
-            value="artist"
-            checked={userType === "artist"}
+            value="Artist"
+            checked={userType === "Artist"}
             onChange={(e) => setUserType(e.target.value)}
           />
         </Form.Group>
