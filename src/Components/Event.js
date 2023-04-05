@@ -78,7 +78,7 @@ const Event = (props) => {
                     <AccordionItem eventKey={eventKey}>
                       <AccordionHeader className="row">
                         <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                          <a href={band._embedded.venues[0].url}>
+                          <a href={`${band.url}`}>
                             <Figure>
                               <Figure.Image
                                 width={"100%"}

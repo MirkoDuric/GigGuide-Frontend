@@ -1,11 +1,11 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Route, Routes } from "react-router";
-import SearchBar from "./Components/SearchBar";
+import LandingPage from "./Views/LandingPage";
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<SearchBar />} />
+        <Route path="/" element={<LandingPage />} />
       </Routes>
     </div>
   );

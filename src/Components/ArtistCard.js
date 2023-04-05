@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Card from "react-bootstrap/Card";
-import Nav from "react-bootstrap/Nav";
 import "../ArtistCard.css";
 import { NavLink } from "react-router-dom";
 
@@ -13,7 +12,7 @@ const ArtistCard = (props) => {
   return (
     <NavLink to={"artist/" + bandId}>
       <Card className="bg-dark text-white artistCard" style={{ width: "auto" }}>
-        <Card.Img src={bandPic} alt="Band Pic" />
+        <Card.Img src={bandPic} alt="Artist Picture" />
         <Card.ImgOverlay>
           <Card.Title className="bandName">{bandName}</Card.Title>
           {isTouring ? (
