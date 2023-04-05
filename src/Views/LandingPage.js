@@ -42,7 +42,7 @@ const LandingPage = (props) => {
     console.log(`City:${countryCode}`);
     axios
       .get(
-        `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&locale=*&sort=relevance,desc&city=Berlin&countryCode=DE&segmentName=Music`
+        `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&locale=*&sort=relevance,desc&city=${city}&countryCode=${countryCode}&segmentName=Music`
       )
       .then((response) => {
         console.log(response);

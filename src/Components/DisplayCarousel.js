@@ -50,8 +50,10 @@ const ControlledCarousel = (props) => {
                       className="band"
                       name={band.name}
                       profilePicture={
-                        band.images.find((element) => element.ratio === "16_9")
-                          .url
+                        band.images.find(
+                          (element) =>
+                            element.ratio === "16_9" && element.height > 150
+                        ).url
                       }
                       id={band.id}
                       touring={

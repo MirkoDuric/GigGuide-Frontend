@@ -174,7 +174,13 @@ const Event = (props) => {
                               <Figure.Image
                                 width={"100%"}
                                 alt="171x180"
-                                src={band.images[1].url}
+                                src={
+                                  band.images.find(
+                                    (element) =>
+                                      element.ratio === "16_9" &&
+                                      element.height > 150
+                                  ).url
+                                }
                               />
                             </Figure>
                           </a>
@@ -231,7 +237,13 @@ const Event = (props) => {
                               <Figure.Image
                                 width={"100%"}
                                 alt="171x180"
-                                src={band.images[1].url}
+                                src={
+                                  band.images.find(
+                                    (element) =>
+                                      element.ratio === "16_9" &&
+                                      element.height > 150
+                                  ).url
+                                }
                               />
                             </Figure>
                           </a>
