@@ -1,0 +1,139 @@
+.eventTitle {
+    margin-left:2rem
+}
+.figurediv{
+    display:flex;
+    align-items: center;
+}
+.accordion{
+    margin-left: 3rem;
+    margin-right: 3rem;
+    overflow: auto;
+    max-height: 20rem;
+}
+
+@media screen and (min-width: 1px) {
+    .eventTitle h2 {
+       font-size: 13px;
+    }
+  }
+  @media screen and (min-width: 576px) {
+    .eventTitle h2 {
+       font-size: 22px;
+    }
+  }
+  @media screen and (min-width: 768px) {
+    .eventTitle h2 {
+       font-size: 26px;
+    }
+  }
+  @media screen and (min-width: 992px) {
+    .eventTitle h2 {
+       font-size: 30px;
+    }
+  }
+  @media screen and (min-width: 1200px) {
+    .eventTitle h2 {
+       font-size: 30px;
+    }
+  }
+  @media screen and (min-width: 1400px) {
+    .eventTitle h2 {
+       font-size: 30px;
+    }
+  }
+
+  @media screen and (min-width: 1px) {
+    .eventTitle h3 {
+       font-size: 9px;
+    }
+  }
+  @media screen and (min-width: 576px) {
+    .eventTitle h3 {
+       font-size: 16px;
+    }
+  }
+  @media screen and (min-width: 768px) {
+    .eventTitle h3 {
+       font-size: 20px;
+    }
+  }
+  @media screen and (min-width: 992px) {
+    .eventTitle h3 {
+       font-size: 26px;
+    }
+  }
+  @media screen and (min-width: 1200px) {
+    .eventTitle h3 {
+       font-size: 30px;
+    }
+  }
+  @media screen and (min-width: 1400px) {
+    .eventTitle h3 {
+       font-size: 30px;
+    }
+  }
+
+  @media screen and (min-width: 1px) {
+    .row h4 {
+       font-size: 13px;
+    }
+  }
+  @media screen and (min-width: 576px) {
+    .row h4 {
+       font-size: 22px;
+    }
+  }
+  @media screen and (min-width: 768px) {
+    .row h4 {
+       font-size: 26px;
+    }
+  }
+  @media screen and (min-width: 992px) {
+    .row h4 {
+       font-size: 30px;
+    }
+  }
+  @media screen and (min-width: 1200px) {
+    .row h4 {
+       font-size: 30px;
+    }
+  }
+  @media screen and (min-width: 1400px) {
+    .row h4 {
+       font-size: 30px;
+    }
+  }
+
+  @media screen and (min-width: 1px) {
+    .venueAddress, .eventInfo {
+       font-size: 9px;
+    }
+  }
+  @media screen and (min-width: 576px) {
+    .venueAddress, .eventInfo {
+       font-size: 16px;
+    }
+  }
+  @media screen and (min-width: 768px) {
+    .venueAddress, .eventInfo {
+       font-size: 20px;
+    }
+  }
+  @media screen and (min-width: 992px) {
+    .venueAddress, .eventInfo {
+       font-size: 26px;
+    }
+  }
+  @media screen and (min-width: 1200px) {
+    .venueAddress, .eventInfo {
+       font-size: 30px;
+    }
+  }
+  @media screen and (min-width: 1400px) {
+    .venueAddress, .eventInfo {
+       font-size: 30px;
+    }
+  }
+
+  

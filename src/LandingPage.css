@@ -1,0 +1,28 @@
+.buttonsdiv {
+    display:flex;
+    justify-content:flex-end;
+    
+}
+.Logodiv {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.titlespan{
+    font-weight: 600;
+    font-size: 1.5rem;
+    margin-left: 1vw;
+}
+.Navdiv {
+    background-color: white;
+}
+.BandsCarouseldiv {
+    margin-top:60px;
+}
+.buttons{
+        width: auto;
+        height: 3rem;
+        margin-right: 0.5rem;
+        margin-left: 0.5rem;
+}
+
