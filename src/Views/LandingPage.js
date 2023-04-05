@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Navbar from "react-bootstrap/Navbar";
 import Button from "../Components/Button";
 import Event from "../Components/Event";
 import DisplayCarousel from "../Components/DisplayCarousel";
@@ -59,25 +60,39 @@ const LandingPage = (props) => {
   console.log(bands);
   return bands.length ? (
     <>
-      <div className="buttonsdiv">
-        <Button name="Local Artists" />
-        <Button name="Signup" />
-        <Button name="Login" />
-      </div>
+      <Navbar className="Navdiv" fixed="top">
+        <div className="col Logodiv">
+          <Button name="Logo" /> {"  "}
+          <span className="titlespan">GigGuide</span>
+        </div>
+        <div className="col buttonsdiv">
+          <Button name="Local Artists" />
+          <Button name="Signup" />
+          <Button name="Login" />
+        </div>
+      </Navbar>
+      <br />
+      <br />
       <div className="BandsCarouseldiv">
         <h5>Artists:</h5>
         <DisplayCarousel bands={bands} type="non-local" />
       </div>
-      <div className="overflow-auto" style={{ maxHeight: "20rem" }}>
-        <h5>Upcoming Shows:</h5>
-        <Event bands={bands} type="non-local" />
-      </div>
+      <br />
+      <br />
       <div className="localBandsCarouseldiv">
-        <h5>Local Artists:</h5>
+        <h5>{`Local Artists in ${city}, ${countryCode}:`}</h5>
         <DisplayCarousel bands={localBands} type="local" />
       </div>
-      <div className="overflow-auto" style={{ maxHeight: "20rem" }}>
-        <h5>Upcoming Local Shows:</h5>
+      <br />
+      <br />
+      <div className="eventdiv">
+        <h5>{`Upcoming Shows in ${city}, ${countryCode}:`}</h5>
+        <Event bands={bands} type="non-local" />
+      </div>
+      <br />
+      <br />
+      <div className="eventdiv">
+        <h5>{`Upcoming Shows from Local Artists in ${city}, ${countryCode}:`}</h5>
         <Event bands={localBands} type="local" />
       </div>
     </>

@@ -11,12 +11,7 @@ const Button = (props) => {
         roundedCircle={true}
         src={`http://localhost:8000/profile-pics/${name}.png`}
         alt={name}
-        style={{
-          width: "auto",
-          height: "3rem",
-          marginRight: "0.5rem",
-          marginLeft: "0.5rem",
-        }}
+        className="buttons"
       ></Image>
     </NavLink>
   );

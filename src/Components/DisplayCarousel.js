@@ -17,7 +17,54 @@ const ControlledCarousel = (props) => {
       hideArrow={false}
       showDots={true}
       style={{ height: "100%" }}
-      //mobileBreakpoint={650}
+      responsiveLayout={[
+        {
+          breakpoint: 1200,
+          cols: 5,
+          rows: 1,
+          gap: 10,
+          loop: true,
+          hideArrow: false,
+          showDots: true,
+        },
+        {
+          breakpoint: 992,
+          cols: 4,
+          rows: 1,
+          gap: 10,
+          loop: true,
+          hideArrow: false,
+          showDots: true,
+        },
+        {
+          breakpoint: 768,
+          cols: 3,
+          rows: 1,
+          gap: 10,
+          loop: true,
+          hideArrow: false,
+          showDots: true,
+        },
+        {
+          breakpoint: 576,
+          cols: 2,
+          rows: 1,
+          gap: 10,
+          loop: true,
+          hideArrow: false,
+          showDots: true,
+        },
+        {
+          breakpoint: 350,
+          cols: 1,
+          rows: 1,
+          gap: 10,
+          loop: true,
+          hideArrow: false,
+          showDots: true,
+        },
+      ]}
+      mobileBreakpoint={3}
     >
       {bands.length
         ? type === "local"
