@@ -3,7 +3,7 @@ import Signup from "./view/Signup";
 import Login from "./view/Login";
 import FanProfilepage from "./view/FanProfilepage";
 import "bootstrap/dist/css/bootstrap.min.css";
-import LandingPage from "./Views/LandingPage";
+import LandingPage from "./view/LandingPage";
 
 // import "./App.css";
 const App = () => {
