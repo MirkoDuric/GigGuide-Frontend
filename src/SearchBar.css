@@ -1,0 +1,13 @@
+.submitbuttondiv {
+    display:flex;
+    justify-content: center;
+
+}
+.searchdiv{
+    display:flex;
+    justify-content: center;
+}
+.subsearchdiv{
+    display:flex;
+    justify-content: space-around;
+}

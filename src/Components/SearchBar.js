@@ -6,6 +6,7 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 
 import { getCountryCode, getGenreId, countryNames, genreNames } from "../utils";
+import "../SearchBar.css";
 
 import axios from "axios";
 
@@ -52,19 +53,24 @@ const SearchBar = (props) => {
 
   return (
     <Form>
-      <Form.Group className="mb-3" controlId="search">
-        <Form.Control type="search" placeholder="Search" onChange={onChange} />
-      </Form.Group>
-      <Row className="mb-3">
-        <Col className="col-1" />
-        <Col className="col-3">
+      <Row>
+        <Col className="mb-3 searchdiv" controlId="search">
+          <Form.Control
+            type="search"
+            placeholder="Search"
+            onChange={onChange}
+          />
+        </Col>
+      </Row>
+      <Row className="mb-3 subsearchdiv">
+        <Col className="col-md-3">
           <Form.Control
             type="search"
             placeholder="City"
             onChange={onChangeCity}
           />
         </Col>
-        <Col className="col-4">
+        <Col className="col-md-3">
           <Form.Select onChange={onChangeCountry} placeholder="Country">
             <option key="blankChoice" hidden value>
               {" "}
@@ -76,7 +82,7 @@ const SearchBar = (props) => {
             })}
           </Form.Select>
         </Col>
-        <Col className="col-3">
+        <Col className="col-md-3">
           <Form.Select onChange={onChangeGenre} placeholder="Genre">
             <option key="blankChoice" hidden value>
               {" "}
@@ -88,7 +94,6 @@ const SearchBar = (props) => {
             })}
           </Form.Select>
         </Col>
-        <Col className="col-1" />
       </Row>
       <Col className="submitbuttondiv">
         <Button variant="primary" /* type="submit" */ onClick={onClick}>
