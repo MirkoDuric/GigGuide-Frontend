@@ -53,8 +53,8 @@ const SearchBar = (props) => {
 
   return (
     <Form>
-      <Row>
-        <Col className="mb-3 searchdiv" controlId="search">
+      <Row className="searchdiv">
+        <Col className="mb-3 col-10 col-md-9" controlId="search">
           <Form.Control
             type="search"
             placeholder="Search"
@@ -63,14 +63,14 @@ const SearchBar = (props) => {
         </Col>
       </Row>
       <Row className="mb-3 subsearchdiv">
-        <Col className="col-md-3">
+        <Col className="col-3 col-md-3">
           <Form.Control
             type="search"
             placeholder="City"
             onChange={onChangeCity}
           />
         </Col>
-        <Col className="col-md-3">
+        <Col className="col-4 col-md-3">
           <Form.Select onChange={onChangeCountry} placeholder="Country">
             <option key="blankChoice" hidden value>
               {" "}
@@ -82,7 +82,7 @@ const SearchBar = (props) => {
             })}
           </Form.Select>
         </Col>
-        <Col className="col-md-3">
+        <Col className="col-3 col-md-3">
           <Form.Select onChange={onChangeGenre} placeholder="Genre">
             <option key="blankChoice" hidden value>
               {" "}

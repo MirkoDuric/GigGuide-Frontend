@@ -9,5 +9,36 @@
 }
 .subsearchdiv{
     display:flex;
-    justify-content: space-around;
+    justify-content: center;
 }
+
+/* @media screen and (min-width: 1px) {
+    .subsearchdiv {
+       justify-content: space-around;
+    }
+  }
+  @media screen and (min-width: 576px) {
+    .subsearchdiv {
+       justify-content: space-around;
+    }
+  }
+  @media screen and (min-width: 768px) {
+    .subsearchdiv {
+       justify-content: center;
+    }
+  }
+  @media screen and (min-width: 992px) {
+    .subsearchdiv {
+       justify-content: center;
+    }
+  }
+  @media screen and (min-width: 1200px) {
+    .subsearchdiv {
+       justify-content: center;
+    }
+  }
+  @media screen and (min-width: 1400px) {
+    .subsearchdiv {
+       justify-content: center;
+    }
+  } */
