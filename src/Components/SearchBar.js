@@ -15,6 +15,7 @@ const SearchBar = (props) => {
   const [genre, setGenre] = useState("");
   const [city, setCity] = useState("");
   const [countryCode, setCountryCode] = useState("");
+  const [searchType, setSearchType] = useState("mainstream");
 
   const onChange = (e) => {
     setSearch(e.target.value);
@@ -93,6 +94,32 @@ const SearchBar = (props) => {
               return <option>{genreName}</option>;
             })}
           </Form.Select>
+        </Col>
+      </Row>
+      <Row className="searchtypediv">
+        <Col>
+          <Form.Check
+            inline
+            label="Mainstream Artists"
+            type="radio"
+            id="mainstream"
+            name="searchType"
+            value="mainstream"
+            checked={searchType === "mainstream"}
+            onChange={(e) => setSearchType(e.target.value)}
+          />
+        </Col>
+        <Col>
+          <Form.Check
+            inline
+            label="Local Artists"
+            type="radio"
+            id="local"
+            name="searchType"
+            value="local"
+            checked={searchType === "local"}
+            onChange={(e) => setSearchType(e.target.value)}
+          />
         </Col>
       </Row>
       <Col className="submitbuttondiv">
