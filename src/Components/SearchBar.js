@@ -12,68 +12,62 @@ import "../SearchBar.css";
 import axios from "axios";
 
 const SearchBar = (props) => {
-  const [search, setSearch] = useState("");
-  const [genre, setGenre] = useState("");
+  //let search = "";
+  const [search, setSearch] = useState(0);
+  //let genre = "";
+  const [genre, setGenre] = useState(0);
   const [genreId, setGenreId] = useState("");
-  const [city, setCity] = useState("");
+  //let city = "";
+  const [city, setCity] = useState(0);
   const [countryCode, setCountryCode] = useState("");
-  const [country, setCountry] = useState("");
+  //let country = "";
+  const [country, setCountry] = useState(0);
   const [searchType, setSearchType] = useState("mainstream");
   const navigation = useNavigate();
 
+  useEffect(() => {
+    if (search === "") {
+      //search = 0;
+      setSearch(0);
+    }
+    if (country === "" || country === "None") {
+      //country = 0;
+      setCountry(0);
+    }
+    if (city === "") {
+      //city = 0;
+      setCity(0);
+    }
+    if (genre === "" || genre === "None") {
+      //genre = 0;
+      setGenre(0);
+    }
+  }, [search, city, country, genre]);
   const onChange = (e) => {
+    //search = e.target.value;
     setSearch(e.target.value);
   };
 
   const onChangeCity = (e) => {
+    //city = e.target.value;
     setCity(e.target.value);
   };
 
   const onChangeCountry = (e) => {
+    //country = e.target.value;
     setCountry(e.target.value);
     setCountryCode(getCountryCode(e.target.value));
   };
 
   const onChangeGenre = (e) => {
+    //genre = e.target.value;
     setGenre(e.target.value);
     setGenreId(getGenreId(e.target.value));
   };
 
-  const onClick = (e) => {
+  const onClick = async (e) => {
     e.preventDefault();
-    navigation(`/search/${search}/${city}/${country}/${genre}`);
-
-    /*  axios
-      .get(
-        `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&keyword=${search}&locale=*&sort=relevance,desc&city=${city}&countryCode=${countryCode}&segmentName=Music&genreId=${genreId}`
-      )
-      .then((response) => {
-        console.log(response);
-        //setBands(response.data._embedded.events);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        //setIsLoading(false);
-      });
-    axios
-      .get(`http://localhost:8000/api/artists`)
-      .then((response) => {
-        console.log(response);
-
-         //setBands(response.data.filter((band) => {
-
-                    
-      }) 
-    
-    
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        //setIsLoading(false);
-      }); */
+    navigation(`/search/${search}/${country}/${city}/${genre}`);
   };
 
   return (
