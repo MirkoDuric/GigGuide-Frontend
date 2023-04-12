@@ -39,38 +39,33 @@ const SearchBar = (props) => {
 
   const onClick = (e) => {
     e.preventDefault();
-    if (searchType === "mainstream") {
-      axios
-        .get(
-          `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&keyword=${search}&locale=*&sort=relevance,desc&city=${city}&countryCode=${countryCode}&segmentName=Music&genreId=${genreId}`
-        )
-        .then((response) => {
-          console.log(response);
-          //setBands(response.data._embedded.events);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          //setIsLoading(false);
-        });
-    }
-    if (searchType === "local") {
-      axios
-        .get(
-          `https://localhost:8000/artists/name=${search}&sort=relevance,desc&city=${city}&country=${country}&genre=${genre}`
-        )
-        .then((response) => {
-          console.log(response);
-          //setBands(response.data._embedded.events);
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          //setIsLoading(false);
-        });
-    }
+
+    axios
+      .get(
+        `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&keyword=${search}&locale=*&sort=relevance,desc&city=${city}&countryCode=${countryCode}&segmentName=Music&genreId=${genreId}`
+      )
+      .then((response) => {
+        console.log(response);
+        //setBands(response.data._embedded.events);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        //setIsLoading(false);
+      });
+    axios
+      .get(`http://localhost:8000/api/artists`)
+      .then((response) => {
+        console.log(response);
+        //setBands(response.data._embedded.events);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        //setIsLoading(false);
+      });
   };
 
   return (
@@ -115,32 +110,6 @@ const SearchBar = (props) => {
               return <option>{genreName}</option>;
             })}
           </Form.Select>
-        </Col>
-      </Row>
-      <Row className="searchtypediv">
-        <Col className="mainstreamdiv">
-          <Form.Check
-            inline
-            label="Mainstream Artists"
-            type="radio"
-            id="mainstream"
-            name="searchType"
-            value="mainstream"
-            checked={searchType === "mainstream"}
-            onChange={(e) => setSearchType(e.target.value)}
-          />
-        </Col>
-        <Col>
-          <Form.Check
-            inline
-            label="Local Artists"
-            type="radio"
-            id="local"
-            name="searchType"
-            value="local"
-            checked={searchType === "local"}
-            onChange={(e) => setSearchType(e.target.value)}
-          />
         </Col>
       </Row>
       <Col className="submitbuttondiv">

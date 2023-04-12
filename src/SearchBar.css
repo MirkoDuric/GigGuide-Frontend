@@ -11,10 +11,6 @@
     display:flex;
     justify-content: center;
 }
-.searchtypediv{
-    display:flex;
-    justify-content: center;
-}
 .mainstreamdiv {
     display: flex;
     justify-content: flex-end;
