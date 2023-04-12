@@ -2,11 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import SearchBar from "../Components/SearchBar";
 import axios from "axios";
+import { getCountryCode, getGenreId } from "../utils";
 
 const Searchpage = (props) => {
   let { name, city, country, genre } = useParams();
+  const genreId = getGenreId(genre);
+  const countryCode = getCountryCode(country);
   const [bands, setBands] = useState([]);
-  const [countryCode, setCountryCode] = useState();
   const [localBands, setLocalBands] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -41,7 +43,7 @@ const Searchpage = (props) => {
     }
     axios
       .get(
-        `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&keyword=${name}&locale=*&sort=relevance,desc&city=${city}&countryCode=${country}&segmentName=Music&genreId=${genre}`
+        `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&keyword=${name}&locale=*&sort=relevance,desc&city=${city}&countryCode=${countryCode}&segmentName=Music&genreId=${genreId}`
       )
       .then((response) => {
         console.log(response);
@@ -53,7 +55,10 @@ const Searchpage = (props) => {
       .finally(() => {
         //setIsLoading(false);
       });
-  }, []);
+  }, [countryCode, genreId]);
+
+  console.log(bands);
+  console.log(localBands);
 
   /*   return bands.length ? (
     <div className="landingpage-container">

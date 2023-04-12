@@ -5,64 +5,47 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
+import { countryNames, genreNames } from "../utils";
 
-import { getCountryCode, getGenreId, countryNames, genreNames } from "../utils";
 import "../SearchBar.css";
 
-import axios from "axios";
-
 const SearchBar = (props) => {
-  //let search = "";
   const [search, setSearch] = useState(0);
-  //let genre = "";
   const [genre, setGenre] = useState(0);
   const [genreId, setGenreId] = useState("");
-  //let city = "";
   const [city, setCity] = useState(0);
   const [countryCode, setCountryCode] = useState("");
-  //let country = "";
   const [country, setCountry] = useState(0);
-  const [searchType, setSearchType] = useState("mainstream");
   const navigation = useNavigate();
 
   useEffect(() => {
     if (search === "") {
-      //search = 0;
       setSearch(0);
     }
     if (country === "" || country === "None") {
-      //country = 0;
       setCountry(0);
     }
     if (city === "") {
-      //city = 0;
       setCity(0);
     }
     if (genre === "" || genre === "None") {
-      //genre = 0;
       setGenre(0);
     }
   }, [search, city, country, genre]);
   const onChange = (e) => {
-    //search = e.target.value;
     setSearch(e.target.value);
   };
 
   const onChangeCity = (e) => {
-    //city = e.target.value;
     setCity(e.target.value);
   };
 
   const onChangeCountry = (e) => {
-    //country = e.target.value;
     setCountry(e.target.value);
-    setCountryCode(getCountryCode(e.target.value));
   };
 
   const onChangeGenre = (e) => {
-    //genre = e.target.value;
     setGenre(e.target.value);
-    setGenreId(getGenreId(e.target.value));
   };
 
   const onClick = async (e) => {
