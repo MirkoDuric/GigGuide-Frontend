@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router";
 
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
@@ -18,6 +19,7 @@ const SearchBar = (props) => {
   const [countryCode, setCountryCode] = useState("");
   const [country, setCountry] = useState("");
   const [searchType, setSearchType] = useState("mainstream");
+  const navigation = useNavigate();
 
   const onChange = (e) => {
     setSearch(e.target.value);
@@ -39,8 +41,9 @@ const SearchBar = (props) => {
 
   const onClick = (e) => {
     e.preventDefault();
+    navigation(`/search/${search}/${city}/${country}/${genre}`);
 
-    axios
+    /*  axios
       .get(
         `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&keyword=${search}&locale=*&sort=relevance,desc&city=${city}&countryCode=${countryCode}&segmentName=Music&genreId=${genreId}`
       )
@@ -58,14 +61,19 @@ const SearchBar = (props) => {
       .get(`http://localhost:8000/api/artists`)
       .then((response) => {
         console.log(response);
-        //setBands(response.data._embedded.events);
-      })
+
+         //setBands(response.data.filter((band) => {
+
+                    
+      }) 
+    
+    
       .catch((error) => {
         console.log(error);
       })
       .finally(() => {
         //setIsLoading(false);
-      });
+      }); */
   };
 
   return (
