@@ -173,8 +173,8 @@ const Signup = () => {
             type="radio"
             id="fan"
             name="userType"
-            value="fan"
-            checked={userType === "fan"}
+            value="Fan"
+            checked={userType === "Fan"}
             onChange={(e) => setUserType(e.target.value)}
           />
           <Form.Check

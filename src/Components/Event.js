@@ -17,7 +17,7 @@ const Event = (props) => {
               eventKey++;
               return band.upcomingEvents ? (
                 band.upcomingEvents.length ? (
-                  <AccordionItem eventKey={eventKey}>
+                  <AccordionItem className="AcordionItem" eventKey={eventKey}>
                     <AccordionHeader className="row">
                       <div className="col-5 col-sm-4 col-md-3 col-lg-2">
                         <a href={`https://${band.upcomingEvents[0].ticketUrl}`}>

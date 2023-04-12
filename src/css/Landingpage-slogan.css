@@ -1,0 +1,29 @@
+.slogan-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+  width: 80vw;
+  background: url("../css/concert-landingpage.jpeg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: 1;
+}
+.slogan-container .slogan-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+.slogan-container img {
+  position: absolute;
+  max-height: 40vh;
+  max-width: 80vw;
+  z-index: 3;
+}

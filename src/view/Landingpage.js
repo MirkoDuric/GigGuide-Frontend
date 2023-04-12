@@ -5,6 +5,7 @@ import Event from "../Components/Event";
 import DisplayCarousel from "../Components/DisplayCarousel";
 import axios from "axios";
 import "../LandingPage.css";
+import LandingpageSlogan from "../Components/LandingpageSlogan";
 
 const LandingPage = (props) => {
   const [bands, setBands] = useState([]);
@@ -53,11 +54,13 @@ const LandingPage = (props) => {
 
   console.log(bands);
   return bands.length ? (
-    <>
+    <div className="landingpage-container">
       <Navbar className="Navdiv" fixed="top">
         <div className="col Logodiv">
           <Button name="Logo" /> {"  "}
-          <span className="titlespan">GigGuide</span>
+          <span className="titlespan">
+            <span className="titlespan-bold">Gig</span>Guide
+          </span>
         </div>
         <div className="col buttonsdiv">
           <Button name="Local Artists" />
@@ -72,6 +75,9 @@ const LandingPage = (props) => {
         <DisplayCarousel bands={bands} type="non-local" />
       </div>
       <br />
+      <div>
+        <LandingpageSlogan />
+      </div>
       <br />
       <div className="localBandsCarouseldiv">
         <h5>{`Local Artists in ${city}, ${countryCode}:`}</h5>
@@ -87,9 +93,9 @@ const LandingPage = (props) => {
       <br />
       <div className="eventdiv">
         <h5>{`Upcoming Shows from Local Artists in ${city}, ${countryCode}:`}</h5>
-        <Event bands={localBands} type="local" />
+        <Event className="upcoming-shows" bands={localBands} type="local" />
       </div>
-    </>
+    </div>
   ) : null;
 };
 
