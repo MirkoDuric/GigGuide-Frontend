@@ -102,21 +102,6 @@ const Searchpage = (props) => {
 
   return (
     <div className="landingpage-container">
-      <Navbar className="Navdiv" fixed="top">
-        <div className="col Logodiv">
-          <Button name="Logo" /> {"  "}
-          <span className="titlespan">
-            <span className="titlespan-bold">Gig</span>Guide
-          </span>
-        </div>
-        <div className="col buttonsdiv">
-          <Button name="Local Artists" />
-          <Button name="Signup" />
-          <Button name="Login" />
-        </div>
-      </Navbar>
-      <br />
-      <br />
       <div className="searchbardiv">
         <SearchBar
           onChange={handleChange}

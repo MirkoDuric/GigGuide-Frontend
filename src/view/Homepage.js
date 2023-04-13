@@ -112,45 +112,6 @@ const HomePage = (props) => {
   console.log(bands);
   return (
     <div className="landingpage-container">
-      <Navbar bg="light" expand={false} className="mb-3">
-        <Container fluid>
-          <Navbar.Brand href="#">
-            <div className="col Logodiv">
-              <Button name="Logo" /> {"  "}
-              <span className="titlespan">
-                <span className="titlespan-bold">Gig</span>Guide
-              </span>
-            </div>
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${false}`} />
-          <Navbar.Offcanvas
-            id={`offcanvasNavbar-expand-${false}`}
-            aria-labelledby={`offcanvasNavbarLabel-expand-${false}`}
-            placement="end"
-          >
-            <Offcanvas.Header closeButton>
-              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${false}`}>
-                <div className="col Logodiv">
-                  <Button name="Logo" /> {"  "}
-                  <span className="titlespan">
-                    <span className="titlespan-bold">Gig</span>Guide
-                  </span>
-                </div>
-              </Offcanvas.Title>
-            </Offcanvas.Header>
-            <Offcanvas.Body>
-              <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Nav.Link href={`/home`}>Home</Nav.Link>
-                <Nav.Link href={`/user/fan/${id}`}>Profile</Nav.Link>
-                <Nav.Link href={`/search/0/0/0/0`}>Search</Nav.Link>
-                <Nav.Link href={`/user/fan/:id`}>Local Artists</Nav.Link>
-                <Nav.Link href={`#action2`}>My Events</Nav.Link>
-                <Nav.Link href={`/`}>Logout</Nav.Link>
-              </Nav>
-            </Offcanvas.Body>
-          </Navbar.Offcanvas>
-        </Container>
-      </Navbar>
       <br />
       <br />
       <div className="searchbardiv">

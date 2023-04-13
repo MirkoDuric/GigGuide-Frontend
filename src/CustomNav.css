@@ -1,0 +1,16 @@
+.navdiv {
+
+    background-color: #0f110c !important;
+}
+
+.offcanvas-header .btn-close {
+    background-color: white !important;
+}
+
+.offcanvas-header{
+    background-color: #0f110c;
+}
+
+.navbar-toggler{
+    background-color: white;
+}
