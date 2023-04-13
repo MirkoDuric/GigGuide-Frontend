@@ -1,24 +1,23 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router";
+import SearchBar from "../Components/SearchBar";
+import axios from "axios";
+import { getCountryCode, getGenreId } from "../utils";
+import { useNavigate } from "react-router";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "../Components/Button";
 import Event from "../Components/Event";
-import DisplayCarousel from "../Components/DisplayCarousel";
-import axios from "axios";
-import "../LandingPage.css";
-import LandingpageSlogan from "../Components/LandingpageSlogan";
-import { useNavigate } from "react-router";
-import SearchBar from "../Components/SearchBar";
 
-const LandingPage = (props) => {
+const Searchpage = (props) => {
+  let { name, city, country, genre } = useParams();
+  const genreId = getGenreId(genre);
+  const countryCode = getCountryCode(country);
   const [bands, setBands] = useState([]);
-  const [city, setCity] = useState();
-  const [countryCode, setCountryCode] = useState();
   const [localBands, setLocalBands] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const [newSearch, setNewSearch] = useState("");
   const [newGenre, setNewGenre] = useState("");
-  const [genreId, setGenreId] = useState("");
   const [newCity, setNewCity] = useState("");
   const [newCountry, setNewCountry] = useState("");
   const navigation = useNavigate();
@@ -48,42 +47,43 @@ const LandingPage = (props) => {
     if (newSearch === "") {
       setNewSearch(0);
     }
-    if (newCountry === "" || newCountry === "None") {
+    if (newCountry === "" || country === "None") {
       setNewCountry(0);
     }
     if (newCity === "") {
       setNewCity(0);
     }
-    if (newGenre === "" || newGenre === "None") {
+    if (newGenre === "" || genre === "None") {
       setNewGenre(0);
     }
   }, [newSearch, newCity, newCountry, newGenre]);
 
   useEffect(() => {
     setIsLoading(true);
+
     axios
-      .get("http://localhost:8000/api/artists")
+      .get(
+        `http://localhost:8000/api/artists/${name}/${country}/${city}/${genre}`
+      )
       .then((response) => {
+        console.log(response);
         setLocalBands(response.data);
       })
       .catch((error) => {
         console.log(error);
       })
       .finally(() => {
-        setIsLoading(false);
+        //setIsLoading(false);
       });
-    axios
-      .get("http://ip-api.com/json/?fields=countryCode,city")
-      .then((response) => {
-        setCity(response.data.city);
-        setCountryCode(response.data.countryCode);
-      });
-  }, []);
-
-  useEffect(() => {
+    if (name === "0") {
+      name = "";
+    }
+    if (city === "0") {
+      city = "";
+    }
     axios
       .get(
-        `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&locale=*&sort=relevance,desc&city=${city}&countryCode=${countryCode}&segmentName=Music`
+        `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&keyword=${name}&locale=*&sort=relevance,desc&city=${city}&countryCode=${countryCode}&segmentName=Music&genreId=${genreId}`
       )
       .then((response) => {
         console.log(response);
@@ -93,11 +93,13 @@ const LandingPage = (props) => {
         console.log(error);
       })
       .finally(() => {
-        setIsLoading(false);
+        //setIsLoading(false);
       });
-  }, [city, countryCode]);
+  }, [countryCode, genreId]);
 
   console.log(bands);
+  console.log(localBands);
+
   return (
     <div className="landingpage-container">
       <Navbar className="Navdiv" fixed="top">
@@ -124,45 +126,27 @@ const LandingPage = (props) => {
           onClick={handleClick}
         />
       </div>
-      <br />
-      <br />
-      <div>
-        <LandingpageSlogan />
-      </div>
-      <br />
       {bands.length ? (
-        <>
-          <div className="BandsCarouseldiv">
-            <h5>Artists:</h5>
-            <DisplayCarousel bands={bands} type="non-local" />
-          </div>
-          <br />
-          <div className="eventdiv">
-            <h5>{`Upcoming Shows in ${city}, ${countryCode}:`}</h5>
-            <Event bands={bands} type="non-local" />
-          </div>
-        </>
-      ) : null}
-      ;
+        <div className="eventdiv">
+          <h5>{`Upcoming Shows in ${city}, ${countryCode}:`}</h5>
+          <Event bands={bands} type="non-local" />
+        </div>
+      ) : (
+        <div>No Matching Results</div>
+      )}
+
       <br />
       <br />
       {localBands.length ? (
-        <>
-          <div className="localBandsCarouseldiv">
-            <h5>{`Local Artists in ${city}, ${countryCode}:`}</h5>
-            <DisplayCarousel bands={localBands} type="local" />
-          </div>
-          <br />
-          <br />
-          <div className="eventdiv">
-            <h5>{`Upcoming Shows from Local Artists in ${city}, ${countryCode}:`}</h5>
-            <Event className="upcoming-shows" bands={localBands} type="local" />
-          </div>
-        </>
-      ) : null}
-      ;
+        <div className="eventdiv">
+          <h5>{`Upcoming Shows from Local Artists in ${city}, ${countryCode}:`}</h5>
+          <Event className="upcoming-shows" bands={localBands} type="local" />
+        </div>
+      ) : (
+        <div>No Matching Restults</div>
+      )}
     </div>
   );
 };
 
-export default LandingPage;
+export default Searchpage;

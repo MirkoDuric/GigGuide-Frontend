@@ -22,6 +22,14 @@ const Login = () => {
         { headers }
       );
       if (response.status === 200) {
+        const { data } = await response;
+        const token = data.token;
+        const id = data.response._id;
+        console.log(token);
+        console.log(id);
+        sessionStorage.setItem("jwt", token);
+        sessionStorage.setItem("userId", id);
+
         navigate("/homepage");
       } else {
         const errorData = response.data;
