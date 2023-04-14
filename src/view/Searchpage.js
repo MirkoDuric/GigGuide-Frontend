@@ -95,7 +95,7 @@ const Searchpage = (props) => {
       .finally(() => {
         //setIsLoading(false);
       });
-  }, [countryCode, genreId]);
+  }, [countryCode, genreId, name, city, country, genre]);
 
   console.log(bands);
   console.log(localBands);
