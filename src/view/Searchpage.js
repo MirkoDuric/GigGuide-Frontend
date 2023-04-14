@@ -47,13 +47,13 @@ const Searchpage = (props) => {
     if (newSearch === "") {
       setNewSearch(0);
     }
-    if (newCountry === "" || country === "None") {
+    if (newCountry === "" || newCountry === "None") {
       setNewCountry(0);
     }
     if (newCity === "") {
       setNewCity(0);
     }
-    if (newGenre === "" || genre === "None") {
+    if (newGenre === "" || newGenre === "None") {
       setNewGenre(0);
     }
   }, [newSearch, newCity, newCountry, newGenre]);
