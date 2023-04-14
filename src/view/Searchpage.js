@@ -4,8 +4,6 @@ import SearchBar from "../Components/SearchBar";
 import axios from "axios";
 import { getCountryCode, getGenreId } from "../utils";
 import { useNavigate } from "react-router";
-import Navbar from "react-bootstrap/Navbar";
-import Button from "../Components/Button";
 import Event from "../Components/Event";
 
 const Searchpage = (props) => {
@@ -66,7 +64,6 @@ const Searchpage = (props) => {
         `http://localhost:8000/api/artists/${name}/${country}/${city}/${genre}`
       )
       .then((response) => {
-        console.log(response);
         setLocalBands(response.data);
       })
       .catch((error) => {
@@ -86,7 +83,6 @@ const Searchpage = (props) => {
         `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&keyword=${name}&locale=*&sort=relevance,desc&city=${city}&countryCode=${countryCode}&segmentName=Music&genreId=${genreId}`
       )
       .then((response) => {
-        console.log(response);
         setBands(response.data._embedded.events);
       })
       .catch((error) => {
@@ -96,10 +92,7 @@ const Searchpage = (props) => {
         //setIsLoading(false);
       });
   }, [countryCode, genreId, name, city, country, genre]);
-
-  console.log(bands);
   console.log(localBands);
-
   return (
     <div className="landingpage-container">
       <div className="searchbardiv">
@@ -113,7 +106,16 @@ const Searchpage = (props) => {
       </div>
       {bands.length ? (
         <div className="eventdiv">
-          <h5>{`Upcoming Shows in ${city}, ${countryCode}:`}</h5>
+          {city.length > 1 && countryCode.length ? (
+            <h5>{`Upcoming Shows in ${city}, ${countryCode}:`}</h5>
+          ) : city.length > 1 ? (
+            <h5>{`Upcoming Shows in ${city}:`}</h5>
+          ) : countryCode.length ? (
+            <h5>{`Upcoming Shows in ${countryCode}:`}</h5>
+          ) : (
+            <h5>{`Upcoming Shows:`}</h5>
+          )}
+
           <Event bands={bands} type="non-local" />
         </div>
       ) : (
@@ -124,7 +126,15 @@ const Searchpage = (props) => {
       <br />
       {localBands.length ? (
         <div className="eventdiv">
-          <h5>{`Upcoming Shows from Local Artists in ${city}, ${countryCode}:`}</h5>
+          {city.length > 1 && countryCode.length ? (
+            <h5>{`Upcoming Shows from Local Artists in ${city}, ${countryCode}:`}</h5>
+          ) : city.length > 1 ? (
+            <h5>{`Upcoming Shows from Local Artists in ${city}:`}</h5>
+          ) : countryCode.length ? (
+            <h5>{`Upcoming Shows in ${countryCode}:`}</h5>
+          ) : (
+            <h5>{`Upcoming Shows:`}</h5>
+          )}
           <Event className="upcoming-shows" bands={localBands} type="local" />
         </div>
       ) : (
