@@ -3,6 +3,7 @@ import Accordion from "react-bootstrap/Accordion";
 import AccordionHeader from "react-bootstrap/esm/AccordionHeader";
 import AccordionItem from "react-bootstrap/esm/AccordionItem";
 import "../Event.css";
+import { Nav } from "react-bootstrap";
 
 const Event = (props) => {
   const bands = props.bands;
@@ -21,7 +22,9 @@ const Event = (props) => {
                   <AccordionItem className="AcordionItem" eventKey={eventKey}>
                     <AccordionHeader className="row">
                       <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                        <a href={`https://${band.upcomingEvents[0].ticketUrl}`}>
+                        <Nav.Link
+                          href={`https://${band.upcomingEvents[0].ticketUrl}`}
+                        >
                           <Figure>
                             <Figure.Image
                               width={"100%"}
@@ -29,7 +32,7 @@ const Event = (props) => {
                               alt="Artist Image"
                             />
                           </Figure>
-                        </a>
+                        </Nav.Link>
                       </div>
                       <div className="col eventTitle">
                         <h2>{band.name}</h2>
@@ -53,7 +56,9 @@ const Event = (props) => {
                       </div>
                     </AccordionHeader>
                     <Accordion.Body>
-                      <a href={`https://${band.upcomingEvents[0].ticketUrl}`}>
+                      <Nav.Link
+                        href={`https://${band.upcomingEvents[0].ticketUrl}`}
+                      >
                         <div className="row">
                           <p>{band.upcomingEvents[0].venue} </p>
                           <p className="venueAddress">
@@ -65,7 +70,7 @@ const Event = (props) => {
                             {band.upcomingEvents[0].info}
                           </p>
                         </div>
-                      </a>
+                      </Nav.Link>
                     </Accordion.Body>
                   </AccordionItem>
                 ) : null
@@ -79,7 +84,9 @@ const Event = (props) => {
                   <AccordionItem className="AcordionItem" eventKey={eventKey}>
                     <AccordionHeader className="row">
                       <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                        <a href={`https://${band.upcomingEvents[0].ticketUrl}`}>
+                        <Nav.Link
+                          href={`https://${band.upcomingEvents[0].ticketUrl}`}
+                        >
                           <Figure>
                             <Figure.Image
                               width={"100%"}
@@ -87,7 +94,7 @@ const Event = (props) => {
                               alt="Artist Image"
                             />
                           </Figure>
-                        </a>
+                        </Nav.Link>
                       </div>
                       <div className="col eventTitle">
                         <h2>{band.name}</h2>
@@ -111,7 +118,9 @@ const Event = (props) => {
                       </div>
                     </AccordionHeader>
                     <Accordion.Body>
-                      <a href={`https://${band.upcomingEvents[0].ticketUrl}`}>
+                      <Nav.Link
+                        href={`https://${band.upcomingEvents[0].ticketUrl}`}
+                      >
                         <div className="row">
                           <p>{band.upcomingEvents[0].venue} </p>
                           <p className="venueAddress">
@@ -123,7 +132,7 @@ const Event = (props) => {
                             {band.upcomingEvents[0].info}
                           </p>
                         </div>
-                      </a>
+                      </Nav.Link>
                     </Accordion.Body>
                   </AccordionItem>
                 ) : null
@@ -146,7 +155,7 @@ const Event = (props) => {
                       <AccordionItem eventKey={eventKey}>
                         <AccordionHeader className="row">
                           <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                            <a href={`${band.url}`}>
+                            <Nav.Link href={`${band.url}`}>
                               <Figure>
                                 <Figure.Image
                                   width={"100%"}
@@ -160,7 +169,7 @@ const Event = (props) => {
                                   }
                                 />
                               </Figure>
-                            </a>
+                            </Nav.Link>
                           </div>
                           <div className="col eventTitle">
                             <h2>{band.name}</h2>
@@ -184,7 +193,7 @@ const Event = (props) => {
                           </div>
                         </AccordionHeader>
                         <Accordion.Body>
-                          <a href={`${band.url}`}>
+                          <Nav.Link href={`${band.url}`}>
                             <div className="row">
                               <h4>{band._embedded.venues[0].name}</h4>
 
@@ -199,14 +208,14 @@ const Event = (props) => {
                             <div className="row">
                               <p className="eventInfo">{band.info}</p>
                             </div>
-                          </a>
+                          </Nav.Link>
                         </Accordion.Body>
                       </AccordionItem>
                     ) : (
                       <AccordionItem eventKey={eventKey}>
                         <AccordionHeader className="row">
                           <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                            <a href={band._embedded.venues[0].url}>
+                            <Nav.Link href={band._embedded.venues[0].url}>
                               <Figure>
                                 <Figure.Image
                                   width={"100%"}
@@ -220,7 +229,7 @@ const Event = (props) => {
                                   }
                                 />
                               </Figure>
-                            </a>
+                            </Nav.Link>
                           </div>
                           <div className="col eventTitle">
                             <h2>{band.name}</h2>
@@ -244,7 +253,7 @@ const Event = (props) => {
                           </div>
                         </AccordionHeader>
                         <Accordion.Body>
-                          <a href={`${band.url}`}>
+                          <Nav.Link href={`${band.url}`}>
                             <div className="row">
                               <h4>{band._embedded.venues[0].name}</h4>
 
@@ -258,7 +267,7 @@ const Event = (props) => {
                             <div className="row">
                               <p className="eventInfo">{band.info}</p>
                             </div>
-                          </a>
+                          </Nav.Link>
                         </Accordion.Body>
                       </AccordionItem>
                     )
@@ -276,7 +285,7 @@ const Event = (props) => {
                     <AccordionItem eventKey={eventKey}>
                       <AccordionHeader className="row">
                         <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                          <a href={`${band.url}`}>
+                          <Nav.Link href={`${band.url}`}>
                             <Figure>
                               <Figure.Image
                                 width={"100%"}
@@ -290,7 +299,7 @@ const Event = (props) => {
                                 }
                               />
                             </Figure>
-                          </a>
+                          </Nav.Link>
                         </div>
                         <div className="col eventTitle">
                           <h2>{band.name}</h2>
@@ -314,7 +323,7 @@ const Event = (props) => {
                         </div>
                       </AccordionHeader>
                       <Accordion.Body>
-                        <a href={`${band.url}`}>
+                        <Nav.Link href={`${band.url}`}>
                           <div className="row">
                             <h4>{band._embedded.venues[0].name}</h4>
 
@@ -329,14 +338,14 @@ const Event = (props) => {
                           <div className="row">
                             <p className="eventInfo">{band.info}</p>
                           </div>
-                        </a>
+                        </Nav.Link>
                       </Accordion.Body>
                     </AccordionItem>
                   ) : (
                     <AccordionItem eventKey={eventKey}>
                       <AccordionHeader className="row">
                         <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                          <a href={band._embedded.venues[0].url}>
+                          <Nav.Link href={band._embedded.venues[0].url}>
                             <Figure>
                               <Figure.Image
                                 width={"100%"}
@@ -350,7 +359,7 @@ const Event = (props) => {
                                 }
                               />
                             </Figure>
-                          </a>
+                          </Nav.Link>
                         </div>
                         <div className="col eventTitle">
                           <h2>{band.name}</h2>
@@ -374,7 +383,7 @@ const Event = (props) => {
                         </div>
                       </AccordionHeader>
                       <Accordion.Body>
-                        <a href={`${band.url}`}>
+                        <Nav.Link href={`${band.url}`}>
                           <div className="row">
                             <h4>{band._embedded.venues[0].name}</h4>
 
@@ -388,7 +397,7 @@ const Event = (props) => {
                           <div className="row">
                             <p className="eventInfo">{band.info}</p>
                           </div>
-                        </a>
+                        </Nav.Link>
                       </Accordion.Body>
                     </AccordionItem>
                   )
