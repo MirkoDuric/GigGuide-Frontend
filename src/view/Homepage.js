@@ -61,27 +61,27 @@ const HomePage = (props) => {
     const faveName = e.target.title;
     const fave = { id: faveId, name: faveName };
     if (e.target.src === "http://localhost:8000/profile-pics/Outline.png") {
-      if (currentFaveArtists.length > 0 || favouriteArtists.length > 0) {
+      if (currentFaveArtists.length > 0) {
         console.log("Array larger than 0");
-        setFavouriteArtists([...favouriteArtists, fave]);
+        setFavouriteArtists([...currentFaveArtists, fave]);
       } else {
         console.log("Array 0");
         setFavouriteArtists([fave]);
       }
     } else {
       setFavouriteArtists(
-        favouriteArtists.filter((artist) => artist.id !== e.target.id)
+        currentFaveArtists.filter((artist) => artist.id !== e.target.id)
       );
     }
   };
 
-  /* const handleUpdate = async () => {
+  const handleUpdate = async () => {
     if (id) {
       const payload = { favouriteArtists };
       console.log(payload);
       try {
         const response = await axios.put(
-          `http://localhost:8000/api/user/${id}`,
+          `http://localhost:8000/api/user/${id}/faveArtist`,
           payload
         );
 
@@ -92,14 +92,16 @@ const HomePage = (props) => {
         } else {
           console.log(err.message);
         }
+      } finally {
+        setCurrentFaveArtists(favouriteArtists);
       }
     }
-  }; */
+  };
 
-  /*   useEffect(() => {
+  useEffect(() => {
     handleUpdate();
     console.log(favouriteArtists);
-  }, [favouriteArtists]); */
+  }, [favouriteArtists]);
 
   useEffect(() => {
     setId(sessionStorage.getItem("userId"));
@@ -196,7 +198,7 @@ const HomePage = (props) => {
               bands={bands}
               type="non-local"
               onHeartClick={handleHeartClick}
-              favouriteArtists={favouriteArtists}
+              currentFaveArtists={currentFaveArtists}
             />
           </div>
           <br />
@@ -217,7 +219,7 @@ const HomePage = (props) => {
               bands={localBands}
               type="local"
               onHeartClick={handleHeartClick}
-              favouriteArtists={favouriteArtists}
+              currentFaveArtists={currentFaveArtists}
             />
           </div>
           <br />

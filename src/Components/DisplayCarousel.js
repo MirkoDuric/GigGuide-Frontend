@@ -7,7 +7,7 @@ const ControlledCarousel = (props) => {
   const bands = props.bands;
   const type = props.type;
   const onHeartClick = props.onHeartClick;
-  const favouriteArtists = props.favouriteArtists;
+  const currentFaveArtists = props.currentFaveArtists;
 
   return (
     <Carousel
@@ -87,7 +87,7 @@ const ControlledCarousel = (props) => {
                           : false
                       }
                       onHeartClick={onHeartClick}
-                      favouriteArtists={favouriteArtists}
+                      currentFaveArtists={currentFaveArtists}
                     />
                   </Carousel.Item>
                 )
@@ -116,7 +116,7 @@ const ControlledCarousel = (props) => {
                           : false
                       }
                       onHeartClick={onHeartClick}
-                      favouriteArtists={favouriteArtists}
+                      currentFaveArtists={currentFaveArtists}
                     />
                   </Carousel.Item>
                 )

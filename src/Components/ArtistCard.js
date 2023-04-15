@@ -10,8 +10,9 @@ const ArtistCard = (props) => {
   const bandPic = props.profilePicture;
   const isTouring = props.touring;
   const bandId = props.id;
-  const favouriteArtists = props.favouriteArtists;
+  const currentFaveArtists = props.currentFaveArtists;
   const id = sessionStorage.getItem("userId");
+  console.log(currentFaveArtists);
 
   return (
     <Card className="bg-dark text-white artistCard" style={{ width: "auto" }}>
@@ -21,8 +22,8 @@ const ArtistCard = (props) => {
       <Card.ImgOverlay>
         <div className="favoritediv">
           {id ? (
-            favouriteArtists.length ? (
-              favouriteArtists.find((artist) => artist.id === bandId) ? (
+            currentFaveArtists.length ? (
+              currentFaveArtists.find((artist) => artist.id === bandId) ? (
                 <Image
                   roundedCircle={true}
                   src={`http://localhost:8000/profile-pics/Filled.png`}
