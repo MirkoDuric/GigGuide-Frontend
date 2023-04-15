@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 const Button = (props) => {
   const name = props.name;
 
-  return name === "Homepage" ? (
+  return name === "homepage" ? (
     <NavLink to={`/`}>
       <Image
         fluid={true}

@@ -2,6 +2,7 @@ import Figure from "react-bootstrap/Figure";
 import Accordion from "react-bootstrap/Accordion";
 import AccordionHeader from "react-bootstrap/esm/AccordionHeader";
 import AccordionItem from "react-bootstrap/esm/AccordionItem";
+import Button from "react-bootstrap/Button";
 import "../Event.css";
 import { Nav } from "react-bootstrap";
 
@@ -19,7 +20,11 @@ const Event = (props) => {
               eventKey++;
               return band.upcomingEvents ? (
                 band.upcomingEvents.length ? (
-                  <AccordionItem className="AcordionItem" eventKey={eventKey}>
+                  <AccordionItem
+                    className="AcordionItem"
+                    type={type}
+                    eventKey={eventKey}
+                  >
                     <AccordionHeader className="row">
                       <div className="col-5 col-sm-4 col-md-3 col-lg-2">
                         <Nav.Link
@@ -53,6 +58,7 @@ const Event = (props) => {
                             minute: "2-digit",
                           })}
                         </h3>
+                        <Button variant="primary">Save Event</Button>
                       </div>
                     </AccordionHeader>
                     <Accordion.Body>
@@ -81,7 +87,11 @@ const Event = (props) => {
               eventKey++;
               return band.upcomingEvents ? (
                 band.upcomingEvents.length ? (
-                  <AccordionItem className="AcordionItem" eventKey={eventKey}>
+                  <AccordionItem
+                    className="AcordionItem"
+                    type={type}
+                    eventKey={eventKey}
+                  >
                     <AccordionHeader className="row">
                       <div className="col-5 col-sm-4 col-md-3 col-lg-2">
                         <Nav.Link
@@ -152,7 +162,7 @@ const Event = (props) => {
                 band._embedded.attractions[0].upcomingEvents ? (
                   band._embedded.attractions[0].upcomingEvents._total > 0 ? (
                     band._embedded.venues[0].country.countryCode === "US" ? (
-                      <AccordionItem eventKey={eventKey}>
+                      <AccordionItem type={type} eventKey={eventKey}>
                         <AccordionHeader className="row">
                           <div className="col-5 col-sm-4 col-md-3 col-lg-2">
                             <Nav.Link href={`${band.url}`}>
@@ -190,6 +200,7 @@ const Event = (props) => {
                                 minute: "2-digit",
                               })}
                             </h3>
+                            <Button variant="primary">Save Event</Button>
                           </div>
                         </AccordionHeader>
                         <Accordion.Body>
@@ -212,7 +223,7 @@ const Event = (props) => {
                         </Accordion.Body>
                       </AccordionItem>
                     ) : (
-                      <AccordionItem eventKey={eventKey}>
+                      <AccordionItem type={type} eventKey={eventKey}>
                         <AccordionHeader className="row">
                           <div className="col-5 col-sm-4 col-md-3 col-lg-2">
                             <Nav.Link href={band._embedded.venues[0].url}>
@@ -250,6 +261,7 @@ const Event = (props) => {
                                 minute: "2-digit",
                               })}
                             </h3>
+                            <Button variant="primary">Save Event</Button>
                           </div>
                         </AccordionHeader>
                         <Accordion.Body>
@@ -282,7 +294,7 @@ const Event = (props) => {
               band._embedded.attractions[0].upcomingEvents ? (
                 band._embedded.attractions[0].upcomingEvents._total > 0 ? (
                   band._embedded.venues[0].country.countryCode === "US" ? (
-                    <AccordionItem eventKey={eventKey}>
+                    <AccordionItem type={type} eventKey={eventKey}>
                       <AccordionHeader className="row">
                         <div className="col-5 col-sm-4 col-md-3 col-lg-2">
                           <Nav.Link href={`${band.url}`}>
@@ -339,10 +351,15 @@ const Event = (props) => {
                             <p className="eventInfo">{band.info}</p>
                           </div>
                         </Nav.Link>
+                        <div className="col-1">
+                          <Button variant="primary" style={{ zIndex: "100" }}>
+                            Save Event
+                          </Button>
+                        </div>
                       </Accordion.Body>
                     </AccordionItem>
                   ) : (
-                    <AccordionItem eventKey={eventKey}>
+                    <AccordionItem type={type} eventKey={eventKey}>
                       <AccordionHeader className="row">
                         <div className="col-5 col-sm-4 col-md-3 col-lg-2">
                           <Nav.Link href={band._embedded.venues[0].url}>
@@ -383,7 +400,7 @@ const Event = (props) => {
                         </div>
                       </AccordionHeader>
                       <Accordion.Body>
-                        <Nav.Link href={`${band.url}`}>
+                        <Nav.Link href={`${band.url}`} className="eventDetails">
                           <div className="row">
                             <h4>{band._embedded.venues[0].name}</h4>
 
@@ -398,6 +415,11 @@ const Event = (props) => {
                             <p className="eventInfo">{band.info}</p>
                           </div>
                         </Nav.Link>
+                        <div className="col-1">
+                          <Button variant="primary" style={{ zIndex: "100" }}>
+                            Save Event
+                          </Button>
+                        </div>
                       </Accordion.Body>
                     </AccordionItem>
                   )

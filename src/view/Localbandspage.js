@@ -24,6 +24,7 @@ const HomePage = (props) => {
   const [newCountry, setNewCountry] = useState(0);
   const [favouriteArtists, setFavouriteArtists] = useState([]);
   const [currentFaveArtists, setCurrentFaveArtists] = useState([]);
+  const [savedEvents, setSavedEvents] = useState([]);
   const navigation = useNavigate();
 
   const handleChange = (e) => {
@@ -120,6 +121,7 @@ const HomePage = (props) => {
         }
         setGenreId(getGenreId(response.data.favouriteGenre));
         setCurrentFaveArtists(response.data.favouriteArtists);
+        setSavedEvents(response.data.plannedEvents);
       });
     } else {
       axios
@@ -161,10 +163,6 @@ const HomePage = (props) => {
         />
       </div>
       <br />
-      <div>
-        <LandingpageSlogan />
-      </div>
-      <br />
       <br />
       <br />
       {localBands.length ? (
@@ -178,12 +176,6 @@ const HomePage = (props) => {
               currentFaveArtists={currentFaveArtists}
             />
           </div>
-          <br />
-          <br />
-          <div className="eventdiv">
-            <h5>{`Upcoming Shows from Local Artists in ${city}, ${countryCode}:`}</h5>
-            <Event className="upcoming-shows" bands={localBands} type="local" />
-          </div>
         </>
       ) : (
         <>
@@ -192,6 +184,38 @@ const HomePage = (props) => {
           <h6 style={{ color: "white" }}>No Local Artists Available</h6>
         </>
       )}
+      {id ? (
+        savedEvents.length ? (
+          <>
+            <br />
+            <br />
+            <div className="eventdiv">
+              <h5>{`Saved Local Artists in ${city}, ${countryCode}:`}</h5>
+              <Event
+                className="upcoming-shows"
+                bands={savedEvents}
+                type="local"
+              />
+            </div>
+          </>
+        ) : (
+          <>
+            <br />
+            <br />
+            <h6 style={{ color: "white" }}>No Saved Upcoming Local Shows</h6>
+          </>
+        )
+      ) : null}
+      {localBands.length ? (
+        <>
+          <br />
+          <br />
+          <div className="eventdiv">
+            <h5>{`Upcoming Shows from Local Artists in ${city}, ${countryCode}:`}</h5>
+            <Event className="upcoming-shows" bands={localBands} type="local" />
+          </div>
+        </>
+      ) : null}
       ;
     </div>
   );

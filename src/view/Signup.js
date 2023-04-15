@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -20,7 +20,13 @@ const Signup = () => {
   const [profile, setProfile] = useState({});
   const [email, setEmail] = useState("");
   const [genre, setGenre] = useState("");
+  const [id, setId] = useState(sessionStorage.getItem("userId"));
 
+  useEffect(() => {
+    if (id) {
+      navigate("/homepage");
+    }
+  });
   const handleSubmit = async (event) => {
     event.preventDefault();
     let formData = new FormData();

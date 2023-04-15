@@ -50,7 +50,7 @@ const CustomNav = (props) => {
               <Nav.Link href={`/homepage`}>Home</Nav.Link>
               <Nav.Link href={`/user/fan/${id}`}>Profile</Nav.Link>
               <Nav.Link href={`/search/0/0/0/0`}>Search</Nav.Link>
-              <Nav.Link href={`/Local Artists`}>Local Artists</Nav.Link>
+              <Nav.Link href={`/localartists`}>Local Artists</Nav.Link>
               <Nav.Link href={`/user/fan/${id}/events`}>My Events</Nav.Link>
               <Nav.Link
                 href={`/`}
@@ -74,10 +74,10 @@ const CustomNav = (props) => {
         </span>
       </div>
       <div className="col buttonsdiv">
-        <Button name="Local Artists" />
-        <Button name="Homepage" />
-        <Button name="Signup" />
-        <Button name="Login" />
+        <Button name="localartists" />
+        <Button name="homepage" />
+        <Button name="signup" />
+        <Button name="login" />
       </div>
     </Navbar>
   );

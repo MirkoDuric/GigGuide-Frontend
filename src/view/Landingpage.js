@@ -14,6 +14,9 @@ const LandingPage = (props) => {
   const [city, setCity] = useState();
   const [countryCode, setCountryCode] = useState();
   const [localBands, setLocalBands] = useState([]);
+  const [name, setName] = useState(0);
+  const [genre, setGenre] = useState(0);
+  const [country, setCountry] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
   const [newSearch, setNewSearch] = useState("");
@@ -24,6 +27,8 @@ const LandingPage = (props) => {
 
   const [favouriteArtists, setFavouriteArtists] = useState([]);
   const [currentFaveArtists, setCurrentFaveArtists] = useState([]);
+
+  const [id, setId] = useState(sessionStorage.getItem("userId"));
 
   const navigation = useNavigate();
 
@@ -64,8 +69,11 @@ const LandingPage = (props) => {
   }, [newSearch, newCity, newCountry, newGenre]);
 
   useEffect(() => {
+    if (id) {
+      navigation("/homepage");
+    }
     setIsLoading(true);
-    axios
+    /* axios
       .get("http://localhost:8000/api/artists")
       .then((response) => {
         setLocalBands(response.data);
@@ -75,12 +83,13 @@ const LandingPage = (props) => {
       })
       .finally(() => {
         setIsLoading(false);
-      });
+      }); */
     axios
-      .get("http://ip-api.com/json/?fields=countryCode,city")
+      .get("http://ip-api.com/json/?fields=countryCode,city,country")
       .then((response) => {
         setCity(response.data.city);
         setCountryCode(response.data.countryCode);
+        setCountry(response.data.country);
       });
   }, []);
 
@@ -98,6 +107,19 @@ const LandingPage = (props) => {
       })
       .finally(() => {
         setIsLoading(false);
+      });
+    axios
+      .get(
+        `http://localhost:8000/api/artists/${name}/${country}/${city}/${genre}`
+      )
+      .then((response) => {
+        setLocalBands(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        //setIsLoading(false);
       });
   }, [city, countryCode]);
 
@@ -148,9 +170,26 @@ const LandingPage = (props) => {
             <DisplayCarousel
               bands={localBands}
               type="local"
-              favouriteArtists={favouriteArtists}
+              currentFaveArtists={currentFaveArtists}
             />
           </div>
+        </>
+      ) : (
+        <>
+          <br />
+          <br />
+          <div className="eventdiv">
+            <h5>{`Local Artists in ${city}, ${countryCode}:`}</h5>
+          </div>
+          <>
+            <div className="noShowsdiv">
+              <h6>No Local Artists Available</h6>
+            </div>
+          </>
+        </>
+      )}
+      {localBands.length ? (
+        <>
           <br />
           <br />
           <div className="eventdiv">
