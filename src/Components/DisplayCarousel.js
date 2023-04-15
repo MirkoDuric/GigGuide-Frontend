@@ -106,7 +106,11 @@ const ControlledCarousel = (props) => {
                             element.ratio === "16_9" && element.height > 150
                         ).url
                       }
-                      id={band.id}
+                      id={
+                        band._embedded.attractions[0]
+                          ? band._embedded.attractions[0].id
+                          : band.id
+                      }
                       touring={
                         band._embedded.attractions[0].upcomingEvents
                           ? band._embedded.attractions[0].upcomingEvents

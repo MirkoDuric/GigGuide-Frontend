@@ -7,6 +7,7 @@ import LandingPage from "./view/Landingpage";
 import HomePage from "./view/Homepage";
 import SearchPage from "./view/Searchpage";
 import CustomNav from "./Components/CustomNav";
+import LocalBandsPage from "./view/Localbandspage";
 
 // import "./App.css";
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
         <Route path="/homepage" element={<HomePage />} />
+        <Route path="/Local Artists" element={<LocalBandsPage />} />
         <Route path="/user/fan/:id" element={<FanProfilepage />} />
         <Route path="/artist/:id" element={<FanProfilepage />} />
         <Route

@@ -12,10 +12,13 @@ const ArtistCard = (props) => {
   const bandId = props.id;
   const currentFaveArtists = props.currentFaveArtists;
   const id = sessionStorage.getItem("userId");
-  console.log(currentFaveArtists);
 
   return (
-    <Card className="bg-dark text-white artistCard" style={{ width: "auto" }}>
+    <Card
+      className="bg-dark text-white artistCard"
+      style={{ width: "auto" }}
+      key={bandId}
+    >
       <Nav.Link href={"artist/" + bandId}>
         <Card.Img src={bandPic} alt="Artist Picture" />
       </Nav.Link>

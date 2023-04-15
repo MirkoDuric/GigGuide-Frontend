@@ -50,9 +50,16 @@ const CustomNav = (props) => {
               <Nav.Link href={`/homepage`}>Home</Nav.Link>
               <Nav.Link href={`/user/fan/${id}`}>Profile</Nav.Link>
               <Nav.Link href={`/search/0/0/0/0`}>Search</Nav.Link>
-              <Nav.Link href={`/localArtists`}>Local Artists</Nav.Link>
+              <Nav.Link href={`/Local Artists`}>Local Artists</Nav.Link>
               <Nav.Link href={`/user/fan/${id}/events`}>My Events</Nav.Link>
-              <Nav.Link href={`/`}>Logout</Nav.Link>
+              <Nav.Link
+                href={`/`}
+                onClick={() => {
+                  sessionStorage.clear();
+                }}
+              >
+                Logout
+              </Nav.Link>
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
@@ -68,6 +75,7 @@ const CustomNav = (props) => {
       </div>
       <div className="col buttonsdiv">
         <Button name="Local Artists" />
+        <Button name="Homepage" />
         <Button name="Signup" />
         <Button name="Login" />
       </div>

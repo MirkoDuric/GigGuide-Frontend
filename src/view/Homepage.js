@@ -1,27 +1,22 @@
 import React, { useState, useEffect } from "react";
-import Button from "../Components/Button";
 import Event from "../Components/Event";
 import DisplayCarousel from "../Components/DisplayCarousel";
 import axios from "axios";
 import "../LandingPage.css";
 import LandingpageSlogan from "../Components/LandingpageSlogan";
 import { getCountryCode, getGenreId } from "../utils";
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import Offcanvas from "react-bootstrap/Offcanvas";
 import { useNavigate } from "react-router";
 import SearchBar from "../Components/SearchBar";
 
 const HomePage = (props) => {
   const [bands, setBands] = useState([]);
-  const [city, setCity] = useState("");
-  const [country, setCountry] = useState("");
-  const [genre, setGenre] = useState("");
+  const [city, setCity] = useState(0);
+  const [country, setCountry] = useState(0);
+  const [genre, setGenre] = useState(0);
   const [countryCode, setCountryCode] = useState("");
   const [localBands, setLocalBands] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [id, setId] = useState("");
+  const [id, setId] = useState(sessionStorage.getItem("userId"));
   const [newSearch, setNewSearch] = useState("");
   const [newGenre, setNewGenre] = useState("");
   const [genreId, setGenreId] = useState("");
@@ -52,9 +47,6 @@ const HomePage = (props) => {
     navigation(`/search/${newSearch}/${newCountry}/${newCity}/${newGenre}`);
   };
 
-  console.log(favouriteArtists);
-  console.log(`Length: ${favouriteArtists.length}`);
-
   const handleHeartClick = (e) => {
     e.preventDefault();
     const faveId = e.target.id;
@@ -62,10 +54,8 @@ const HomePage = (props) => {
     const fave = { id: faveId, name: faveName };
     if (e.target.src === "http://localhost:8000/profile-pics/Outline.png") {
       if (currentFaveArtists.length > 0) {
-        console.log("Array larger than 0");
         setFavouriteArtists([...currentFaveArtists, fave]);
       } else {
-        console.log("Array 0");
         setFavouriteArtists([fave]);
       }
     } else {
@@ -78,7 +68,6 @@ const HomePage = (props) => {
   const handleUpdate = async () => {
     if (id) {
       const payload = { favouriteArtists };
-      console.log(payload);
       try {
         const response = await axios.put(
           `http://localhost:8000/api/user/${id}/faveArtist`,
@@ -92,20 +81,33 @@ const HomePage = (props) => {
         } else {
           console.log(err.message);
         }
-      } finally {
-        setCurrentFaveArtists(favouriteArtists);
       }
     }
   };
 
   useEffect(() => {
-    handleUpdate();
-    console.log(favouriteArtists);
-  }, [favouriteArtists]);
+    setIsLoading(true);
+    if (id) {
+      axios.get(`http://localhost:8000/api/artists/${id}`).then((response) => {
+        setCity(response.data.city);
+        setCountry(response.data.country);
+        setCountryCode(getCountryCode(response.data.country));
+        if (response.data.favouriteGenre.length) {
+          setGenre(response.data.favouriteGenre);
+        } else {
+          setGenre(0);
+        }
+        setGenreId(getGenreId(response.data.favouriteGenre));
+        setCurrentFaveArtists(response.data.favouriteArtists);
+        setFavouriteArtists(response.data.favouriteArtists);
+      });
+    }
+  }, []);
 
   useEffect(() => {
-    setId(sessionStorage.getItem("userId"));
-  }, []);
+    handleUpdate();
+    setCurrentFaveArtists(favouriteArtists);
+  }, [favouriteArtists]);
 
   useEffect(() => {
     if (newSearch === "") {
@@ -123,33 +125,11 @@ const HomePage = (props) => {
   }, [newSearch, newCity, newCountry, newGenre]);
 
   useEffect(() => {
-    setIsLoading(true);
-    if (id) {
-      axios.get(`http://localhost:8000/api/artists/${id}`).then((response) => {
-        console.log(`Response: ${response.data}`);
-        setCity(response.data.city);
-        console.log(city);
-        setCountry(response.data.country);
-        setCountryCode(getCountryCode(response.data.country));
-        if (response.data.favouriteGenre.length) {
-          setGenre(response.data.favouriteGenre);
-        } else {
-          setGenre(0);
-        }
-        setGenreId(getGenreId(response.data.favouriteGenre));
-        setCurrentFaveArtists(response.data.favouriteArtists);
-      });
-    }
-  }, [id]);
-
-  useEffect(() => {
-    console.log(genre);
     axios
       .get(
         `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&locale=*&sort=relevance,desc&city=${city}&countryCode=${countryCode}&genre=${genreId}&segmentName=Music`
       )
       .then((response) => {
-        console.log(response);
         setBands(response.data._embedded.events);
       })
       .catch((error) => {
@@ -169,9 +149,8 @@ const HomePage = (props) => {
       .finally(() => {
         setIsLoading(false);
       });
-  }, [city, countryCode]);
+  }, [city, countryCode, genreId]);
 
-  console.log(bands);
   return (
     <div className="landingpage-container">
       <br />
@@ -193,7 +172,15 @@ const HomePage = (props) => {
       {bands.length ? (
         <>
           <div className="BandsCarouseldiv">
-            <h5>Artists:</h5>
+            {city.length > 1 && countryCode.length ? (
+              <h5>{`Artists in ${city}, ${countryCode}:`}</h5>
+            ) : city.length > 1 ? (
+              <h5>{`Artists in ${city}:`}</h5>
+            ) : countryCode.length ? (
+              <h5>{`Artists in ${countryCode}:`}</h5>
+            ) : (
+              <h5>{`Artists:`}</h5>
+            )}
             <DisplayCarousel
               bands={bands}
               type="non-local"
@@ -203,7 +190,15 @@ const HomePage = (props) => {
           </div>
           <br />
           <div className="eventdiv">
-            <h5>{`Upcoming Shows in ${city}, ${countryCode}:`}</h5>
+            {city.length > 1 && countryCode.length ? (
+              <h5>{`Upcoming Shows in ${city}, ${countryCode}:`}</h5>
+            ) : city.length > 1 ? (
+              <h5>{`Upcoming Shows in ${city}:`}</h5>
+            ) : countryCode.length ? (
+              <h5>{`Upcoming Shows in ${countryCode}:`}</h5>
+            ) : (
+              <h5>{`Upcoming Shows:`}</h5>
+            )}
             <Event bands={bands} type="non-local" />
           </div>
         </>
@@ -214,7 +209,15 @@ const HomePage = (props) => {
       {localBands.length ? (
         <>
           <div className="localBandsCarouseldiv">
-            <h5>{`Local Artists in ${city}, ${countryCode}:`}</h5>
+            {city.length > 1 && countryCode.length ? (
+              <h5>{`Local Artists in ${city}, ${countryCode}:`}</h5>
+            ) : city.length > 1 ? (
+              <h5>{`Local Artists in ${city}:`}</h5>
+            ) : countryCode.length ? (
+              <h5>{`Local Artists in ${countryCode}:`}</h5>
+            ) : (
+              <h5>{`Local Artists:`}</h5>
+            )}
             <DisplayCarousel
               bands={localBands}
               type="local"
@@ -225,7 +228,15 @@ const HomePage = (props) => {
           <br />
           <br />
           <div className="eventdiv">
-            <h5>{`Upcoming Shows from Local Artists in ${city}, ${countryCode}:`}</h5>
+            {city.length > 1 && countryCode.length ? (
+              <h5>{`Upcoming Shows from Local Artists in ${city}, ${countryCode}:`}</h5>
+            ) : city.length > 1 ? (
+              <h5>{`Upcoming Shows from Local Artists in ${city}:`}</h5>
+            ) : countryCode.length ? (
+              <h5>{`Upcoming Shows in ${countryCode}:`}</h5>
+            ) : (
+              <h5>{`Upcoming Shows:`}</h5>
+            )}
             <Event className="upcoming-shows" bands={localBands} type="local" />
           </div>
         </>
