@@ -21,6 +21,10 @@ const LandingPage = (props) => {
   const [genreId, setGenreId] = useState("");
   const [newCity, setNewCity] = useState("");
   const [newCountry, setNewCountry] = useState("");
+
+  const [favouriteArtists, setFavouriteArtists] = useState([]);
+  const [currentFaveArtists, setCurrentFaveArtists] = useState([]);
+
   const navigation = useNavigate();
 
   const handleChange = (e) => {
@@ -121,7 +125,11 @@ const LandingPage = (props) => {
         <>
           <div className="BandsCarouseldiv">
             <h5>Artists:</h5>
-            <DisplayCarousel bands={bands} type="non-local" />
+            <DisplayCarousel
+              bands={bands}
+              type="non-local"
+              favouriteArtists={favouriteArtists}
+            />
           </div>
           <br />
           <div className="eventdiv">
@@ -137,7 +145,11 @@ const LandingPage = (props) => {
         <>
           <div className="localBandsCarouseldiv">
             <h5>{`Local Artists in ${city}, ${countryCode}:`}</h5>
-            <DisplayCarousel bands={localBands} type="local" />
+            <DisplayCarousel
+              bands={localBands}
+              type="local"
+              favouriteArtists={favouriteArtists}
+            />
           </div>
           <br />
           <br />

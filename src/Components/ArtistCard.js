@@ -1,26 +1,69 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import "../ArtistCard.css";
-import { NavLink } from "react-router-dom";
+import Nav from "react-bootstrap/Nav";
+import axios from "axios";
+import Image from "react-bootstrap/Image";
 
 const ArtistCard = (props) => {
   const bandName = props.name;
   const bandPic = props.profilePicture;
   const isTouring = props.touring;
   const bandId = props.id;
+  const favouriteArtists = props.favouriteArtists;
+  const id = sessionStorage.getItem("userId");
 
   return (
-    <NavLink to={"artist/" + bandId}>
-      <Card className="bg-dark text-white artistCard" style={{ width: "auto" }}>
+    <Card className="bg-dark text-white artistCard" style={{ width: "auto" }}>
+      <Nav.Link href={"artist/" + bandId}>
         <Card.Img src={bandPic} alt="Artist Picture" />
-        <Card.ImgOverlay>
+      </Nav.Link>
+      <Card.ImgOverlay>
+        <div className="favoritediv">
+          {id ? (
+            favouriteArtists.length ? (
+              favouriteArtists.find((artist) => artist.id === bandId) ? (
+                <Image
+                  roundedCircle={true}
+                  src={`http://localhost:8000/profile-pics/Filled.png`}
+                  alt="Filled Heart"
+                  className="favorite"
+                  onClick={props.onHeartClick}
+                  id={bandId}
+                  title={bandName}
+                ></Image>
+              ) : (
+                <Image
+                  roundedCircle={true}
+                  src={`http://localhost:8000/profile-pics/Outline.png`}
+                  alt="Heart Outline"
+                  className="favorite"
+                  onClick={props.onHeartClick}
+                  id={bandId}
+                  title={bandName}
+                ></Image>
+              )
+            ) : (
+              <Image
+                roundedCircle={true}
+                src={`http://localhost:8000/profile-pics/Outline.png`}
+                alt="Heart Outline"
+                className="favorite"
+                onClick={props.onHeartClick}
+                id={bandId}
+                title={bandName}
+              ></Image>
+            )
+          ) : null}
+        </div>
+        <Nav.Link href={"artist/" + bandId}>
           <Card.Title className="bandName">{bandName}</Card.Title>
           {isTouring ? (
             <Card.Footer className="isTouring">Upcoming Shows</Card.Footer>
           ) : null}
-        </Card.ImgOverlay>
-      </Card>
-    </NavLink>
+        </Nav.Link>
+      </Card.ImgOverlay>
+    </Card>
   );
 };
 

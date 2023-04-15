@@ -6,6 +6,8 @@ import Carousel from "react-grid-carousel";
 const ControlledCarousel = (props) => {
   const bands = props.bands;
   const type = props.type;
+  const onHeartClick = props.onHeartClick;
+  const favouriteArtists = props.favouriteArtists;
 
   return (
     <Carousel
@@ -84,6 +86,8 @@ const ControlledCarousel = (props) => {
                             : false
                           : false
                       }
+                      onHeartClick={onHeartClick}
+                      favouriteArtists={favouriteArtists}
                     />
                   </Carousel.Item>
                 )
@@ -111,6 +115,8 @@ const ControlledCarousel = (props) => {
                             : false
                           : false
                       }
+                      onHeartClick={onHeartClick}
+                      favouriteArtists={favouriteArtists}
                     />
                   </Carousel.Item>
                 )

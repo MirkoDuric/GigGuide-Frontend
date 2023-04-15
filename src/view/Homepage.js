@@ -27,6 +27,8 @@ const HomePage = (props) => {
   const [genreId, setGenreId] = useState("");
   const [newCity, setNewCity] = useState("");
   const [newCountry, setNewCountry] = useState(0);
+  const [favouriteArtists, setFavouriteArtists] = useState([]);
+  const [currentFaveArtists, setCurrentFaveArtists] = useState([]);
   const navigation = useNavigate();
 
   const handleChange = (e) => {
@@ -45,10 +47,59 @@ const HomePage = (props) => {
     setNewGenre(e.target.value);
   };
 
-  const handleClick = (e) => {
+  const handleSearchClick = (e) => {
     e.preventDefault();
     navigation(`/search/${newSearch}/${newCountry}/${newCity}/${newGenre}`);
   };
+
+  console.log(favouriteArtists);
+  console.log(`Length: ${favouriteArtists.length}`);
+
+  const handleHeartClick = (e) => {
+    e.preventDefault();
+    const faveId = e.target.id;
+    const faveName = e.target.title;
+    const fave = { id: faveId, name: faveName };
+    if (e.target.src === "http://localhost:8000/profile-pics/Outline.png") {
+      if (currentFaveArtists.length > 0 || favouriteArtists.length > 0) {
+        console.log("Array larger than 0");
+        setFavouriteArtists([...favouriteArtists, fave]);
+      } else {
+        console.log("Array 0");
+        setFavouriteArtists([fave]);
+      }
+    } else {
+      setFavouriteArtists(
+        favouriteArtists.filter((artist) => artist.id !== e.target.id)
+      );
+    }
+  };
+
+  /* const handleUpdate = async () => {
+    if (id) {
+      const payload = { favouriteArtists };
+      console.log(payload);
+      try {
+        const response = await axios.put(
+          `http://localhost:8000/api/user/${id}`,
+          payload
+        );
+
+        console.log(response);
+      } catch (err) {
+        if (err.status === 404) {
+          console.log("Resource could not be found!");
+        } else {
+          console.log(err.message);
+        }
+      }
+    }
+  }; */
+
+  /*   useEffect(() => {
+    handleUpdate();
+    console.log(favouriteArtists);
+  }, [favouriteArtists]); */
 
   useEffect(() => {
     setId(sessionStorage.getItem("userId"));
@@ -71,20 +122,29 @@ const HomePage = (props) => {
 
   useEffect(() => {
     setIsLoading(true);
-    axios.get(`http://localhost:8000/api/artists/${id}`).then((response) => {
-      console.log(`Response: ${response.data}`);
-      setCity(response.data.city);
-      setCountry(response.data.country);
-      setCountryCode(getCountryCode(response.data.country));
-      setGenre(response.data.favouriteGenre);
-      setGenreId(getGenreId(response.data.favouriteGenre));
-    });
+    if (id) {
+      axios.get(`http://localhost:8000/api/artists/${id}`).then((response) => {
+        console.log(`Response: ${response.data}`);
+        setCity(response.data.city);
+        console.log(city);
+        setCountry(response.data.country);
+        setCountryCode(getCountryCode(response.data.country));
+        if (response.data.favouriteGenre.length) {
+          setGenre(response.data.favouriteGenre);
+        } else {
+          setGenre(0);
+        }
+        setGenreId(getGenreId(response.data.favouriteGenre));
+        setCurrentFaveArtists(response.data.favouriteArtists);
+      });
+    }
   }, [id]);
 
   useEffect(() => {
+    console.log(genre);
     axios
       .get(
-        `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&locale=*&sort=relevance,desc&city=${city}&countryCode=${countryCode}&genre={genreId}&segmentName=Music`
+        `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&locale=*&sort=relevance,desc&city=${city}&countryCode=${countryCode}&genre=${genreId}&segmentName=Music`
       )
       .then((response) => {
         console.log(response);
@@ -97,7 +157,7 @@ const HomePage = (props) => {
         setIsLoading(false);
       });
     axios
-      .get("http://localhost:8000/api/artists/0/${country}/${city}/${genre}")
+      .get(`http://localhost:8000/api/artists/0/${country}/${city}/${genre}`)
       .then((response) => {
         setLocalBands(response.data);
       })
@@ -120,7 +180,7 @@ const HomePage = (props) => {
           onChangeCity={handleChangeCity}
           onChangeCountry={handleChangeCountry}
           onChangeGenre={handleChangeGenre}
-          onClick={handleClick}
+          onClick={handleSearchClick}
         />
       </div>
       <br />
@@ -132,7 +192,12 @@ const HomePage = (props) => {
         <>
           <div className="BandsCarouseldiv">
             <h5>Artists:</h5>
-            <DisplayCarousel bands={bands} type="non-local" />
+            <DisplayCarousel
+              bands={bands}
+              type="non-local"
+              onHeartClick={handleHeartClick}
+              favouriteArtists={favouriteArtists}
+            />
           </div>
           <br />
           <div className="eventdiv">
@@ -148,7 +213,12 @@ const HomePage = (props) => {
         <>
           <div className="localBandsCarouseldiv">
             <h5>{`Local Artists in ${city}, ${countryCode}:`}</h5>
-            <DisplayCarousel bands={localBands} type="local" />
+            <DisplayCarousel
+              bands={localBands}
+              type="local"
+              onHeartClick={handleHeartClick}
+              favouriteArtists={favouriteArtists}
+            />
           </div>
           <br />
           <br />
