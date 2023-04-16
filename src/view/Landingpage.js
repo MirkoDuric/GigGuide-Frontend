@@ -1,34 +1,33 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Button from "../Components/Button";
+import { useNavigate } from "react-router";
+
+import axios from "axios";
+
 import Event from "../Components/Event";
 import DisplayCarousel from "../Components/DisplayCarousel";
-import axios from "axios";
-import "../LandingPage.css";
 import LandingpageSlogan from "../Components/LandingpageSlogan";
-import { useNavigate } from "react-router";
 import SearchBar from "../Components/SearchBar";
+import LoadingIndicator from "../Components/LoadingIndicator";
+
+import "../LandingPage.css";
 
 const LandingPage = (props) => {
   const [bands, setBands] = useState([]);
+  const [localBands, setLocalBands] = useState([]);
   const [city, setCity] = useState();
   const [countryCode, setCountryCode] = useState();
-  const [localBands, setLocalBands] = useState([]);
-  const [name, setName] = useState(0);
-  const [genre, setGenre] = useState(0);
   const [country, setCountry] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-
   const [newSearch, setNewSearch] = useState("");
   const [newGenre, setNewGenre] = useState("");
-  const [genreId, setGenreId] = useState("");
   const [newCity, setNewCity] = useState("");
   const [newCountry, setNewCountry] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [favouriteArtists, setFavouriteArtists] = useState([]);
-  const [currentFaveArtists, setCurrentFaveArtists] = useState([]);
-
-  const [id, setId] = useState(sessionStorage.getItem("userId"));
+  const name = 0;
+  const genre = 0;
+  const favouriteArtists = [];
+  const currentFaveArtists = [];
+  const id = sessionStorage.getItem("userId");
 
   const navigation = useNavigate();
 
@@ -73,55 +72,41 @@ const LandingPage = (props) => {
       navigation("/homepage");
     }
     setIsLoading(true);
-    /* axios
-      .get("http://localhost:8000/api/artists")
-      .then((response) => {
-        setLocalBands(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      }); */
     axios
       .get("http://ip-api.com/json/?fields=countryCode,city,country")
       .then((response) => {
         setCity(response.data.city);
         setCountryCode(response.data.countryCode);
         setCountry(response.data.country);
-      });
-  }, []);
-
-  useEffect(() => {
-    axios
-      .get(
-        `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&locale=*&sort=relevance,desc&city=${city}&countryCode=${countryCode}&segmentName=Music`
-      )
-      .then((response) => {
-        console.log(response);
-        setBands(response.data._embedded.events);
+        axios
+          .get(
+            `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&locale=*&sort=relevance,desc&city=${response.data.city}&countryCode=${response.data.countryCode}&segmentName=Music`
+          )
+          .then((response) => {
+            console.log(response);
+            setBands(response.data._embedded.events);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        axios
+          .get(
+            `http://localhost:8000/api/artists/${name}/${country}/${city}/${genre}`
+          )
+          .then((response) => {
+            setLocalBands(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error.message);
       })
       .finally(() => {
         setIsLoading(false);
       });
-    axios
-      .get(
-        `http://localhost:8000/api/artists/${name}/${country}/${city}/${genre}`
-      )
-      .then((response) => {
-        setLocalBands(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        //setIsLoading(false);
-      });
-  }, [city, countryCode]);
+  }, []);
 
   console.log(bands);
   return (
@@ -143,7 +128,9 @@ const LandingPage = (props) => {
         <LandingpageSlogan />
       </div>
       <br />
-      {bands.length ? (
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : bands.length ? (
         <>
           <div className="BandsCarouseldiv">
             <h5>Artists:</h5>

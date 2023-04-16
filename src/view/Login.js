@@ -10,7 +10,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [id, setId] = useState(sessionStorage.getItem("userId"));
+  const id = sessionStorage.getItem("userId");
   const navigation = useNavigate();
 
   useEffect(() => {
@@ -32,8 +32,6 @@ const Login = () => {
         const { data } = await response;
         const token = data.token;
         const id = data.response._id;
-        console.log(token);
-        console.log(id);
         sessionStorage.setItem("jwt", token);
         sessionStorage.setItem("userId", id);
 

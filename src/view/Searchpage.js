@@ -1,24 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router";
-import SearchBar from "../Components/SearchBar";
-import axios from "axios";
-import { getCountryCode, getGenreId } from "../utils";
-import { useNavigate } from "react-router";
-import Event from "../Components/Event";
+import { useParams, useNavigate } from "react-router";
 
-const Searchpage = (props) => {
+import axios from "axios";
+
+import SearchBar from "../Components/SearchBar";
+import Event from "../Components/Event";
+import LoadingIndicator from "../Components/LoadingIndicator";
+
+import { getCountryCode, getGenreId } from "../utils";
+
+const Searchpage = () => {
   let { name, city, country, genre } = useParams();
-  const genreId = getGenreId(genre);
-  const countryCode = getCountryCode(country);
+  const navigation = useNavigate();
+
   const [bands, setBands] = useState([]);
   const [localBands, setLocalBands] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
   const [newSearch, setNewSearch] = useState("");
   const [newGenre, setNewGenre] = useState("");
   const [newCity, setNewCity] = useState("");
   const [newCountry, setNewCountry] = useState("");
-  const navigation = useNavigate();
+
+  const genreId = getGenreId(genre);
+  const countryCode = getCountryCode(country);
 
   const handleChange = (e) => {
     setNewSearch(e.target.value);
@@ -42,6 +46,49 @@ const Searchpage = (props) => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
+    if (!name) {
+      name = 0;
+    }
+    axios
+      .get(
+        `http://localhost:8000/api/artists/${name}/${country}/${city}/${genre}`
+      )
+      .then((response) => {
+        setLocalBands(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+    if (name === "0") {
+      name = "";
+    }
+    if (city === "0") {
+      city = "";
+    }
+    axios
+      .get(
+        `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&keyword=${name}&locale=*&sort=relevance,desc&city=${city}&countryCode=${countryCode}&segmentName=Music&genreId=${genreId}`
+      )
+      .then((response) => {
+        if (response.data._embedded) {
+          setBands(response.data._embedded.events);
+        } else {
+          setBands([]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [countryCode, genreId, name, city, country, genre]);
+
+  useEffect(() => {
     if (newSearch === "") {
       setNewSearch(0);
     }
@@ -56,43 +103,6 @@ const Searchpage = (props) => {
     }
   }, [newSearch, newCity, newCountry, newGenre]);
 
-  useEffect(() => {
-    setIsLoading(true);
-
-    axios
-      .get(
-        `http://localhost:8000/api/artists/${name}/${country}/${city}/${genre}`
-      )
-      .then((response) => {
-        setLocalBands(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        //setIsLoading(false);
-      });
-    if (name === "0") {
-      name = "";
-    }
-    if (city === "0") {
-      city = "";
-    }
-    axios
-      .get(
-        `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&keyword=${name}&locale=*&sort=relevance,desc&city=${city}&countryCode=${countryCode}&segmentName=Music&genreId=${genreId}`
-      )
-      .then((response) => {
-        setBands(response.data._embedded.events);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        //setIsLoading(false);
-      });
-  }, [countryCode, genreId, name, city, country, genre]);
-  console.log(localBands);
   return (
     <div className="landingpage-container">
       <div className="searchbardiv">
@@ -104,7 +114,9 @@ const Searchpage = (props) => {
           onClick={handleClick}
         />
       </div>
-      {bands.length ? (
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : bands.length ? (
         <div className="eventdiv">
           {city.length > 1 && countryCode.length ? (
             <h5>{`Upcoming Shows in ${city}, ${countryCode}:`}</h5>
@@ -119,12 +131,28 @@ const Searchpage = (props) => {
           <Event bands={bands} type="non-local" />
         </div>
       ) : (
-        <div>No Matching Results</div>
+        <div className="eventdiv">
+          {city.length > 1 && countryCode.length ? (
+            <h5>{`Upcoming Shows in ${city}, ${countryCode}:`}</h5>
+          ) : city.length > 1 ? (
+            <h5>{`Upcoming Shows in ${city}:`}</h5>
+          ) : countryCode.length ? (
+            <h5>{`Upcoming Shows in ${countryCode}:`}</h5>
+          ) : (
+            <h5>{`Upcoming Shows:`}</h5>
+          )}
+
+          <div className="noShowsdiv">
+            <h6>No Upcoming Shows</h6>
+          </div>
+        </div>
       )}
 
       <br />
       <br />
-      {localBands.length ? (
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : localBands.length ? (
         <div className="eventdiv">
           {city.length > 1 && countryCode.length ? (
             <h5>{`Upcoming Shows from Local Artists in ${city}, ${countryCode}:`}</h5>
