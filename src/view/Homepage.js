@@ -27,6 +27,7 @@ const HomePage = () => {
   const [newCity, setNewCity] = useState("");
   const [newCountry, setNewCountry] = useState(0);
   const [currentFaveArtists, setCurrentFaveArtists] = useState([]);
+  const [currentSavedEvents, setCurrentSavedEvents] = useState([]);
 
   const id = sessionStorage.getItem("userId");
 
@@ -92,6 +93,62 @@ const HomePage = () => {
     }
   };
 
+  const handleEventClick = async (e) => {
+    e.preventDefault();
+    let eventInfo = "";
+    let plannedEvents = currentSavedEvents;
+    const band = JSON.parse(e.target.title);
+    if (e.target.id) {
+      const event = JSON.parse(e.target.id);
+      eventInfo = {
+        id: event._id,
+        ticketUrl: event.ticketUrl,
+        profilePicture: band.profilePicture,
+        name: band.name,
+        date: event.date,
+        startTime: event.startTime,
+        venue: event.venue,
+        address: event.address,
+        info: event.info,
+      };
+    } else {
+      eventInfo = band;
+      console.log(eventInfo);
+    }
+    if (e.target.value === "Save Event") {
+      if (currentSavedEvents.length > 0) {
+        setCurrentSavedEvents([...currentSavedEvents, eventInfo]);
+        plannedEvents = [...currentSavedEvents, eventInfo];
+      } else {
+        setCurrentSavedEvents([eventInfo]);
+        plannedEvents = [eventInfo];
+      }
+    } else {
+      setCurrentSavedEvents(
+        currentSavedEvents.filter((event) => event.id !== eventInfo.id)
+      );
+      plannedEvents = currentSavedEvents.filter(
+        (event) => event.id !== eventInfo.id
+      );
+    }
+    if (id) {
+      const payload = { plannedEvents };
+      try {
+        const response = await axios.put(
+          `http://localhost:8000/api/user/${id}/plannedEvents`,
+          payload
+        );
+        console.log(response);
+      } catch (err) {
+        if (err.status === 404) {
+          console.log("Resource could not be found!");
+        } else {
+          console.log(err.message);
+        }
+      }
+    }
+  };
+
   useEffect(() => {
     setIsLoading(true);
     if (id) {
@@ -108,6 +165,7 @@ const HomePage = () => {
           }
           setGenreId(getGenreId(response.data.favouriteGenre));
           setCurrentFaveArtists(response.data.favouriteArtists);
+          setCurrentSavedEvents(response.data.plannedEvents);
           axios
             .get(
               `https://app.ticketmaster.com/discovery/v2/events?apikey=${
@@ -224,7 +282,12 @@ const HomePage = () => {
             ) : (
               <h5>{`Upcoming Shows:`}</h5>
             )}
-            <Event bands={bands} type="non-local" />
+            <Event
+              bands={bands}
+              type="non-local"
+              onEventClick={handleEventClick}
+              currentSavedEvents={currentSavedEvents}
+            />
           </div>
         </>
       ) : null}
@@ -264,7 +327,13 @@ const HomePage = () => {
             ) : (
               <h5>{`Upcoming Shows:`}</h5>
             )}
-            <Event className="upcoming-shows" bands={localBands} type="local" />
+            <Event
+              className="upcoming-shows"
+              bands={localBands}
+              type="local"
+              onEventClick={handleEventClick}
+              currentSavedEvents={currentSavedEvents}
+            />
           </div>
         </>
       ) : null}

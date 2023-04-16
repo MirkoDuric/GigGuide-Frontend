@@ -9,6 +9,8 @@ import { Nav } from "react-bootstrap";
 const Event = (props) => {
   const bands = props.bands;
   const type = props.type;
+  const currentSavedEvents = props.currentSavedEvents;
+  const id = sessionStorage.getItem("userId");
   let eventKey = 0;
 
   return (
@@ -17,136 +19,215 @@ const Event = (props) => {
         type === "local" ? (
           bands
             .map((band) => {
-              eventKey++;
-              return band.upcomingEvents ? (
-                band.upcomingEvents.length ? (
-                  <AccordionItem
-                    className="AcordionItem"
-                    type={type}
-                    eventKey={eventKey}
-                  >
-                    <AccordionHeader className="row">
-                      <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                        <Nav.Link
-                          href={`https://${band.upcomingEvents[0].ticketUrl}`}
+              return band.upcomingEvents
+                ? band.upcomingEvents.length
+                  ? band.upcomingEvents.map((event) => {
+                      eventKey++;
+                      return (
+                        <AccordionItem
+                          className="AcordionItem"
+                          type={type}
+                          eventKey={eventKey}
                         >
-                          <Figure>
-                            <Figure.Image
-                              width={"100%"}
-                              src={`http://localhost:8000/${band.profilePicture}`}
-                              alt="Artist Image"
-                            />
-                          </Figure>
-                        </Nav.Link>
-                      </div>
-                      <div className="col eventTitle">
-                        <h2>{band.name}</h2>
-                        <h3>
-                          {new Date(
-                            band.upcomingEvents[0].date
-                          ).toLocaleDateString("en-US", {
-                            weekday: "long",
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}
-                          ,{" "}
-                          {new Date(
-                            band.upcomingEvents[0].startTime
-                          ).toLocaleTimeString("en-US", {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </h3>
-                        <Button variant="primary">Save Event</Button>
-                      </div>
-                    </AccordionHeader>
-                    <Accordion.Body>
-                      <Nav.Link
-                        href={`https://${band.upcomingEvents[0].ticketUrl}`}
-                      >
-                        <div className="row">
-                          <p>{band.upcomingEvents[0].venue} </p>
-                          <p className="venueAddress">
-                            {band.upcomingEvents[0].address}
-                          </p>
-                        </div>
-                        <div className="row">
-                          <p className="eventInfo">
-                            {band.upcomingEvents[0].info}
-                          </p>
-                        </div>
-                      </Nav.Link>
-                    </Accordion.Body>
-                  </AccordionItem>
-                ) : null
-              ) : null;
+                          <AccordionHeader className="row">
+                            <div className="col-5 col-sm-4 col-md-3 col-lg-2">
+                              <Nav.Link href={`https://${event.ticketUrl}`}>
+                                <Figure>
+                                  <Figure.Image
+                                    width={"100%"}
+                                    src={`http://localhost:8000/${band.profilePicture}`}
+                                    alt="Artist Image"
+                                  />
+                                </Figure>
+                              </Nav.Link>
+                            </div>
+                            <div className="col eventTitle">
+                              <h2>{band.name}</h2>
+                              <h3>
+                                {new Date(event.date).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    weekday: "long",
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric",
+                                  }
+                                )}
+                                ,{" "}
+                                {new Date(event.startTime).toLocaleTimeString(
+                                  "en-US",
+                                  {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  }
+                                )}
+                              </h3>
+                            </div>
+                          </AccordionHeader>
+                          <Accordion.Body>
+                            <Nav.Link href={`https://${event.ticketUrl}`}>
+                              <div className="row">
+                                <p>{event.venue} </p>
+                                <p className="venueAddress">{event.address}</p>
+                              </div>
+                              <div className="row">
+                                <p className="eventInfo">{event.info}</p>
+                              </div>
+                            </Nav.Link>
+                            <div className="col-1">
+                              {id ? (
+                                currentSavedEvents.length ? (
+                                  currentSavedEvents.find(
+                                    (savedEvent) => savedEvent.id === event._id
+                                  ) ? (
+                                    <Button
+                                      variant="success"
+                                      className="saveEventButton"
+                                      onClick={props.onEventClick}
+                                      value="Saved"
+                                      title={JSON.stringify(band)}
+                                      id={JSON.stringify(event)}
+                                    >
+                                      Saved
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      variant="primary"
+                                      className="saveEventButton"
+                                      onClick={props.onEventClick}
+                                      value="Save Event"
+                                      title={JSON.stringify(band)}
+                                      id={JSON.stringify(event)}
+                                    >
+                                      Save Event
+                                    </Button>
+                                  )
+                                ) : (
+                                  <Button
+                                    variant="primary"
+                                    className="saveEventButton"
+                                    onClick={props.onEventClick}
+                                    value="Save Event"
+                                    title={JSON.stringify(band)}
+                                    id={JSON.stringify(event)}
+                                  >
+                                    Save Event
+                                  </Button>
+                                )
+                              ) : null}
+                            </div>
+                          </Accordion.Body>
+                        </AccordionItem>
+                      );
+                    })
+                  : null
+                : null;
             })
             .some((el) => el !== null) ? (
             bands.map((band) => {
-              eventKey++;
-              return band.upcomingEvents ? (
-                band.upcomingEvents.length ? (
-                  <AccordionItem
-                    className="AcordionItem"
-                    type={type}
-                    eventKey={eventKey}
-                  >
-                    <AccordionHeader className="row">
-                      <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                        <Nav.Link
-                          href={`https://${band.upcomingEvents[0].ticketUrl}`}
+              return band.upcomingEvents
+                ? band.upcomingEvents.length
+                  ? band.upcomingEvents.map((event) => {
+                      eventKey++;
+                      return (
+                        <AccordionItem
+                          className="AcordionItem"
+                          type={type}
+                          eventKey={eventKey}
                         >
-                          <Figure>
-                            <Figure.Image
-                              width={"100%"}
-                              src={`http://localhost:8000/${band.profilePicture}`}
-                              alt="Artist Image"
-                            />
-                          </Figure>
-                        </Nav.Link>
-                      </div>
-                      <div className="col eventTitle">
-                        <h2>{band.name}</h2>
-                        <h3>
-                          {new Date(
-                            band.upcomingEvents[0].date
-                          ).toLocaleDateString("en-US", {
-                            weekday: "long",
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}
-                          ,{" "}
-                          {new Date(
-                            band.upcomingEvents[0].startTime
-                          ).toLocaleTimeString("en-US", {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </h3>
-                      </div>
-                    </AccordionHeader>
-                    <Accordion.Body>
-                      <Nav.Link
-                        href={`https://${band.upcomingEvents[0].ticketUrl}`}
-                      >
-                        <div className="row">
-                          <p>{band.upcomingEvents[0].venue} </p>
-                          <p className="venueAddress">
-                            {band.upcomingEvents[0].address}
-                          </p>
-                        </div>
-                        <div className="row">
-                          <p className="eventInfo">
-                            {band.upcomingEvents[0].info}
-                          </p>
-                        </div>
-                      </Nav.Link>
-                    </Accordion.Body>
-                  </AccordionItem>
-                ) : null
-              ) : null;
+                          <AccordionHeader className="row">
+                            <div className="col-5 col-sm-4 col-md-3 col-lg-2">
+                              <Nav.Link href={`https://${event.ticketUrl}`}>
+                                <Figure>
+                                  <Figure.Image
+                                    width={"100%"}
+                                    src={`http://localhost:8000/${band.profilePicture}`}
+                                    alt="Artist Image"
+                                  />
+                                </Figure>
+                              </Nav.Link>
+                            </div>
+                            <div className="col eventTitle">
+                              <h2>{band.name}</h2>
+                              <h3>
+                                {new Date(event.date).toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    weekday: "long",
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric",
+                                  }
+                                )}
+                                ,{" "}
+                                {new Date(event.startTime).toLocaleTimeString(
+                                  "en-US",
+                                  {
+                                    hour: "2-digit",
+                                    minute: "2-digit",
+                                  }
+                                )}
+                              </h3>
+                            </div>
+                          </AccordionHeader>
+                          <Accordion.Body>
+                            <Nav.Link href={`https://${event.ticketUrl}`}>
+                              <div className="row">
+                                <p>{event.venue} </p>
+                                <p className="venueAddress">{event.address}</p>
+                              </div>
+                              <div className="row">
+                                <p className="eventInfo">{event.info}</p>
+                              </div>
+                            </Nav.Link>
+                            <div className="col-1">
+                              {id ? (
+                                currentSavedEvents.length ? (
+                                  currentSavedEvents.find(
+                                    (savedEvent) => savedEvent.id === event._id
+                                  ) ? (
+                                    <Button
+                                      variant="success"
+                                      className="saveEventButton"
+                                      onClick={props.onEventClick}
+                                      value="Saved"
+                                      title={JSON.stringify(band)}
+                                      id={JSON.stringify(event)}
+                                    >
+                                      Saved
+                                    </Button>
+                                  ) : (
+                                    <Button
+                                      variant="primary"
+                                      className="saveEventButton"
+                                      onClick={props.onEventClick}
+                                      value="Save Event"
+                                      title={JSON.stringify(band)}
+                                      id={JSON.stringify(event)}
+                                    >
+                                      Save Event
+                                    </Button>
+                                  )
+                                ) : (
+                                  <Button
+                                    variant="primary"
+                                    className="saveEventButton"
+                                    onClick={props.onEventClick}
+                                    value="Save Event"
+                                    title={JSON.stringify(band)}
+                                    id={JSON.stringify(event)}
+                                  >
+                                    Save Event
+                                  </Button>
+                                )
+                              ) : null}
+                            </div>
+                          </Accordion.Body>
+                        </AccordionItem>
+                      );
+                    })
+                  : null
+                : null;
             })
           ) : (
             <>
@@ -200,7 +281,6 @@ const Event = (props) => {
                                 minute: "2-digit",
                               })}
                             </h3>
-                            <Button variant="primary">Save Event</Button>
                           </div>
                         </AccordionHeader>
                         <Accordion.Body>
@@ -220,6 +300,45 @@ const Event = (props) => {
                               <p className="eventInfo">{band.info}</p>
                             </div>
                           </Nav.Link>
+                          <div className="col-1">
+                            {id ? (
+                              currentSavedEvents.length ? (
+                                currentSavedEvents.find(
+                                  (event) => event.id === band.id
+                                ) ? (
+                                  <Button
+                                    variant="success"
+                                    className="saveEventButton"
+                                    onClick={props.onEventClick}
+                                    value="Saved"
+                                    title={JSON.stringify(band)}
+                                  >
+                                    Saved
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    variant="primary"
+                                    className="saveEventButton"
+                                    onClick={props.onEventClick}
+                                    value="Save Event"
+                                    title={JSON.stringify(band)}
+                                  >
+                                    Save Event
+                                  </Button>
+                                )
+                              ) : (
+                                <Button
+                                  variant="primary"
+                                  className="saveEventButton"
+                                  onClick={props.onEventClick}
+                                  value="Save Event"
+                                  title={JSON.stringify(band)}
+                                >
+                                  Save Event
+                                </Button>
+                              )
+                            ) : null}
+                          </div>
                         </Accordion.Body>
                       </AccordionItem>
                     ) : (
@@ -261,7 +380,6 @@ const Event = (props) => {
                                 minute: "2-digit",
                               })}
                             </h3>
-                            <Button variant="primary">Save Event</Button>
                           </div>
                         </AccordionHeader>
                         <Accordion.Body>
@@ -280,6 +398,45 @@ const Event = (props) => {
                               <p className="eventInfo">{band.info}</p>
                             </div>
                           </Nav.Link>
+                          <div className="col-1">
+                            {id ? (
+                              currentSavedEvents.length ? (
+                                currentSavedEvents.find(
+                                  (event) => event.id === band.id
+                                ) ? (
+                                  <Button
+                                    variant="success"
+                                    className="saveEventButton"
+                                    onClick={props.onEventClick}
+                                    value="Saved"
+                                    title={JSON.stringify(band)}
+                                  >
+                                    Saved
+                                  </Button>
+                                ) : (
+                                  <Button
+                                    variant="primary"
+                                    className="saveEventButton"
+                                    onClick={props.onEventClick}
+                                    value="Save Event"
+                                    title={JSON.stringify(band)}
+                                  >
+                                    Save Event
+                                  </Button>
+                                )
+                              ) : (
+                                <Button
+                                  variant="primary"
+                                  className="saveEventButton"
+                                  onClick={props.onEventClick}
+                                  value="Save Event"
+                                  title={JSON.stringify(band)}
+                                >
+                                  Save Event
+                                </Button>
+                              )
+                            ) : null}
+                          </div>
                         </Accordion.Body>
                       </AccordionItem>
                     )
@@ -352,9 +509,43 @@ const Event = (props) => {
                           </div>
                         </Nav.Link>
                         <div className="col-1">
-                          <Button variant="primary" style={{ zIndex: "100" }}>
-                            Save Event
-                          </Button>
+                          {id ? (
+                            currentSavedEvents.length ? (
+                              currentSavedEvents.find(
+                                (event) => event.id === band.id
+                              ) ? (
+                                <Button
+                                  variant="success"
+                                  className="saveEventButton"
+                                  onClick={props.onEventClick}
+                                  value="Saved"
+                                  title={JSON.stringify(band)}
+                                >
+                                  Saved
+                                </Button>
+                              ) : (
+                                <Button
+                                  variant="primary"
+                                  className="saveEventButton"
+                                  onClick={props.onEventClick}
+                                  value="Save Event"
+                                  title={JSON.stringify(band)}
+                                >
+                                  Save Event
+                                </Button>
+                              )
+                            ) : (
+                              <Button
+                                variant="primary"
+                                className="saveEventButton"
+                                onClick={props.onEventClick}
+                                value="Save Event"
+                                title={JSON.stringify(band)}
+                              >
+                                Save Event
+                              </Button>
+                            )
+                          ) : null}
                         </div>
                       </Accordion.Body>
                     </AccordionItem>
@@ -416,9 +607,43 @@ const Event = (props) => {
                           </div>
                         </Nav.Link>
                         <div className="col-1">
-                          <Button variant="primary" style={{ zIndex: "100" }}>
-                            Save Event
-                          </Button>
+                          {id ? (
+                            currentSavedEvents.length ? (
+                              currentSavedEvents.find(
+                                (event) => event.id === band.id
+                              ) ? (
+                                <Button
+                                  variant="success"
+                                  className="saveEventButton"
+                                  onClick={props.onEventClick}
+                                  value="Saved"
+                                  title={JSON.stringify(band)}
+                                >
+                                  Saved
+                                </Button>
+                              ) : (
+                                <Button
+                                  variant="primary"
+                                  className="saveEventButton"
+                                  onClick={props.onEventClick}
+                                  value="Save Event"
+                                  title={JSON.stringify(band)}
+                                >
+                                  Save Event
+                                </Button>
+                              )
+                            ) : (
+                              <Button
+                                variant="primary"
+                                className="saveEventButton"
+                                onClick={props.onEventClick}
+                                value="Save Event"
+                                title={JSON.stringify(band)}
+                              >
+                                Save Event
+                              </Button>
+                            )
+                          ) : null}
                         </div>
                       </Accordion.Body>
                     </AccordionItem>

@@ -40,6 +40,10 @@
   font-size: 3rem;
 }
 
+.saveEventButton{
+  z-index: 100;
+}
+
 @media screen and (min-width: 1px) {
   .eventTitle h2 {
     font-size: 13px;

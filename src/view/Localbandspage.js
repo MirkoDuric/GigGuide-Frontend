@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import axios from "axios";
 
 import Event from "../Components/Event";
+import SavedEvents from "../Components/SavedEvents";
 import DisplayCarousel from "../Components/DisplayCarousel";
 import SearchBar from "../Components/SearchBar";
 import LoadingIndicator from "../Components/LoadingIndicator";
@@ -24,7 +25,7 @@ const LocalBandsPage = () => {
   const [newCity, setNewCity] = useState("");
   const [newCountry, setNewCountry] = useState(0);
   const [currentFaveArtists, setCurrentFaveArtists] = useState([]);
-  const [savedEvents, setSavedEvents] = useState([]);
+  const [currentSavedEvents, setCurrentSavedEvents] = useState([]);
 
   const id = sessionStorage.getItem("userId");
 
@@ -90,6 +91,76 @@ const LocalBandsPage = () => {
     }
   };
 
+  const handleEventClick = async (e) => {
+    e.preventDefault();
+    let eventInfo = "";
+    let plannedEvents = currentSavedEvents;
+    const band = JSON.parse(e.target.title);
+    if (e.target.id) {
+      const event = JSON.parse(e.target.id);
+      if (event._id) {
+        eventInfo = {
+          id: event._id,
+          ticketUrl: event.ticketUrl,
+          profilePicture: band.profilePicture,
+          name: band.name,
+          date: event.date,
+          startTime: event.startTime,
+          venue: event.venue,
+          address: event.address,
+          info: event.info,
+        };
+      } else {
+        eventInfo = {
+          id: event.id,
+          ticketUrl: event.ticketUrl,
+          profilePicture: band.profilePicture,
+          name: band.name,
+          date: event.date,
+          startTime: event.startTime,
+          venue: event.venue,
+          address: event.address,
+          info: event.info,
+        };
+      }
+    } else {
+      eventInfo = band;
+    }
+    if (e.target.value === "Save Event") {
+      if (currentSavedEvents.length > 0) {
+        setCurrentSavedEvents([...currentSavedEvents, eventInfo]);
+        plannedEvents = [...currentSavedEvents, eventInfo];
+      } else {
+        setCurrentSavedEvents([eventInfo]);
+        plannedEvents = [eventInfo];
+      }
+    } else {
+      console.log(eventInfo.id);
+      setCurrentSavedEvents(
+        currentSavedEvents.filter((event) => event.id !== eventInfo.id)
+      );
+      plannedEvents = currentSavedEvents.filter(
+        (event) => event.id !== eventInfo.id
+      );
+    }
+    if (id) {
+      const payload = { plannedEvents };
+      try {
+        const response = await axios.put(
+          `http://localhost:8000/api/user/${id}/plannedEvents`,
+          payload
+        );
+        console.log(response);
+      } catch (err) {
+        if (err.status === 404) {
+          console.log("Resource could not be found!");
+        } else {
+          console.log(err.message);
+        }
+      }
+    }
+  };
+
   useEffect(() => {
     if (newSearch === "") {
       setNewSearch(0);
@@ -140,7 +211,7 @@ const LocalBandsPage = () => {
               });
           }
           setCurrentFaveArtists(response.data.favouriteArtists);
-          setSavedEvents(response.data.plannedEvents);
+          setCurrentSavedEvents(response.data.plannedEvents);
         })
         .catch((error) => {
           console.log(error);
@@ -187,7 +258,15 @@ const LocalBandsPage = () => {
       ) : localBands.length ? (
         <>
           <div className="localBandsCarouseldiv">
-            <h5>{`Local Artists in ${city}, ${countryCode}:`}</h5>
+            {city.length > 1 && countryCode.length ? (
+              <h5>{`Local Artists in ${city}, ${countryCode}:`}</h5>
+            ) : city.length > 1 ? (
+              <h5>{`Local Artists in ${city}:`}</h5>
+            ) : countryCode.length ? (
+              <h5>{`Artists in ${countryCode}:`}</h5>
+            ) : (
+              <h5>{`Artists:`}</h5>
+            )}
             <DisplayCarousel
               bands={localBands}
               type="local"
@@ -206,15 +285,24 @@ const LocalBandsPage = () => {
       {isLoading ? (
         <LoadingIndicator />
       ) : id ? (
-        savedEvents.length ? (
+        currentSavedEvents.length ? (
           <>
             <br />
             <br />
             <div className="eventdiv">
-              <h5>{`Saved Local Artists in ${city}, ${countryCode}:`}</h5>
-              <Event
+              {city.length > 1 && countryCode.length ? (
+                <h5>{`Saved Upcoming Shows from Local Artists in ${city}, ${countryCode}:`}</h5>
+              ) : city.length > 1 ? (
+                <h5>{`Saved Upcoming Shows from Local Artists in ${city}:`}</h5>
+              ) : countryCode.length ? (
+                <h5>{`Saved Upcoming Shows in ${countryCode}:`}</h5>
+              ) : (
+                <h5>{`Saved Upcoming Shows:`}</h5>
+              )}
+              <SavedEvents
                 className="upcoming-shows"
-                bands={savedEvents}
+                events={currentSavedEvents}
+                onEventClick={handleEventClick}
                 type="local"
               />
             </div>
@@ -234,8 +322,22 @@ const LocalBandsPage = () => {
           <br />
           <br />
           <div className="eventdiv">
-            <h5>{`Upcoming Shows from Local Artists in ${city}, ${countryCode}:`}</h5>
-            <Event className="upcoming-shows" bands={localBands} type="local" />
+            {city.length > 1 && countryCode.length ? (
+              <h5>{`Upcoming Shows from Local Artists in ${city}, ${countryCode}:`}</h5>
+            ) : city.length > 1 ? (
+              <h5>{`Upcoming Shows from Local Artists in ${city}:`}</h5>
+            ) : countryCode.length ? (
+              <h5>{`Upcoming Shows in ${countryCode}:`}</h5>
+            ) : (
+              <h5>{`Upcoming Shows:`}</h5>
+            )}
+            <Event
+              className="upcoming-shows"
+              bands={localBands}
+              type="local"
+              currentSavedEvents={currentSavedEvents}
+              onEventClick={handleEventClick}
+            />
           </div>
         </>
       ) : null}
