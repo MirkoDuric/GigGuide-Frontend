@@ -6,6 +6,8 @@ import Carousel from "react-grid-carousel";
 const ControlledCarousel = (props) => {
   const bands = props.bands;
   const type = props.type;
+  const onHeartClick = props.onHeartClick;
+  const currentFaveArtists = props.currentFaveArtists;
 
   return (
     <Carousel
@@ -54,17 +56,8 @@ const ControlledCarousel = (props) => {
           hideArrow: false,
           showDots: true,
         },
-        {
-          breakpoint: 350,
-          cols: 1,
-          rows: 1,
-          gap: 10,
-          loop: true,
-          hideArrow: false,
-          showDots: true,
-        },
       ]}
-      mobileBreakpoint={3}
+      mobileBreakpoint={376}
     >
       {bands.length
         ? type === "local"
@@ -84,6 +77,8 @@ const ControlledCarousel = (props) => {
                             : false
                           : false
                       }
+                      onHeartClick={onHeartClick}
+                      currentFaveArtists={currentFaveArtists}
                     />
                   </Carousel.Item>
                 )
@@ -102,7 +97,11 @@ const ControlledCarousel = (props) => {
                             element.ratio === "16_9" && element.height > 150
                         ).url
                       }
-                      id={band.id}
+                      id={
+                        band._embedded.attractions[0]
+                          ? band._embedded.attractions[0].id
+                          : band.id
+                      }
                       touring={
                         band._embedded.attractions[0].upcomingEvents
                           ? band._embedded.attractions[0].upcomingEvents
@@ -111,6 +110,8 @@ const ControlledCarousel = (props) => {
                             : false
                           : false
                       }
+                      onHeartClick={onHeartClick}
+                      currentFaveArtists={currentFaveArtists}
                     />
                   </Carousel.Item>
                 )

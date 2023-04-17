@@ -4,7 +4,17 @@ import { NavLink } from "react-router-dom";
 const Button = (props) => {
   const name = props.name;
 
-  return (
+  return name === "homepage" ? (
+    <NavLink to={`/`}>
+      <Image
+        fluid={true}
+        roundedCircle={true}
+        src={`http://localhost:8000/profile-pics/${name}.png`}
+        alt={name}
+        className="buttons"
+      ></Image>
+    </NavLink>
+  ) : name !== "Logo" ? (
     <NavLink to={`/${name}`}>
       <Image
         fluid={true}
@@ -14,6 +24,14 @@ const Button = (props) => {
         className="buttons"
       ></Image>
     </NavLink>
+  ) : (
+    <Image
+      fluid={true}
+      roundedCircle={true}
+      src={`http://localhost:8000/profile-pics/${name}.png`}
+      alt={name}
+      className="buttons"
+    ></Image>
   );
 };
 

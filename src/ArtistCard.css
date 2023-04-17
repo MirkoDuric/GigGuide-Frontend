@@ -2,13 +2,13 @@
     display:flex;
     flex-direction: column;
     text-align: center;
-    justify-content: center;
+    padding: 0 !important;
 }
 
 .bandName {
     align-self: center;
     justify-content: center;
-    margin: 0 auto;
+    margin: 10% auto;
     font-size: 15px;
     z-index: 1;
 }
@@ -24,4 +24,17 @@
 
 .artistCard {
     margin: 0.2rem
+}
+
+.favorite{
+    width:100%;
+    height:100%;
+}
+.favoritediv{
+    align-self: flex-end;
+    display:flex;
+    justify-content: flex-end;
+    width:10%;
+    height: 15%;
+    z-index: 1000;
 }

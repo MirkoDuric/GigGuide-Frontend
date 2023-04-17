@@ -1,29 +1,62 @@
-import React, { useState, useEffect } from "react";
+import Button from "react-bootstrap/Button";
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+import { countryNames, genreNames } from "../utils";
+
+import "../SearchBar.css";
 
 const SearchBar = (props) => {
-  const [search, setSearch] = useState([]);
-
   return (
-    <form>
-      <div className="row">
-        <div className="col-1"></div>
-        <div className="col-9 searchBardiv">
-          <input
+    <Form>
+      <Row className="searchdiv">
+        <Col className="mb-3" controlId="search">
+          <Form.Control
             type="search"
-            className="form-control"
-            id="searchBarLandingPage"
-            aria-describedby="searchBarLandingPage"
             placeholder="Search"
+            onChange={props.onChange}
           />
-        </div>
-        <div className="col-1 searchButtondiv">
-          <button type="submit" className="btn btn-primary">
-            Search
-          </button>
-        </div>
-        <div className="col-1"></div>
-      </div>
-    </form>
+        </Col>
+      </Row>
+      <Row className="mb-3 subsearchdiv">
+        <Col className="col">
+          <Form.Control
+            type="search"
+            placeholder="City"
+            onChange={props.onChangeCity}
+          />
+        </Col>
+        <Col className="col">
+          <Form.Select onChange={props.onChangeCountry} placeholder="Country">
+            <option key="blankChoice" hidden value>
+              {" "}
+              --Country--{" "}
+            </option>
+            <option>None</option>
+            {countryNames.map((countryName) => {
+              return <option key={countryName}>{countryName}</option>;
+            })}
+          </Form.Select>
+        </Col>
+        <Col className="col">
+          <Form.Select onChange={props.onChangeGenre} placeholder="Genre">
+            <option key="blankChoice" hidden value>
+              {" "}
+              --Genre--{" "}
+            </option>
+            <option>None</option>
+            {genreNames.map((genreName) => {
+              return <option>{genreName}</option>;
+            })}
+          </Form.Select>
+        </Col>
+      </Row>
+      <Col className="submitbuttondiv">
+        <Button variant="primary" onClick={props.onClick}>
+          Search
+        </Button>
+      </Col>
+    </Form>
   );
 };
 

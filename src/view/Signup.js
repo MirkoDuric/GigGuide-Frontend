@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/Signup-Login.css";
 import logo from "../css/logo.png";
+import { countryNames, genreNames } from "../utils";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -18,7 +19,14 @@ const Signup = () => {
   const [userType, setUserType] = useState("fan");
   const [profile, setProfile] = useState({});
   const [email, setEmail] = useState("");
+  const [genre, setGenre] = useState("");
+  const [id, setId] = useState(sessionStorage.getItem("userId"));
 
+  useEffect(() => {
+    if (id) {
+      navigate("/homepage");
+    }
+  });
   const handleSubmit = async (event) => {
     event.preventDefault();
     let formData = new FormData();
@@ -31,6 +39,7 @@ const Signup = () => {
     formData.append("city", city);
     formData.append("country", country);
     formData.append("userType", userType);
+    formData.append("genre", genre);
 
     /*   const payload = {
       name,
@@ -159,12 +168,21 @@ const Signup = () => {
         </Form.Group>
         <Form.Group controlId="formCountry">
           <Form.Label>Country:</Form.Label>
-          <Form.Control
-            type="text"
-            value={country}
+          <Form.Select
             onChange={(e) => setCountry(e.target.value)}
-          />
+            placeholder="Country"
+          >
+            <option key="blankChoice" hidden value>
+              {" "}
+              --Country--{" "}
+            </option>
+            <option>None</option>
+            {countryNames.map((countryName) => {
+              return <option key={countryName}>{countryName}</option>;
+            })}
+          </Form.Select>
         </Form.Group>
+
         <Form.Group controlId="formUserType">
           <Form.Label>Are you a fan or an artist?</Form.Label>
           <Form.Check
@@ -188,6 +206,24 @@ const Signup = () => {
             onChange={(e) => setUserType(e.target.value)}
           />
         </Form.Group>
+        {userType === "Artist" ? (
+          <Form.Group controlId="formGenre">
+            <Form.Label>Genre:</Form.Label>
+            <Form.Select
+              onChange={(e) => setGenre(e.target.value)}
+              placeholder="Genre"
+            >
+              <option key="blankChoice" hidden value>
+                {" "}
+                --Genre--{" "}
+              </option>
+              <option>None</option>
+              {genreNames.map((genreName) => {
+                return <option>{genreName}</option>;
+              })}
+            </Form.Select>
+          </Form.Group>
+        ) : null}
         <Button variant="primary" type="submit">
           Sign Up
         </Button>

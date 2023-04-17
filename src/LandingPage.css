@@ -5,6 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-top: 80px;
 }
 .buttonsdiv {
   display: flex;
@@ -32,11 +33,14 @@
 .BandsCarouseldiv {
   margin-top: 60px;
 }
+.BandsCarouseldiv h5{
+  margin-left: 2rem;
+}
 h5 {
   color: #f5efed;
 }
-.eventdiv {
-  width: 80%;
+.eventdiv{
+  width:100%;
 }
 .buttons {
   width: auto;
@@ -44,3 +48,7 @@ h5 {
   margin-right: 0.5rem;
   margin-left: 0.5rem;
 }
+.noShowsdiv{
+  width: 100%;
+}
+

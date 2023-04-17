@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,7 +10,14 @@ const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const id = sessionStorage.getItem("userId");
+  const navigation = useNavigate();
 
+  useEffect(() => {
+    if (id) {
+      navigation("/homepage");
+    }
+  });
   const handleLogin = async (e) => {
     e.preventDefault();
     const headers = { "Content-Type": "application/json" };
@@ -22,6 +29,12 @@ const Login = () => {
         { headers }
       );
       if (response.status === 200) {
+        const { data } = await response;
+        const token = data.token;
+        const id = data.response._id;
+        sessionStorage.setItem("jwt", token);
+        sessionStorage.setItem("userId", id);
+
         navigate("/homepage");
       } else {
         const errorData = response.data;
