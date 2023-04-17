@@ -151,6 +151,9 @@ const HomePage = () => {
 
   useEffect(() => {
     setIsLoading(true);
+    if (!id) {
+      navigation("/");
+    }
     if (id) {
       axios
         .get(`http://localhost:8000/api/artists/${id}`)
