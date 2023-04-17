@@ -47,7 +47,7 @@ const ControlledCarousel = (props) => {
           hideArrow: false,
           showDots: true,
         },
-        {
+        /*  {
           breakpoint: 576,
           cols: 2,
           rows: 1,
@@ -55,9 +55,9 @@ const ControlledCarousel = (props) => {
           loop: true,
           hideArrow: false,
           showDots: true,
-        },
+        }, */
       ]}
-      mobileBreakpoint={376}
+      mobileBreakpoint={576}
     >
       {bands.length
         ? type === "local"
