@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Signup from "./view/Signup";
 import Login from "./view/Login";
 import FanProfilepage from "./view/FanProfilepage";
+import ArtistProfilepage from "./view/ArtistProfilepage";
 import LandingPage from "./view/Landingpage";
 import HomePage from "./view/Homepage";
 import SearchPage from "./view/Searchpage";
