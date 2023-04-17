@@ -1,0 +1,156 @@
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #0f110c;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+.img-container {
+  position: relative;
+}
+.banner-img {
+  min-height: 250px;
+  background-color: #f5efed;
+  width: 100%;
+  object-fit: cover;
+}
+.no-banner-img {
+  min-height: 250px;
+  background-color: #f5efed;
+  min-width: 100%;
+}
+.profile-img {
+  position: relative;
+  top: -70px;
+  left: 20px;
+  height: 100px;
+  outline: solid 3px #f5efed;
+}
+.no-profile-img {
+  position: relative;
+  top: -70px;
+  left: 20px;
+  min-height: 110px;
+  outline: solid 3px #0f110c;
+}
+.name-location-container {
+  position: relative;
+  top: -55px;
+  left: 20px;
+}
+.name-and-age {
+  color: #f5efed;
+  font-size: 33px;
+  font-weight: 300;
+  margin: 0;
+}
+.name-and-age .age {
+  opacity: 0.6;
+}
+.name-location-container .username {
+  color: #f5efed;
+  opacity: 0.6;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 300;
+}
+.events-and-fav-artist-contaiener {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 90%;
+  padding: 15px;
+  gap: 40px;
+  padding-bottom: 50px;
+}
+.saved-upcoming-events {
+  color: #f5efed;
+  margin: 0 auto;
+  width: 100%;
+}
+.saved-events-title {
+  font-size: 25px;
+  font-weight: 300;
+}
+.no-saved-events {
+  font-size: 20px;
+  font-weight: 200;
+}
+
+.favourite-artists-title {
+  color: #f5efed;
+  font-size: 25px;
+  font-weight: 300;
+}
+.favourite-artists-events {
+  color: #f5efed;
+  font-size: 25px;
+  font-weight: 300;
+}
+/* EXTRA ELEMENTS FOR ARTIST PROFILEPAGE */
+.name-location-container .name {
+  color: #f5efed;
+  font-size: 33px;
+  font-weight: 300;
+  margin: 0;
+}
+.artist-bio {
+  width: 80%;
+  margin: 0 auto;
+}
+.bio-title {
+  font-size: 25px;
+  font-weight: 300;
+  color: #f5efed;
+}
+.bio-div {
+  background-color: #f5efed;
+  height: 20vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 15px;
+}
+.edit-bio-button {
+  font-size: 12px;
+  width: fit-content;
+  background-color: #0f110c;
+  outline: #0f110c 1px solid;
+  border: none;
+}
+.bio-textarea {
+  display: flex;
+  flex-direction: column;
+  height: 15vh;
+}
+.create-event-button {
+  font-size: 12px;
+  width: fit-content;
+  background-color: #f5efed;
+  outline: #0f110c 1px solid;
+  border: none;
+  color: #0f110c;
+}
+.artist-songs-section {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin: 0 auto;
+  gap: 5px;
+}
+.songs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.add-song-button {
+  font-size: 12px;
+  width: fit-content;
+  background-color: #f5efed;
+  outline: #0f110c 1px solid;
+  border: none;
+  color: #0f110c;
+}
+/* .modal-add-song-button{
+
+} */

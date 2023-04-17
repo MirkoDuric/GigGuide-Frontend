@@ -20,8 +20,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/homepage" element={<HomePage />} />
         <Route path="/localartists" element={<LocalBandsPage />} />
-        <Route path="/user/fan/:id" element={<FanProfilepage />} />
-        <Route path="/artist/:id" element={<FanProfilepage />} />
+        <Route path="/user/fan" element={<FanProfilepage />} />
+        <Route path="/artist" element={<ArtistProfilepage />} />
         <Route
           path="/search/:name/:country/:city/:genre"
           element={<SearchPage />}
