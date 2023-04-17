@@ -17,7 +17,7 @@ const Login = () => {
     if (id) {
       navigation("/homepage");
     }
-  });
+  }, []);
   const handleLogin = async (e) => {
     e.preventDefault();
     const headers = { "Content-Type": "application/json" };
