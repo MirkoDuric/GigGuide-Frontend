@@ -2,13 +2,12 @@ import { Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Signup from "./view/Signup";
 import Login from "./view/Login";
-import FanProfilepage from "./view/FanProfilepage";
-import ArtistProfilepage from "./view/ArtistProfilepage";
 import LandingPage from "./view/Landingpage";
 import HomePage from "./view/Homepage";
 import SearchPage from "./view/Searchpage";
 import CustomNav from "./Components/CustomNav";
 import LocalBandsPage from "./view/Localbandspage";
+import UserProfilepage from "./view/UserProfilepage";
 
 // import "./App.css";
 const App = () => {
@@ -21,8 +20,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/homepage" element={<HomePage />} />
         <Route path="/localartists" element={<LocalBandsPage />} />
-        <Route path="/user/fan" element={<FanProfilepage />} />
-        <Route path="/artist" element={<ArtistProfilepage />} />
+        <Route path="/userprofile" element={<UserProfilepage />} />
+
         <Route
           path="/search/:name/:country/:city/:genre"
           element={<SearchPage />}

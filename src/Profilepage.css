@@ -10,12 +10,14 @@
 }
 .banner-img {
   min-height: 250px;
+  max-height: 380px;
   background-color: #f5efed;
   width: 100%;
   object-fit: cover;
 }
 .no-banner-img {
   min-height: 250px;
+  max-height: 380px;
   background-color: #f5efed;
   min-width: 100%;
 }
@@ -23,7 +25,8 @@
   position: relative;
   top: -70px;
   left: 20px;
-  height: 100px;
+  min-height: 130px;
+  max-height: 160px;
   outline: solid 3px #f5efed;
 }
 .no-profile-img {
@@ -103,6 +106,7 @@
   font-weight: 300;
   color: #f5efed;
 }
+
 .bio-div {
   background-color: #f5efed;
   height: 20vh;
@@ -123,6 +127,14 @@
   flex-direction: column;
   height: 15vh;
 }
+.modal-submit-button.bio {
+  border: #0f110c 1px solid;
+}
+.event-list-title {
+  font-size: 25px;
+  font-weight: 300;
+  color: #f5efed;
+}
 .create-event-button {
   font-size: 12px;
   width: fit-content;
@@ -138,6 +150,11 @@
   margin: 0 auto;
   gap: 5px;
 }
+.song-list-title {
+  font-size: 25px;
+  font-weight: 300;
+  color: #f5efed;
+}
 .songs-container {
   display: flex;
   flex-direction: column;
@@ -150,7 +167,14 @@
   outline: #0f110c 1px solid;
   border: none;
   color: #0f110c;
+  margin-bottom: 25px;
 }
-/* .modal-add-song-button{
-
-} */
+.modal-submit-button {
+  background-color: #0f110c;
+  outline: #0f110c 1px solid;
+  border: none;
+  font-size: 12px;
+  width: fit-content;
+  margin-top: 5px;
+  height: fit-content;
+}

@@ -14,36 +14,31 @@ import { InputGroup, FormControl, Button } from "react-bootstrap";
 import Badge from "react-bootstrap/Badge";
 import ListGroup from "react-bootstrap/ListGroup";
 import { Modal, Form } from "react-bootstrap";
+import Datetime from "react-datetime";
+import moment from "moment";
 
-const ArtistProfilepage = () => {
+const ArtistProfilepage = (userData) => {
   //Mock data for artist user
-  const [artistUser, setArtistUser] = useState({
-    id: "",
-    name: "Domino Efekt",
-    username: "Dominoefekt",
-    city: "Bijeljina",
-    country: "Bosnia and Herzegovina",
-    upcomingShows: [
-      {
-        eventName: "Prva svirka",
-        artistName: "Domino Efekt",
-        eventDate: "2023-05-25T00:00:00.000Z",
-        eventVenue: "Pub Fort",
-        eventAddress: "Vojvode Misica 1, 74213, Doboj, BiH",
-        eventInfo: "Ulaz besplatan. Lijep provod!",
-      },
-    ],
-    songs: [
-      { name: "song one", duration: "4:32", releaseDate: "January 1, 1970" },
-      { name: "song two", duration: "4:32", releaseDate: "January 1, 1970" },
-    ],
-    userProfileImg: "",
-    userBannerImg: "",
-    bio: "Mi smo jedan manji bend iz Bijeljine. Lendice smo",
-  });
+  const user = userData.userData;
+  const {
+    userUsername,
+    userName,
+    userAge,
+    userCity,
+    userCountry,
+    userProfileImg,
+    userBannerImg,
+    favouriteArtists,
+    bio,
+    songsList,
+    upcomingEvents,
+    userType,
+  } = user;
+
+  const id = sessionStorage.getItem("userId");
 
   //STATE VARIABLES AND FUNCTIONS FOR CREATING BIO CONTENT
-  const [content, setContent] = useState(artistUser.bio);
+  const [content, setContent] = useState(bio);
   const [isEditMode, setIsEditMode] = useState(false);
 
   const handleContentChange = (e) => {
@@ -54,15 +49,38 @@ const ArtistProfilepage = () => {
     setIsEditMode(true);
   };
 
-  const handleUpdateButtonClick = () => {
-    setIsEditMode(false);
+  const handleUpdateButtonClick = (e) => {
+    e.preventDefault();
+    const payload = { bio: content };
+    const headers = { "Content-Type": "application/json" };
+    axios
+      .put(
+        `http://localhost:8000/api/user/${id}/biography`,
+        JSON.stringify(payload),
+        {
+          headers,
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsEditMode(false);
+        window.location.reload();
+      });
   };
+
   // MODAL DATA FOR CREATING NEW SONGS
   const [showSongsModal, setShowSongsModal] = useState(false);
   const [newSong, setNewSong] = useState({
     name: "",
     duration: "",
+    url: "",
     releaseDate: "",
+    album: "",
   });
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -71,58 +89,82 @@ const ArtistProfilepage = () => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
+    const headers = { "Content-Type": "application/json" };
+    const payload = newSong;
     // Send the new song to the server using Axios
-    axios.post("/api/add-song", newSong).then((response) => {
-      // Update the artistUser object with the new song
-      setArtistUser((prevArtistUser) => ({
-        ...prevArtistUser,
-        songs: [...prevArtistUser.songs, response.data],
-      }));
-      // Hide the modal
-      setShowSongsModal(false);
-    });
+    axios
+      .put(`http://localhost:8000/api/user/${id}/song`, payload, { headers })
+      .then((response) => {
+        console.log("MY NEW SONG IS IN DB", response.data);
+      })
+      .catch((err) => {
+        console.log("DID'T ADD MY NEW SONG", err);
+      })
+      .finally(() => {
+        // Hide the modal
+        setShowSongsModal(false);
+        setNewSong({
+          name: "",
+          duration: "",
+          url: "",
+          releaseDate: "",
+          album: "",
+        });
+        window.location.reload();
+      });
   };
   //MODAL DATA FOR CREATING NEW EVENT
   const [showEventModal, setShowEventModal] = useState(false);
   const [eventName, setEventName] = useState("");
   const [eventAddress, setEventAddress] = useState("");
   const [eventDate, setEventDate] = useState("");
-  const [eventTime, setEventTime] = useState("");
   const [eventVenue, setEventVenue] = useState("");
   const [eventInfo, setEventInfo] = useState("");
-
+  console.log("MY EVENT TIME", eventDate._d);
   const handleEventSubmit = (e) => {
     e.preventDefault();
     const newEvent = {
       eventName,
-      artistName: artistUser.name,
-      eventAddress,
-      eventDate: new Date(eventDate + "T" + eventTime + ":00").toISOString(),
-      eventVenue,
-      eventInfo,
+      artistName: userName,
+      date: new Date(eventDate._d).toISOString(),
+      venue: eventVenue,
+      address: eventAddress,
+      info: eventInfo,
     };
-    // send newEvent object to database with axios.post or similar method
-    // and then update the artistUser object with the new event
-    // for example, you could do:
-    // artistUser.upcomingShows.push(newEvent);
-    // and then close the modal and reset the form inputs
-    setShowEventModal(false);
-    setEventName("");
-    setEventAddress("");
-    setEventDate("");
-    setEventTime("");
-    setEventVenue("");
-    setEventInfo("");
+
+    const headers = { "Content-Type": "application/json" };
+    const payload = newEvent;
+
+    axios
+      .put(`http://localhost:8000/api/user/${id}/upcomingEvent`, payload, {
+        headers,
+      })
+      .then((response) => {
+        console.log(response.data); // log the newly created event object
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setShowEventModal(false);
+        setEventName("");
+        setEventAddress("");
+        setEventDate("");
+        setEventVenue("");
+        setEventInfo("");
+        window.location.reload();
+      });
   };
+
   return (
     <main className="profile-container">
       <section className="img-container">
         <article>
-          {artistUser.userBannerImg ? (
+          {userBannerImg ? (
             <Image
               fluid={true}
               className="banner-img"
-              src={`http://localhost:8000/${artistUser.userBannerImg}`}
+              src={`http://localhost:8000/${userBannerImg}`}
               alt="Banner img"
             />
           ) : (
@@ -130,12 +172,12 @@ const ArtistProfilepage = () => {
           )}
         </article>
         <article>
-          {artistUser.userProfileImg ? (
+          {userProfileImg ? (
             <Image
               fluid={true}
               className="profile-img"
               roundedCircle={true}
-              src={`http://localhost:8000/${artistUser.userProfileImg}`}
+              src={`http://localhost:8000/${userProfileImg}`}
               alt="Profile img"
             />
           ) : (
@@ -150,12 +192,12 @@ const ArtistProfilepage = () => {
       </section>
       <section className="name-location-container">
         <article>
-          <p className="name">{artistUser.name}</p>
-          <p className="username">{artistUser.username}</p>
+          <p className="name">{userName}</p>
+          <p className="username">{userUsername}</p>
         </article>
       </section>
       <section className="artist-bio">
-        <p className="bio-title">{artistUser.name} Biography:</p>
+        <p className="bio-title">{userName} Biography:</p>
         <div className="bio-div">
           {isEditMode ? (
             <InputGroup>
@@ -166,7 +208,12 @@ const ArtistProfilepage = () => {
                 onChange={handleContentChange}
                 className="bio-textarea"
               />
-              <Button onClick={() => handleUpdateButtonClick()}>Update</Button>
+              <Button
+                className="modal-submit-button bio"
+                onClick={handleUpdateButtonClick}
+              >
+                Update
+              </Button>
             </InputGroup>
           ) : (
             <>
@@ -183,12 +230,10 @@ const ArtistProfilepage = () => {
       </section>
       <section className="events-and-fav-artist-contaiener">
         <article className="favourite-artists-events">
-          <p className="favourite-artists-events">
-            {artistUser.name} upcoming shows:
-          </p>
+          <p className="event-list-title">{userName} upcoming shows:</p>
           <Accordion className="accordion">
-            {artistUser.upcomingShows.length
-              ? artistUser.upcomingShows.map((show, index) => {
+            {upcomingEvents.length
+              ? upcomingEvents.map((show, index) => {
                   return show?.eventName ? (
                     <AccordionItem eventKey={index}>
                       <AccordionHeader className="row">
@@ -210,12 +255,10 @@ const ArtistProfilepage = () => {
                       <AccordionBody>
                         <div className="row">
                           <h3>{show.eventVenue ?? ""}</h3>
-                          <p className="venueAddress">
-                            {show.eventAddress ?? ""}
-                          </p>
+                          <p className="venueAddress">{show.address ?? ""}</p>
                         </div>
                         <div className="row">
-                          <p>{show.eventInfo ?? ""}</p>
+                          <p>{show.info ?? ""}</p>
                         </div>
                       </AccordionBody>
                     </AccordionItem>
@@ -257,10 +300,10 @@ const ArtistProfilepage = () => {
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Event date and time</Form.Label>
-                  {/* <Datetime
+                  <Datetime
                     onChange={(value) => setEventDate(value)}
                     required
-                  /> */}
+                  />
                 </Form.Group>
                 <Form.Group>
                   <Form.Label>Event venue</Form.Label>
@@ -281,7 +324,11 @@ const ArtistProfilepage = () => {
                     required
                   />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button
+                  className="modal-submit-button"
+                  variant="primary"
+                  type="submit"
+                >
                   Submit
                 </Button>
               </Form>
@@ -290,11 +337,11 @@ const ArtistProfilepage = () => {
         </article>
       </section>
       <section className="artist-songs-section">
-        <p>{artistUser.name}, songs:</p>
+        <p className="song-list-title">{userName}, songs:</p>
         <article className="songs-container">
-          {artistUser.songs.length ? (
+          {songsList.length ? (
             <ListGroup as="ol" numbered>
-              {artistUser.songs.map((song) => {
+              {songsList.map((song) => {
                 return (
                   <ListGroup.Item
                     as="li"
@@ -302,7 +349,13 @@ const ArtistProfilepage = () => {
                   >
                     <div className="ms-2 me-auto">
                       <div className="fw-bold">{song.name}</div>
-                      Release date: {song.releaseDate}
+                      Release date:{" "}
+                      {new Date(song.releaseDate).toLocaleDateString("en-US", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
                     </div>
                     <Badge bg="primary" pill>
                       Song duration: {song.duration}
@@ -325,7 +378,7 @@ const ArtistProfilepage = () => {
             <Modal.Body>
               <Form onSubmit={handleFormSubmit}>
                 <Form.Group controlId="songName">
-                  <Form.Label>Song Name</Form.Label>
+                  <Form.Label>Song Name*</Form.Label>
                   <Form.Control
                     type="text"
                     name="name"
@@ -344,6 +397,16 @@ const ArtistProfilepage = () => {
                     required
                   />
                 </Form.Group>
+                <Form.Group controlId="songUrl">
+                  <Form.Label>Song URL(optional)</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="url"
+                    value={newSong.url}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </Form.Group>
                 <Form.Group controlId="songReleaseDate">
                   <Form.Label>Release Date</Form.Label>
                   <Form.Control
@@ -354,7 +417,17 @@ const ArtistProfilepage = () => {
                     required
                   />
                 </Form.Group>
-                <Button className="modal-add-song-button" type="submit">
+                <Form.Group controlId="songAlbum">
+                  <Form.Label>Album(optional)</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="album"
+                    value={newSong.album}
+                    onChange={handleInputChange}
+                    required
+                  />
+                </Form.Group>
+                <Button className="modal-submit-button" type="submit">
                   Add Song
                 </Button>
               </Form>

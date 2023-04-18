@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Image } from "react-bootstrap";
 import Figure from "react-bootstrap/Figure";
@@ -11,35 +11,24 @@ import Carousel from "react-grid-carousel";
 import "../Profilepage.css";
 import "../ArtistCard.css";
 import ArtistCard from "../Components/ArtistCard";
+import LoadingIndicator from "../Components/LoadingIndicator";
 
-const FanProfilepage = () => {
+const FanProfilepage = (userData) => {
   const [index, setIndex] = useState(0);
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
-  const [isLoading, setIsLoading] = useState(true);
+  const navigation = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [user, setUser] = useState({
-    userUsername: "gio",
-    userName: "Ognjen Misic",
-    userAge: "33",
-    userCity: "Banja Luka",
-    userCountry: "Bosnia and Herzegovina",
-    userProfileImg: "",
-    userBannerImg: "",
-    favouriteArtistsNames: [
-      { id: "642b2691cd5be26afe2a878d", name: "Jack Yellow" },
-      { id: "K8vZ917Gp47", name: "Drake" },
-    ],
-    userPlanedEvents: [],
-  });
+  const user = userData.userData;
 
   //data that I got once I filtered the list of local artists based on the n
   const [favouriteLocalArtists, setFavouriteLocalArtists] = useState([]);
   // getting all mainstream artists from ticketmaster
   const [mainstreamArtists, setMainstreamArtists] = useState([]);
 
-  const { id } = useParams();
+  // const id = sessionStorage.getItem("userId");
 
   const {
     userUsername,
@@ -49,15 +38,15 @@ const FanProfilepage = () => {
     userCountry,
     userProfileImg,
     userBannerImg,
-    favouriteArtistsNames,
+    favouriteArtists,
     planedEvents,
   } = user;
 
   // getting basic user data
   useEffect(() => {
+    console.log(user);
     let localArtist = [];
-
-    for (const artist of favouriteArtistsNames) {
+    for (const artist of favouriteArtists) {
       axios
         .get(`http://localhost:8000/api/artists/${artist.id}`)
         .then((res) => {
@@ -256,6 +245,7 @@ const FanProfilepage = () => {
                   return artist ? (
                     <Carousel.Item key={index}>
                       <ArtistCard
+                        currentFaveArtists={artist}
                         className="band"
                         name={artist.name}
                         id={artist._id}
@@ -271,6 +261,7 @@ const FanProfilepage = () => {
                     <Carousel.Item key={index + favouriteLocalArtists.length}>
                       <ArtistCard
                         className="band"
+                        currentFaveArtists={artist}
                         name={artist.name}
                         id={artist.id}
                         profilePicture={
@@ -292,7 +283,7 @@ const FanProfilepage = () => {
             Your favourite artists events :
           </p>
           <Accordion className="accordion">
-            {favouriteLocalArtists.length
+            {favouriteLocalArtists.length !== 0
               ? favouriteLocalArtists.map((artist, index) => {
                   return artist?.upcomingEvents ? (
                     <AccordionItem eventKey={index}>
@@ -335,7 +326,7 @@ const FanProfilepage = () => {
                   ) : null;
                 })
               : null}
-            {mainstreamArtists.length
+            {mainstreamArtists.length !== 0
               ? mainstreamArtists.map((artist, index) => {
                   return artist ? (
                     <AccordionItem

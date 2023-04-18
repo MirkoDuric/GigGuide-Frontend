@@ -48,7 +48,7 @@ const CustomNav = (props) => {
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
               <Nav.Link href={`/homepage`}>Home</Nav.Link>
-              <Nav.Link href={`/user/fan/${id}`}>Profile</Nav.Link>
+              <Nav.Link href={`/userprofile`}>Profile</Nav.Link>
               <Nav.Link href={`/search/0/0/0/0`}>Search</Nav.Link>
               <Nav.Link href={`/localartists`}>Local Artists</Nav.Link>
               <Nav.Link href={`/user/fan/${id}/events`}>My Events</Nav.Link>
