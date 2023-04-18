@@ -10,7 +10,7 @@ const SearchBar = (props) => {
   return (
     <Form>
       <Row className="searchdiv">
-        <Col className="mb-3" controlId="search">
+        <Col className="mb-3 searchbar" controlId="search">
           <Form.Control
             type="search"
             placeholder="Search"
@@ -51,7 +51,7 @@ const SearchBar = (props) => {
           </Form.Select>
         </Col>
       </Row>
-      <Col className="submitbuttondiv">
+      <Col className="submitbuttondiv mb-3">
         <Button variant="primary" onClick={props.onClick}>
           Search
         </Button>

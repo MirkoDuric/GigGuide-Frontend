@@ -20,9 +20,13 @@ const Searchpage = () => {
   const [newGenre, setNewGenre] = useState("");
   const [newCity, setNewCity] = useState("");
   const [newCountry, setNewCountry] = useState("");
+  const [currentFaveArtists, setCurrentFaveArtists] = useState([]);
+  const [currentSavedEvents, setCurrentSavedEvents] = useState([]);
 
   const genreId = getGenreId(genre);
   const countryCode = getCountryCode(country);
+
+  const id = sessionStorage.getItem("userId");
 
   const handleChange = (e) => {
     setNewSearch(e.target.value);
@@ -43,6 +47,62 @@ const Searchpage = () => {
   const handleClick = (e) => {
     e.preventDefault();
     navigation(`/search/${newSearch}/${newCountry}/${newCity}/${newGenre}`);
+  };
+
+  const handleEventClick = async (e) => {
+    e.preventDefault();
+    let eventInfo = "";
+    let plannedEvents = currentSavedEvents;
+    const band = JSON.parse(e.target.title);
+    if (e.target.id) {
+      const event = JSON.parse(e.target.id);
+      eventInfo = {
+        id: event._id,
+        ticketUrl: event.ticketUrl,
+        profilePicture: band.profilePicture,
+        name: band.name,
+        date: event.date,
+        startTime: event.startTime,
+        venue: event.venue,
+        address: event.address,
+        info: event.info,
+      };
+    } else {
+      eventInfo = band;
+      console.log(eventInfo);
+    }
+    if (e.target.value === "Save Event") {
+      if (currentSavedEvents.length > 0) {
+        setCurrentSavedEvents([...currentSavedEvents, eventInfo]);
+        plannedEvents = [...currentSavedEvents, eventInfo];
+      } else {
+        setCurrentSavedEvents([eventInfo]);
+        plannedEvents = [eventInfo];
+      }
+    } else {
+      setCurrentSavedEvents(
+        currentSavedEvents.filter((event) => event.id !== eventInfo.id)
+      );
+      plannedEvents = currentSavedEvents.filter(
+        (event) => event.id !== eventInfo.id
+      );
+    }
+    if (id) {
+      const payload = { plannedEvents };
+      try {
+        const response = await axios.put(
+          `http://localhost:8000/api/user/${id}/plannedEvents`,
+          payload
+        );
+        console.log(response);
+      } catch (err) {
+        if (err.status === 404) {
+          console.log("Resource could not be found!");
+        } else {
+          console.log(err.message);
+        }
+      }
+    }
   };
 
   useEffect(() => {
@@ -128,7 +188,12 @@ const Searchpage = () => {
             <h5>{`Upcoming Shows:`}</h5>
           )}
 
-          <Event bands={bands} type="non-local" />
+          <Event
+            bands={bands}
+            type="non-local"
+            onEventClick={handleEventClick}
+            currentSavedEvents={currentSavedEvents}
+          />
         </div>
       ) : (
         <div className="eventdiv">
@@ -161,12 +226,18 @@ const Searchpage = () => {
           ) : countryCode.length ? (
             <h5>{`Upcoming Shows in ${countryCode}:`}</h5>
           ) : (
-            <h5>{`Upcoming Shows:`}</h5>
+            <h5>{`Upcoming Shows from Local Artists:`}</h5>
           )}
-          <Event className="upcoming-shows" bands={localBands} type="local" />
+          <Event
+            className="upcoming-shows"
+            bands={localBands}
+            type="local"
+            onEventClick={handleEventClick}
+            currentSavedEvents={currentSavedEvents}
+          />
         </div>
       ) : (
-        <div>No Matching Restults</div>
+        <div>No Matching Results</div>
       )}
     </div>
   );

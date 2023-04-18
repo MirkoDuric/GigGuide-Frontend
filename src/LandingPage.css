@@ -5,7 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 80px;
+  padding-top: 90px;
 }
 .buttonsdiv {
   display: flex;
@@ -16,7 +16,15 @@
   justify-content: flex-start;
   align-items: center;
 }
+.searchbardiv{
+  width:90%;
+}
 
+@media screen and (max-width: 515px) {
+  .searchbardiv {
+     width:100%;
+  }
+}
 .titlespan {
   font-weight: 200;
   font-size: 2.4rem;
@@ -35,6 +43,47 @@
 }
 .BandsCarouseldiv h5{
   margin-left: 2rem;
+}
+@media screen and (min-width: 376px) {
+  .BandsCarouseldiv {
+     width: 90%;
+  }
+}
+@media screen and (min-width: 476px) {
+  .BandsCarouseldiv {
+     width: 80%;
+  }
+}
+@media screen and (min-width: 520px) {
+  .BandsCarouseldiv {
+     width: 70%;
+  }
+}
+@media screen and (min-width: 576px) {
+  .BandsCarouseldiv {
+     width: 100%;
+  }
+}
+
+@media screen and (min-width: 376px) {
+  .localBandsCarouseldiv {
+     width: 90%;
+  }
+}
+@media screen and (min-width: 476px) {
+  .localBandsCarouseldiv {
+     width: 80%;
+  }
+}
+@media screen and (min-width: 520px) {
+  .localBandsCarouseldiv {
+     width: 70%;
+  }
+}
+@media screen and (min-width: 576px) {
+  .localBandsCarouseldiv {
+     width: 100%;
+  }
 }
 h5 {
   color: #f5efed;

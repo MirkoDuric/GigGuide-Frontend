@@ -6,10 +6,16 @@
 .searchdiv{
     display:flex;
     justify-content: center;
+    width:100%;
+    margin: 0 !important;;
 }
 .subsearchdiv{
     display:flex;
     justify-content: center;
+}
+.searchbar{
+   padding-left: 0;
+   padding-right: 0;
 }
 
 

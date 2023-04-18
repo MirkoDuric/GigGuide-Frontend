@@ -74,7 +74,7 @@ const Event = (props) => {
                                 <p className="eventInfo">{event.info}</p>
                               </div>
                             </Nav.Link>
-                            <div className="col-1">
+                            <div className="col-5 col-sm-3 saveEventdiv">
                               {id ? (
                                 currentSavedEvents.length ? (
                                   currentSavedEvents.find(
@@ -180,7 +180,7 @@ const Event = (props) => {
                                 <p className="eventInfo">{event.info}</p>
                               </div>
                             </Nav.Link>
-                            <div className="col-1">
+                            <div className="col-5 col-sm-3 saveEventdiv">
                               {id ? (
                                 currentSavedEvents.length ? (
                                   currentSavedEvents.find(
@@ -300,7 +300,7 @@ const Event = (props) => {
                               <p className="eventInfo">{band.info}</p>
                             </div>
                           </Nav.Link>
-                          <div className="col-1">
+                          <div className="col-5 col-sm-3 saveEventdiv">
                             {id ? (
                               currentSavedEvents.length ? (
                                 currentSavedEvents.find(
@@ -398,7 +398,7 @@ const Event = (props) => {
                               <p className="eventInfo">{band.info}</p>
                             </div>
                           </Nav.Link>
-                          <div className="col-1">
+                          <div className="col-5 col-sm-3 saveEventdiv">
                             {id ? (
                               currentSavedEvents.length ? (
                                 currentSavedEvents.find(
@@ -508,7 +508,7 @@ const Event = (props) => {
                             <p className="eventInfo">{band.info}</p>
                           </div>
                         </Nav.Link>
-                        <div className="col-1">
+                        <div className="col-5 col-sm-3 saveEventdiv">
                           {id ? (
                             currentSavedEvents.length ? (
                               currentSavedEvents.find(
@@ -606,7 +606,7 @@ const Event = (props) => {
                             <p className="eventInfo">{band.info}</p>
                           </div>
                         </Nav.Link>
-                        <div className="col-1">
+                        <div className="col-5 col-sm-3 saveEventdiv">
                           {id ? (
                             currentSavedEvents.length ? (
                               currentSavedEvents.find(
