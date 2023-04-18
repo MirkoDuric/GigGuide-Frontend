@@ -104,7 +104,7 @@ const HomePage = () => {
         id: event._id,
         ticketUrl: event.ticketUrl,
         profilePicture: band.profilePicture,
-        name: band.name,
+        artistName: band.name,
         date: event.date,
         startTime: event.startTime,
         venue: event.venue,

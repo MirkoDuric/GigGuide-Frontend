@@ -155,7 +155,7 @@ const ArtistProfilepage = (userData) => {
         window.location.reload();
       });
   };
-
+  console.log(upcomingEvents);
   return (
     <main className="profile-container">
       <section className="img-container">
@@ -230,10 +230,11 @@ const ArtistProfilepage = (userData) => {
       </section>
       <section className="events-and-fav-artist-contaiener">
         <article className="favourite-artists-events">
-          <p className="event-list-title">{userName} upcoming shows:</p>
+          <p className="event-list-title">{userName} Upcoming Shows:</p>
           <Accordion className="accordion">
             {upcomingEvents.length
               ? upcomingEvents.map((show, index) => {
+                  console.log(show.eventName);
                   return show?.eventName ? (
                     <AccordionItem eventKey={index}>
                       <AccordionHeader className="row">

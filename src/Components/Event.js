@@ -31,7 +31,9 @@ const Event = (props) => {
                         >
                           <AccordionHeader className="row">
                             <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                              <Nav.Link href={`https://${event.ticketUrl}`}>
+                              <Nav.Link
+                                href={`/${band._id}/event/${event._id}`}
+                              >
                                 <Figure>
                                   <Figure.Image
                                     width={"100%"}
@@ -65,13 +67,17 @@ const Event = (props) => {
                             </div>
                           </AccordionHeader>
                           <Accordion.Body>
-                            <Nav.Link href={`https://${event.ticketUrl}`}>
-                              <div className="row">
-                                <p>{event.venue} </p>
-                                <p className="venueAddress">{event.address}</p>
-                              </div>
-                              <div className="row">
-                                <p className="eventInfo">{event.info}</p>
+                            <Nav.Link href={`/${band._id}/event/${event._id}`}>
+                              <div className="col-7 col-sm-9">
+                                <div className="row">
+                                  <p>{event.venue} </p>
+                                  <p className="venueAddress">
+                                    {event.address}
+                                  </p>
+                                </div>
+                                <div className="row">
+                                  <p className="eventInfo">{event.info}</p>
+                                </div>
                               </div>
                             </Nav.Link>
                             <div className="col-5 col-sm-3 saveEventdiv">
@@ -137,7 +143,9 @@ const Event = (props) => {
                         >
                           <AccordionHeader className="row">
                             <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                              <Nav.Link href={`https://${event.ticketUrl}`}>
+                              <Nav.Link
+                                href={`/${band._id}/event/${event._id}`}
+                              >
                                 <Figure>
                                   <Figure.Image
                                     width={"100%"}
@@ -171,13 +179,17 @@ const Event = (props) => {
                             </div>
                           </AccordionHeader>
                           <Accordion.Body>
-                            <Nav.Link href={`https://${event.ticketUrl}`}>
-                              <div className="row">
-                                <p>{event.venue} </p>
-                                <p className="venueAddress">{event.address}</p>
-                              </div>
-                              <div className="row">
-                                <p className="eventInfo">{event.info}</p>
+                            <Nav.Link href={`/${band._id}/event/${event._id}`}>
+                              <div className="col-7 col-sm-9">
+                                <div className="row">
+                                  <p>{event.venue} </p>
+                                  <p className="venueAddress">
+                                    {event.address}
+                                  </p>
+                                </div>
+                                <div className="row">
+                                  <p className="eventInfo">{event.info}</p>
+                                </div>
                               </div>
                             </Nav.Link>
                             <div className="col-5 col-sm-3 saveEventdiv">
@@ -246,7 +258,9 @@ const Event = (props) => {
                       <AccordionItem type={type} eventKey={eventKey}>
                         <AccordionHeader className="row">
                           <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                            <Nav.Link href={`${band.url}`}>
+                            <Nav.Link
+                              href={`/${band._embedded.attractions[0].id}/event/${band.id}`}
+                            >
                               <Figure>
                                 <Figure.Image
                                   width={"100%"}
@@ -284,20 +298,24 @@ const Event = (props) => {
                           </div>
                         </AccordionHeader>
                         <Accordion.Body>
-                          <Nav.Link href={`${band.url}`}>
-                            <div className="row">
-                              <h4>{band._embedded.venues[0].name}</h4>
+                          <Nav.Link
+                            href={`/${band._embedded.attractions[0].id}/event/${band.id}`}
+                          >
+                            <div className="col-7 col-sm-9">
+                              <div className="row">
+                                <h4>{band._embedded.venues[0].name}</h4>
 
-                              <p className="venueAddress">
-                                {band._embedded.venues[0].address.line1},{" "}
-                                {band._embedded.venues[0].city.name},{" "}
-                                {band._embedded.venues[0].state.name}{" "}
-                                {band._embedded.venues[0].postalCode},{" "}
-                                {band._embedded.venues[0].country.name}
-                              </p>
-                            </div>
-                            <div className="row">
-                              <p className="eventInfo">{band.info}</p>
+                                <p className="venueAddress">
+                                  {band._embedded.venues[0].address.line1},{" "}
+                                  {band._embedded.venues[0].city.name},{" "}
+                                  {band._embedded.venues[0].state.name}{" "}
+                                  {band._embedded.venues[0].postalCode},{" "}
+                                  {band._embedded.venues[0].country.name}
+                                </p>
+                              </div>
+                              <div className="row">
+                                <p className="eventInfo">{band.info}</p>
+                              </div>
                             </div>
                           </Nav.Link>
                           <div className="col-5 col-sm-3 saveEventdiv">
@@ -345,7 +363,9 @@ const Event = (props) => {
                       <AccordionItem type={type} eventKey={eventKey}>
                         <AccordionHeader className="row">
                           <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                            <Nav.Link href={band._embedded.venues[0].url}>
+                            <Nav.Link
+                              href={`/${band._embedded.attractions[0].id}/event/${band.id}`}
+                            >
                               <Figure>
                                 <Figure.Image
                                   width={"100%"}
@@ -383,19 +403,23 @@ const Event = (props) => {
                           </div>
                         </AccordionHeader>
                         <Accordion.Body>
-                          <Nav.Link href={`${band.url}`}>
-                            <div className="row">
-                              <h4>{band._embedded.venues[0].name}</h4>
+                          <Nav.Link
+                            href={`/${band._embedded.attractions[0].id}/event/${band.id}`}
+                          >
+                            <div className="col-7 col-sm-9">
+                              <div className="row">
+                                <h4>{band._embedded.venues[0].name}</h4>
 
-                              <p className="venueAddress">
-                                {band._embedded.venues[0].address.line1},{" "}
-                                {band._embedded.venues[0].city.name},{" "}
-                                {band._embedded.venues[0].postalCode},{" "}
-                                {band._embedded.venues[0].country.name}
-                              </p>
-                            </div>
-                            <div className="row">
-                              <p className="eventInfo">{band.info}</p>
+                                <p className="venueAddress">
+                                  {band._embedded.venues[0].address.line1},{" "}
+                                  {band._embedded.venues[0].city.name},{" "}
+                                  {band._embedded.venues[0].postalCode},{" "}
+                                  {band._embedded.venues[0].country.name}
+                                </p>
+                              </div>
+                              <div className="row">
+                                <p className="eventInfo">{band.info}</p>
+                              </div>
                             </div>
                           </Nav.Link>
                           <div className="col-5 col-sm-3 saveEventdiv">
@@ -454,7 +478,9 @@ const Event = (props) => {
                     <AccordionItem type={type} eventKey={eventKey}>
                       <AccordionHeader className="row">
                         <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                          <Nav.Link href={`${band.url}`}>
+                          <Nav.Link
+                            href={`/${band._embedded.attractions[0].id}/event/${band.id}`}
+                          >
                             <Figure>
                               <Figure.Image
                                 width={"100%"}
@@ -492,20 +518,24 @@ const Event = (props) => {
                         </div>
                       </AccordionHeader>
                       <Accordion.Body>
-                        <Nav.Link href={`${band.url}`}>
-                          <div className="row">
-                            <h4>{band._embedded.venues[0].name}</h4>
+                        <Nav.Link
+                          href={`/${band._embedded.attractions[0].id}/event/${band.id}`}
+                        >
+                          <div className="col-7 col-sm-9">
+                            <div className="row">
+                              <h4>{band._embedded.venues[0].name}</h4>
 
-                            <p className="venueAddress">
-                              {band._embedded.venues[0].address.line1},{" "}
-                              {band._embedded.venues[0].city.name},{" "}
-                              {band._embedded.venues[0].state.name}{" "}
-                              {band._embedded.venues[0].postalCode},{" "}
-                              {band._embedded.venues[0].country.name}
-                            </p>
-                          </div>
-                          <div className="row">
-                            <p className="eventInfo">{band.info}</p>
+                              <p className="venueAddress">
+                                {band._embedded.venues[0].address.line1},{" "}
+                                {band._embedded.venues[0].city.name},{" "}
+                                {band._embedded.venues[0].state.name}{" "}
+                                {band._embedded.venues[0].postalCode},{" "}
+                                {band._embedded.venues[0].country.name}
+                              </p>
+                            </div>
+                            <div className="row">
+                              <p className="eventInfo">{band.info}</p>
+                            </div>
                           </div>
                         </Nav.Link>
                         <div className="col-5 col-sm-3 saveEventdiv">
@@ -553,7 +583,9 @@ const Event = (props) => {
                     <AccordionItem type={type} eventKey={eventKey}>
                       <AccordionHeader className="row">
                         <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                          <Nav.Link href={band._embedded.venues[0].url}>
+                          <Nav.Link
+                            href={`/${band._embedded.attractions[0].id}/event/${band.id}`}
+                          >
                             <Figure>
                               <Figure.Image
                                 width={"100%"}
@@ -591,19 +623,24 @@ const Event = (props) => {
                         </div>
                       </AccordionHeader>
                       <Accordion.Body>
-                        <Nav.Link href={`${band.url}`} className="eventDetails">
-                          <div className="row">
-                            <h4>{band._embedded.venues[0].name}</h4>
+                        <Nav.Link
+                          href={`/${band._embedded.attractions[0].id}/event/${band.id}`}
+                          className="eventDetails"
+                        >
+                          <div className="col-7 col-sm-9">
+                            <div className="row">
+                              <h4>{band._embedded.venues[0].name}</h4>
 
-                            <p className="venueAddress">
-                              {band._embedded.venues[0].address.line1},{" "}
-                              {band._embedded.venues[0].city.name},{" "}
-                              {band._embedded.venues[0].postalCode},{" "}
-                              {band._embedded.venues[0].country.name}
-                            </p>
-                          </div>
-                          <div className="row">
-                            <p className="eventInfo">{band.info}</p>
+                              <p className="venueAddress">
+                                {band._embedded.venues[0].address.line1},{" "}
+                                {band._embedded.venues[0].city.name},{" "}
+                                {band._embedded.venues[0].postalCode},{" "}
+                                {band._embedded.venues[0].country.name}
+                              </p>
+                            </div>
+                            <div className="row">
+                              <p className="eventInfo">{band.info}</p>
+                            </div>
                           </div>
                         </Nav.Link>
                         <div className="col-5 col-sm-3 saveEventdiv">
