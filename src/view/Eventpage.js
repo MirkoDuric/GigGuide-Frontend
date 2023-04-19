@@ -48,16 +48,27 @@ const EventsPage = () => {
   const [currentSavedEvents, setCurrentSavedEvents] = useState([]);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
+
   let eventKey = 0;
+  console.log(`Upcoming Events: ${upcomingEvents}`);
 
   useEffect(() => {
     setIsLoading(true);
     axios
       .get(`http://localhost:8000/api/artists/${userId}`)
       .then((response) => {
+        console.log(response);
         setUserName(response.data.name);
-        setUserBannerImg(response.data.bannerPicture);
-        setUserProfileImg(response.data.profilePicture);
+        if (response.data.bannerPicture) {
+          setUserBannerImg(
+            process.env.REACT_APP_BACKEND_URL + response.data.bannerPicture
+          );
+        } else {
+          setUserBannerImg(undefined);
+        }
+        setUserProfileImg(
+          process.env.REACT_APP_BACKEND_URL + response.data.profilePicture
+        );
         setUserUsername(response.data.username);
         setArtistName(response.data.name);
         setUpcomingEvents(response.data.upcomingEvents);
@@ -76,7 +87,213 @@ const EventsPage = () => {
         setNewEventName(event[0].eventName);
       })
       .catch((error) => {
-        console.log(error);
+        if (error.request.status === 500) {
+          axios
+            .get(
+              `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&id=${eventId}&locale=*`
+            )
+            .then((response) => {
+              console.log(response);
+              setUserName(
+                response.data._embedded.events[0]._embedded.attractions[0].name
+              );
+              setUserBannerImg(
+                response.data._embedded.events[0]._embedded.venues[0].images[0]
+                  .url
+              );
+              setUserProfileImg(
+                response.data._embedded.events[0]._embedded.attractions[0].images.find(
+                  (element) => element.ratio === "16_9" && element.height > 150
+                ).url
+              );
+              setUserUsername("");
+              setArtistName(
+                response.data._embedded.events[0]._embedded.attractions[0].name
+              );
+              setEventDate({
+                _d: response.data._embedded.events[0].dates.start.dateTime.toString(),
+              });
+              setEventVenue(
+                response.data._embedded.events[0]._embedded.venues[0].name
+              );
+              if (
+                response.data._embedded.events[0]._embedded.venues[0]
+                  .generalInfo
+              ) {
+                setEventInfo(
+                  response.data._embedded.events[0]._embedded.venues[0]
+                    .generalInfo.generalRule
+                );
+              } else {
+                setEventInfo("Information for this show is unavailable");
+              }
+              if (response.data._embedded.events[0]._embedded.venues[0].state) {
+                setEventAddress(
+                  response.data._embedded.events[0]._embedded.venues[0].address
+                    .line1 +
+                    " " +
+                    response.data._embedded.events[0]._embedded.venues[0].city
+                      .name +
+                    ", " +
+                    response.data._embedded.events[0]._embedded.venues[0].state
+                      .stateCode +
+                    ", " +
+                    response.data._embedded.events[0]._embedded.venues[0]
+                      .country.countryCode
+                );
+              } else {
+                setEventAddress(
+                  response.data._embedded.events[0]._embedded.venues[0].address
+                    .line1 +
+                    " " +
+                    response.data._embedded.events[0]._embedded.venues[0].city
+                      .name +
+                    ", " +
+                    response.data._embedded.events[0]._embedded.venues[0]
+                      .country.countryCode
+                );
+              }
+              setEventName(response.data._embedded.events[0].name);
+              setNewEventDate({
+                _d: response.data._embedded.events[0].dates.start.dateTime.toString(),
+              });
+              setNewEventVenue(
+                response.data._embedded.events[0]._embedded.venues[0].name
+              );
+              if (
+                response.data._embedded.events[0]._embedded.venues[0]
+                  .generalInfo
+              ) {
+                setNewEventInfo(
+                  response.data._embedded.events[0]._embedded.venues[0]
+                    .generalInfo.generalRule
+                );
+              } else {
+                setNewEventInfo("Information for this show is unavailable");
+              }
+              if (response.data._embedded.events[0]._embedded.venues[0].state) {
+                setNewEventAddress(
+                  response.data._embedded.events[0]._embedded.venues[0].address
+                    .line1 +
+                    " " +
+                    response.data._embedded.events[0]._embedded.venues[0].city
+                      .name +
+                    ", " +
+                    response.data._embedded.events[0]._embedded.venues[0].state
+                      .stateCode +
+                    ", " +
+                    response.data._embedded.events[0]._embedded.venues[0]
+                      .country.countryCode
+                );
+              } else {
+                setNewEventAddress(
+                  response.data._embedded.events[0]._embedded.venues[0].address
+                    .line1 +
+                    " " +
+                    response.data._embedded.events[0]._embedded.venues[0].city
+                      .name +
+                    ", " +
+                    response.data._embedded.events[0]._embedded.venues[0]
+                      .country.countryCode
+                );
+              }
+              setNewEventName(response.data._embedded.events[0].name);
+              if (
+                response.data._embedded.events[0]._embedded.attractions[0]
+                  .upcomingEvents._total > 0
+              ) {
+                axios
+                  .get(
+                    `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&attractionId=${userId}&locale=*&sort=date,asc`
+                  )
+                  .then((response) => {
+                    const events = response.data._embedded.events;
+                    console.log(events);
+                    setUpcomingEvents(
+                      events.map((event) => {
+                        if (event._embedded.venues[0].state) {
+                          if (event._embedded.venues[0].generalInfo) {
+                            return {
+                              _id: event.id,
+                              eventName: event._embedded.venues[0].name,
+                              date: event.dates.start.dateTime,
+                              startTime: event.dates.start.dateTime,
+                              address:
+                                event._embedded.venues[0].address.line1 +
+                                " " +
+                                event._embedded.venues[0].city.name +
+                                ", " +
+                                event._embedded.venues[0].state.stateCode +
+                                ", " +
+                                event._embedded.venues[0].country.countryCode,
+                              info: event._embedded.venues[0].generalInfo
+                                .generalRule,
+                            };
+                          } else {
+                            return {
+                              _id: event.id,
+                              eventName: event._embedded.venues[0].name,
+                              date: event.dates.start.dateTime,
+                              startTime: event.dates.start.dateTime,
+                              address:
+                                event._embedded.venues[0].address.line1 +
+                                " " +
+                                event._embedded.venues[0].city.name +
+                                ", " +
+                                event._embedded.venues[0].state.stateCode +
+                                ", " +
+                                event._embedded.venues[0].country.countryCode,
+                              info: "Information for this show is unavailable",
+                            };
+                          }
+                        } else {
+                          if (event._embedded.venues[0].generalInfo) {
+                            return {
+                              _id: event.id,
+                              eventName: event._embedded.venues[0].name,
+                              date: event.dates.start.dateTime,
+                              startTime: event.dates.start.dateTime,
+                              address:
+                                event._embedded.venues[0].address.line1 +
+                                " " +
+                                event._embedded.venues[0].city.name +
+                                ", " +
+                                event._embedded.venues[0].country.countryCode,
+                              info: event._embedded.venues[0].generalInfo
+                                .generalRule,
+                            };
+                          } else {
+                            return {
+                              _id: event.id,
+                              eventName: event._embedded.venues[0].name,
+                              date: event.dates.start.dateTime,
+                              startTime: event.dates.start.dateTime,
+                              address:
+                                event._embedded.venues[0].address.line1 +
+                                " " +
+                                event._embedded.venues[0].city.name +
+                                ", " +
+                                event._embedded.venues[0].state.stateCode +
+                                ", " +
+                                event._embedded.venues[0].country.countryCode,
+                              info: event._embedded.venues[0].generalInfo,
+                            };
+                          }
+                        }
+                      })
+                    );
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                  });
+              } else {
+                setUpcomingEvents([]);
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
       })
       .finally(() => {
         setIsLoading(false);
@@ -200,11 +417,11 @@ const EventsPage = () => {
       }
     }
   };
-
+  console.log(userProfileImg);
   return success ? (
-    <Modal show={true}>
+    <Modal show={true} centered>
       <Modal.Header>
-        <Modal.Title>Upcoming Show Updated!</Modal.Title>
+        <Modal.Title>{eventName} Updated!</Modal.Title>
       </Modal.Header>
     </Modal>
   ) : isLoading ? (
@@ -217,12 +434,10 @@ const EventsPage = () => {
             <Image
               fluid={true}
               className="banner-img"
-              src={`http://localhost:8000/${userBannerImg}`}
+              src={userBannerImg}
               alt="Banner img"
             />
-          ) : (
-            <Image fluid={true} className="no-banner-img" alt="No banner img" />
-          )}
+          ) : null}
         </article>
         <article>
           {userProfileImg ? (
@@ -230,7 +445,7 @@ const EventsPage = () => {
               fluid={true}
               className="profile-img"
               roundedCircle={true}
-              src={`http://localhost:8000/${userProfileImg}`}
+              src={userProfileImg}
               alt="Profile img"
             />
           ) : (
@@ -245,8 +460,23 @@ const EventsPage = () => {
       </section>
       <section className="name-location-container">
         <article>
-          <p className="name">{userName}</p>
-          <p className="username">{userUsername}</p>
+          <p className="name">
+            {artistName} at {eventName}
+          </p>
+          <p className="username">
+            {new Date(eventDate._d).toLocaleDateString("en-US", {
+              weekday: "long",
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+            ,{" "}
+            {new Date(eventDate._d).toLocaleTimeString("en-US", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </p>
+          <p className="username">{eventAddress}</p>
         </article>
         {id === userId ? (
           <article className="edit-event-container">
@@ -280,6 +510,8 @@ const EventsPage = () => {
           <Accordion className="accordion">
             {upcomingEvents.length ? (
               upcomingEvents.map((event) => {
+                console.log(event.venue);
+                console.log(eventInfo);
                 eventKey++;
                 return (
                   <AccordionItem className="AcordionItem" eventKey={eventKey}>
@@ -289,14 +521,16 @@ const EventsPage = () => {
                           <Figure>
                             <Figure.Image
                               width={"100%"}
-                              src={`http://localhost:8000/${userProfileImg}`}
+                              src={userProfileImg}
                               alt="Artist Image"
                             />
                           </Figure>
                         </Nav.Link>
                       </div>
                       <div className="col eventTitle">
-                        <h2>{userName}</h2>
+                        <h2>
+                          {userName} at {event.eventName}
+                        </h2>
                         <h3>
                           {new Date(event.date).toLocaleDateString("en-US", {
                             weekday: "long",

@@ -44,7 +44,9 @@ const Event = (props) => {
                               </Nav.Link>
                             </div>
                             <div className="col eventTitle">
-                              <h2>{band.name}</h2>
+                              <h2>
+                                {band.name} at {event.eventName}
+                              </h2>
                               <h3>
                                 {new Date(event.date).toLocaleDateString(
                                   "en-US",
@@ -70,7 +72,7 @@ const Event = (props) => {
                             <Nav.Link href={`/${band._id}/event/${event._id}`}>
                               <div className="col-7 col-sm-9">
                                 <div className="row">
-                                  <p>{event.venue} </p>
+                                  <h4>{event.venue} </h4>
                                   <p className="venueAddress">
                                     {event.address}
                                   </p>
@@ -156,7 +158,9 @@ const Event = (props) => {
                               </Nav.Link>
                             </div>
                             <div className="col eventTitle">
-                              <h2>{band.name}</h2>
+                              <h2>
+                                {band.name} at {event.eventName}
+                              </h2>
                               <h3>
                                 {new Date(event.date).toLocaleDateString(
                                   "en-US",
@@ -182,7 +186,7 @@ const Event = (props) => {
                             <Nav.Link href={`/${band._id}/event/${event._id}`}>
                               <div className="col-7 col-sm-9">
                                 <div className="row">
-                                  <p>{event.venue} </p>
+                                  <h4>{event.venue} </h4>
                                   <p className="venueAddress">
                                     {event.address}
                                   </p>
