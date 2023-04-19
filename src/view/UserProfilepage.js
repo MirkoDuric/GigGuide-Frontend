@@ -23,23 +23,24 @@ const UserProfilepage = () => {
   });
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/user/${id}`).then((response) => {
-      setUser({
-        userUsername: response.data.username,
-        userName: response.data.name,
-        userAge: response.data.age,
-        userCity: response.data.city,
-        userCountry: response.data.country,
-        userProfileImg: response.data.profilePicture,
-        userBannerImg: "",
-        favouriteArtists: response.data.favouriteArtists,
-        bio: response.data.bio,
-        songsList: response.data.songsList,
-        upcomingEvents: response.data.upcomingEvents,
-        plannedEvents: response.data.plannedEvents,
-        userType: response.data.userType,
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}api/user/${id}`)
+      .then((response) => {
+        setUser({
+          userUsername: response.data.username,
+          userName: response.data.name,
+          userAge: response.data.age,
+          userCity: response.data.city,
+          userCountry: response.data.country,
+          userProfileImg: response.data.profilePicture,
+          userBannerImg: "",
+          favouriteArtists: response.data.favouriteArtists,
+          bio: response.data.bio,
+          songsList: response.data.songsList,
+          upcomingEvents: response.data.upcomingEvents,
+          userType: response.data.userType,
+        });
       });
-    });
   }, []);
   return (
     <>

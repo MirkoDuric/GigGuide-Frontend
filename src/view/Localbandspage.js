@@ -58,7 +58,10 @@ const LocalBandsPage = () => {
     const faveName = e.target.title;
     const fave = { id: faveId, name: faveName };
     let favouriteArtists = currentFaveArtists;
-    if (e.target.src === "http://localhost:8000/profile-pics/Outline.png") {
+    if (
+      e.target.src ===
+      `${process.env.REACT_APP_BACKEND_URL}profile-pics/Outline.png`
+    ) {
       if (currentFaveArtists.length > 0) {
         setCurrentFaveArtists([...currentFaveArtists, fave]);
         favouriteArtists = [...currentFaveArtists, fave];
@@ -78,7 +81,7 @@ const LocalBandsPage = () => {
       const payload = { favouriteArtists };
       try {
         await axios.put(
-          `http://localhost:8000/api/user/${id}/faveArtist`,
+          `${process.env.REACT_APP_BACKEND_URL}api/user/${id}/faveArtist`,
           payload
         );
       } catch (err) {
@@ -103,7 +106,7 @@ const LocalBandsPage = () => {
           id: event._id,
           ticketUrl: event.ticketUrl,
           profilePicture: band.profilePicture,
-          name: band.name,
+          artistName: band.name,
           date: event.date,
           startTime: event.startTime,
           venue: event.venue,
@@ -147,7 +150,7 @@ const LocalBandsPage = () => {
       const payload = { plannedEvents };
       try {
         const response = await axios.put(
-          `http://localhost:8000/api/user/${id}/plannedEvents`,
+          `${process.env.REACT_APP_BACKEND_URL}api/user/${id}/plannedEvents`,
           payload
         );
         console.log(response);
@@ -180,7 +183,7 @@ const LocalBandsPage = () => {
     setIsLoading(true);
     if (id) {
       axios
-        .get(`http://localhost:8000/api/artists/${id}`)
+        .get(`${process.env.REACT_APP_BACKEND_URL}api/artists/${id}`)
         .then((response) => {
           setCity(response.data.city);
           setCountry(response.data.country);
@@ -189,7 +192,7 @@ const LocalBandsPage = () => {
             setGenre(response.data.favouriteGenre);
             axios
               .get(
-                `http://localhost:8000/api/artists/0/${response.data.country}/${response.data.city}/${response.data.favouriteGenre}`
+                `${process.env.REACT_APP_BACKEND_URL}api/artists/0/${response.data.country}/${response.data.city}/${response.data.favouriteGenre}`
               )
               .then((response) => {
                 setLocalBands(response.data);
@@ -201,7 +204,7 @@ const LocalBandsPage = () => {
             setGenre(0);
             axios
               .get(
-                `http://localhost:8000/api/artists/0/${response.data.country}/${response.data.city}/0`
+                `${process.env.REACT_APP_BACKEND_URL}api/artists/0/${response.data.country}/${response.data.city}/0`
               )
               .then((response) => {
                 setLocalBands(response.data);

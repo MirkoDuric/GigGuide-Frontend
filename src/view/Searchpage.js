@@ -91,7 +91,7 @@ const Searchpage = () => {
       const payload = { plannedEvents };
       try {
         const response = await axios.put(
-          `http://localhost:8000/api/user/${id}/plannedEvents`,
+          `${process.env.REACT_APP_BACKEND_URL}api/user/${id}/plannedEvents`,
           payload
         );
         console.log(response);
@@ -112,7 +112,7 @@ const Searchpage = () => {
     }
     axios
       .get(
-        `http://localhost:8000/api/artists/${name}/${country}/${city}/${genre}`
+        `${process.env.REACT_APP_BACKEND_URL}api/artists/${name}/${country}/${city}/${genre}`
       )
       .then((response) => {
         setLocalBands(response.data);
@@ -129,23 +129,43 @@ const Searchpage = () => {
     if (city === "0") {
       city = "";
     }
-    axios
-      .get(
-        `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&keyword=${name}&locale=*&sort=relevance,desc&city=${city}&countryCode=${countryCode}&segmentName=Music&genreId=${genreId}`
-      )
-      .then((response) => {
-        if (response.data._embedded) {
-          setBands(response.data._embedded.events);
-        } else {
-          setBands([]);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    if (name !== "") {
+      axios
+        .get(
+          `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&keyword=${name}&locale=*&sort=relevance,desc&city=${city}&countryCode=${countryCode}&segmentName=Music&genreId=${genreId}`
+        )
+        .then((response) => {
+          if (response.data._embedded) {
+            setBands(response.data._embedded.events);
+          } else {
+            setBands([]);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      axios
+        .get(
+          `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&keyword=${name}&locale=*&sort=date,desc&city=${city}&countryCode=${countryCode}&segmentName=Music&genreId=${genreId}`
+        )
+        .then((response) => {
+          if (response.data._embedded) {
+            setBands(response.data._embedded.events);
+          } else {
+            setBands([]);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
   }, [countryCode, genreId, name, city, country, genre]);
 
   useEffect(() => {

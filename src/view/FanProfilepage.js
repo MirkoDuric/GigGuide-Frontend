@@ -49,7 +49,7 @@ const FanProfilepage = (userData) => {
     let localArtist = [];
     for (const artist of favouriteArtists) {
       axios
-        .get(`http://localhost:8000/api/artists/${artist.id}`)
+        .get(`${process.env.REACT_APP_BACKEND_URL}api/artists/${artist.id}`)
         .then((res) => {
           if (!res.data) {
             console.log("User not found, move to the next one.");
@@ -98,7 +98,7 @@ const FanProfilepage = (userData) => {
             <Image
               fluid={true}
               className="banner-img"
-              src={`http://localhost:8000/${userProfileImg}`}
+              src={`${process.env.REACT_APP_BACKEND_URL}${userProfileImg}`}
               alt="Banner img"
             />
           ) : (
@@ -111,7 +111,7 @@ const FanProfilepage = (userData) => {
               fluid={true}
               className="profile-img"
               roundedCircle={true}
-              src={`http://localhost:8000/${userProfileImg}`}
+              src={`${process.env.REACT_APP_BACKEND_URL}${userProfileImg}`}
               alt="Profile img"
             />
           ) : (
@@ -145,7 +145,7 @@ const FanProfilepage = (userData) => {
                         <Figure>
                           <Figure.Image
                             width={"100%"}
-                            src={`http://localhost:8000/${event.profilePicture}`}
+                            src={`${process.env.REACT_APP_BACKEND_URL}${event.profilePicture}`}
                             alt="Artist Image"
                           />
                         </Figure>
@@ -292,7 +292,7 @@ const FanProfilepage = (userData) => {
                         className="band"
                         name={artist.name}
                         id={artist._id}
-                        profilePicture={`http://localhost:8000/${artist.profilePicture}`}
+                        profilePicture={`${process.env.REACT_APP_BACKEND_URL}${artist.profilePicture}`}
                       />
                     </Carousel.Item>
                   ) : null;
@@ -335,7 +335,7 @@ const FanProfilepage = (userData) => {
                           <Figure>
                             <Figure.Image
                               width={"100%"}
-                              src={`http://localhost:8000/${artist.profilePicture}`}
+                              src={`${process.env.REACT_APP_BACKEND_URL}${artist.profilePicture}`}
                               alt="Artist Image"
                             />
                           </Figure>

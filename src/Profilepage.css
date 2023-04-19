@@ -4,6 +4,7 @@
   background-color: #0f110c;
   overflow-x: hidden;
   min-height: 100vh;
+  padding-top: 170px;
 }
 .img-container {
   position: relative;
@@ -40,6 +41,11 @@
   position: relative;
   top: -55px;
   left: 20px;
+  width:95%;
+}
+.edit-event-container {
+  display: flex;
+  justify-content: flex-end;
 }
 .name-and-age {
   color: #f5efed;
@@ -98,8 +104,9 @@
   margin: 0;
 }
 .artist-bio {
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
+  padding: 15px;
 }
 .bio-title {
   font-size: 25px;
@@ -114,6 +121,24 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 15px;
+}
+.info-div {
+  background-color: #f5efed;
+  height: 20vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-left: 5px;
+}
+.info-textarea {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color:  #f5efed;
+  color:#0f110c;
+  padding:0px;
+  margin-bottom:0px;
+  overflow-y:auto;
 }
 .edit-bio-button {
   font-size: 12px;
@@ -146,7 +171,7 @@
 .artist-songs-section {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
   gap: 5px;
 }
@@ -177,4 +202,12 @@
   width: fit-content;
   margin-top: 5px;
   height: fit-content;
+}
+.noShowsdiv{
+  display:flex;
+  justify-content: center;
+  height: 7rem;
+  align-items: center;
+  background-color:  #f5efed;
+  color:#0f110c
 }

@@ -80,7 +80,7 @@ const LandingPage = (props) => {
         setCountry(response.data.country);
         axios
           .get(
-            `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&locale=*&sort=relevance,desc&city=${response.data.city}&countryCode=${response.data.countryCode}&segmentName=Music`
+            `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&locale=*&sort=date,asc&city=${response.data.city}&countryCode=${response.data.countryCode}&segmentName=Music`
           )
           .then((response) => {
             console.log(response);
@@ -91,7 +91,7 @@ const LandingPage = (props) => {
           });
         axios
           .get(
-            `http://localhost:8000/api/artists/${name}/${country}/${city}/${genre}`
+            `${process.env.REACT_APP_BACKEND_URL}api/artists/${name}/${country}/${city}/${genre}`
           )
           .then((response) => {
             setLocalBands(response.data);

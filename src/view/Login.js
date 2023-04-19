@@ -12,6 +12,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const id = sessionStorage.getItem("userId");
   const navigation = useNavigate();
+  console.log(id);
 
   useEffect(() => {
     if (id) {
@@ -24,7 +25,7 @@ const Login = () => {
     const payload = { username, password };
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/user/login",
+        `${process.env.REACT_APP_BACKEND_URL}api/user/login`,
         payload,
         { headers }
       );

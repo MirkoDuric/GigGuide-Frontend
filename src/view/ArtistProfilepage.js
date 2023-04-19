@@ -55,7 +55,7 @@ const ArtistProfilepage = (userData) => {
     const headers = { "Content-Type": "application/json" };
     axios
       .put(
-        `http://localhost:8000/api/user/${id}/biography`,
+        `${process.env.REACT_APP_BACKEND_URL}api/user/${id}/biography`,
         JSON.stringify(payload),
         {
           headers,
@@ -93,7 +93,9 @@ const ArtistProfilepage = (userData) => {
     const payload = newSong;
     // Send the new song to the server using Axios
     axios
-      .put(`http://localhost:8000/api/user/${id}/song`, payload, { headers })
+      .put(`${process.env.REACT_APP_BACKEND_URL}api/user/${id}/song`, payload, {
+        headers,
+      })
       .then((response) => {
         console.log("MY NEW SONG IS IN DB", response.data);
       })
@@ -136,9 +138,13 @@ const ArtistProfilepage = (userData) => {
     const payload = newEvent;
 
     axios
-      .put(`http://localhost:8000/api/user/${id}/upcomingEvent`, payload, {
-        headers,
-      })
+      .put(
+        `${process.env.REACT_APP_BACKEND_URL}api/user/${id}/upcomingEvent`,
+        payload,
+        {
+          headers,
+        }
+      )
       .then((response) => {
         console.log(response.data); // log the newly created event object
       })
@@ -155,7 +161,7 @@ const ArtistProfilepage = (userData) => {
         window.location.reload();
       });
   };
-
+  console.log(upcomingEvents);
   return (
     <main className="profile-container">
       <section className="img-container">
@@ -164,7 +170,7 @@ const ArtistProfilepage = (userData) => {
             <Image
               fluid={true}
               className="banner-img"
-              src={`http://localhost:8000/${userBannerImg}`}
+              src={`${process.env.REACT_APP_BACKEND_URL}${userBannerImg}`}
               alt="Banner img"
             />
           ) : (
@@ -177,7 +183,7 @@ const ArtistProfilepage = (userData) => {
               fluid={true}
               className="profile-img"
               roundedCircle={true}
-              src={`http://localhost:8000/${userProfileImg}`}
+              src={`${process.env.REACT_APP_BACKEND_URL}${userProfileImg}`}
               alt="Profile img"
             />
           ) : (
@@ -230,10 +236,11 @@ const ArtistProfilepage = (userData) => {
       </section>
       <section className="events-and-fav-artist-contaiener">
         <article className="favourite-artists-events">
-          <p className="event-list-title">{userName} upcoming shows:</p>
+          <p className="event-list-title">{userName} Upcoming Shows:</p>
           <Accordion className="accordion">
             {upcomingEvents.length
               ? upcomingEvents.map((show, index) => {
+                  console.log(show.eventName);
                   return show?.eventName ? (
                     <AccordionItem eventKey={index}>
                       <AccordionHeader className="row">

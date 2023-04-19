@@ -30,7 +30,6 @@ const HomePage = () => {
   const [currentSavedEvents, setCurrentSavedEvents] = useState([]);
 
   const id = sessionStorage.getItem("userId");
-
   const navigation = useNavigate();
 
   const handleChange = (e) => {
@@ -60,7 +59,10 @@ const HomePage = () => {
     const faveName = e.target.title;
     const fave = { id: faveId, name: faveName };
     let favouriteArtists = currentFaveArtists;
-    if (e.target.src === "http://localhost:8000/profile-pics/Outline.png") {
+    if (
+      e.target.src ===
+      `${process.env.REACT_APP_BACKEND_URL}profile-pics/Outline.png`
+    ) {
       if (currentFaveArtists.length > 0) {
         setCurrentFaveArtists([...currentFaveArtists, fave]);
         favouriteArtists = [...currentFaveArtists, fave];
@@ -80,7 +82,7 @@ const HomePage = () => {
       const payload = { favouriteArtists };
       try {
         await axios.put(
-          `http://localhost:8000/api/user/${id}/faveArtist`,
+          `${process.env.REACT_APP_BACKEND_URL}api/user/${id}/faveArtist`,
           payload
         );
       } catch (err) {
@@ -104,7 +106,7 @@ const HomePage = () => {
         id: event._id,
         ticketUrl: event.ticketUrl,
         profilePicture: band.profilePicture,
-        name: band.name,
+        artistName: band.name,
         date: event.date,
         startTime: event.startTime,
         venue: event.venue,
@@ -135,7 +137,7 @@ const HomePage = () => {
       const payload = { plannedEvents };
       try {
         const response = await axios.put(
-          `http://localhost:8000/api/user/${id}/plannedEvents`,
+          `${process.env.REACT_APP_BACKEND_URL}api/user/${id}/plannedEvents`,
           payload
         );
         console.log(response);
@@ -156,7 +158,7 @@ const HomePage = () => {
     }
     if (id) {
       axios
-        .get(`http://localhost:8000/api/artists/${id}`)
+        .get(`${process.env.REACT_APP_BACKEND_URL}api/artists/${id}`)
         .then((response) => {
           setCity(response.data.city);
           setCountry(response.data.country);
@@ -190,7 +192,7 @@ const HomePage = () => {
           if (response.data.favouriteGenre.length) {
             axios
               .get(
-                `http://localhost:8000/api/artists/0/${response.data.country}/${response.data.city}/${response.data.favouriteGenre}`
+                `${process.env.REACT_APP_BACKEND_URL}api/artists/0/${response.data.country}/${response.data.city}/${response.data.favouriteGenre}`
               )
               .then((response) => {
                 setLocalBands(response.data);
@@ -201,7 +203,7 @@ const HomePage = () => {
           } else {
             axios
               .get(
-                `http://localhost:8000/api/artists/0/${response.data.country}/${response.data.city}/0`
+                `${process.env.REACT_APP_BACKEND_URL}api/artists/0/${response.data.country}/${response.data.city}/0`
               )
               .then((response) => {
                 setLocalBands(response.data);
