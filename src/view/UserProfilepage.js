@@ -33,7 +33,8 @@ const UserProfilepage = () => {
           userAge: response.data.age,
           userCity: response.data.city,
           userCountry: response.data.country,
-          userProfileImg: response.data.profilePicture,
+          userProfileImg:
+            process.env.REACT_APP_BACKEND_URL + response.data.profilePicture,
           userBannerImg: "",
           favouriteArtists: response.data.favouriteArtists,
           bio: response.data.bio,
