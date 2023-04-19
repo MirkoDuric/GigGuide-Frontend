@@ -39,12 +39,13 @@ const FanProfilepage = (userData) => {
     userProfileImg,
     userBannerImg,
     favouriteArtists,
-    planedEvents,
+    plannedEvents,
   } = user;
 
   // getting basic user data
   useEffect(() => {
-    console.log(user);
+    console.log(plannedEvents);
+
     let localArtist = [];
     for (const artist of favouriteArtists) {
       axios
@@ -134,9 +135,9 @@ const FanProfilepage = (userData) => {
       <section className="events-and-fav-artist-contaiener">
         <article className="saved-upcoming-events">
           <p className="saved-events-title">Saved upcoming events:</p>
-          {planedEvents ? (
-            planedEvents.map((event, index) => {
-              return (
+          {plannedEvents.length !== 0 ? (
+            plannedEvents.map((event, index) => {
+              return event.address ? (
                 <Accordion key={index}>
                   <AccordionItem eventKey={index}>
                     <AccordionHeader className="row">
@@ -150,7 +151,7 @@ const FanProfilepage = (userData) => {
                         </Figure>
                       </div>
                       <div className="col eventTitle">
-                        <h3>{event.artistName}</h3>
+                        <h3>Artist name missing from the schema</h3>
                         <p>
                           {new Date(event.date).toLocaleDateString("en-US", {
                             weekday: "long",
@@ -168,6 +169,48 @@ const FanProfilepage = (userData) => {
                       <div className="row">
                         <p className="venueAddress">{event.address}</p>
                         <p>{event.info}</p>
+                      </div>
+                    </AccordionBody>
+                  </AccordionItem>
+                </Accordion>
+              ) : (
+                <Accordion key={index}>
+                  <AccordionItem eventKey={index}>
+                    <AccordionHeader className="row">
+                      <div className="col-5 col-sm-4 col-md-3 col-lg-2">
+                        <Figure>
+                          <Figure.Image
+                            width={"100%"}
+                            src={`${event.images[0].url}`}
+                            alt="Artist Image"
+                          />
+                        </Figure>
+                      </div>
+                      <div className="col eventTitle">
+                        <h3>{event.name}</h3>
+                        <p>
+                          {new Date(
+                            event.dates.start.dateTime
+                          ).toLocaleDateString("en-US", {
+                            weekday: "long",
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
+                        </p>
+                      </div>
+                    </AccordionHeader>
+                    <AccordionBody>
+                      <div className="row">
+                        <h5>{event._embedded.venues[0].name}</h5>
+                      </div>
+                      <div className="row">
+                        <p className="venueAddress">
+                          {event._embedded.venues.address},
+                          {event._embedded.venues.city},
+                          {event._embedded.venues.country}
+                        </p>
+                        <p>{event.info ? event.info : "No additional info"}</p>
                       </div>
                     </AccordionBody>
                   </AccordionItem>

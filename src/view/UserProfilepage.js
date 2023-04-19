@@ -20,6 +20,7 @@ const UserProfilepage = () => {
     bio: "",
     songsList: [],
     upcomingEvents: [],
+    plannedEvents: [],
     userType: "",
   });
 
