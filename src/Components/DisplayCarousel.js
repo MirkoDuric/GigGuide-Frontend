@@ -4,10 +4,20 @@ import ArtistCard from "./ArtistCard.js";
 import Carousel from "react-grid-carousel";
 
 const ControlledCarousel = (props) => {
-  const bands = props.bands;
+  const originalBands = props.bands;
   const type = props.type;
+  let bands = [];
   const onHeartClick = props.onHeartClick;
   const currentFaveArtists = props.currentFaveArtists;
+  if (type !== "local") {
+    bands = Array.from(
+      new Set(originalBands.map((band) => band._embedded.attractions[0].id))
+    ).map((id) => {
+      return originalBands.find(
+        (band) => band._embedded.attractions[0].id === id
+      );
+    });
+  }
 
   return (
     <Carousel
@@ -68,7 +78,7 @@ const ControlledCarousel = (props) => {
                     <ArtistCard
                       className="band"
                       name={band.name}
-                      profilePicture={`http://localhost:8000/${band.profilePicture}`}
+                      profilePicture={`${process.env.REACT_APP_BACKEND_URL}${band.profilePicture}`}
                       id={band._id}
                       touring={
                         band.upcomingEvents
