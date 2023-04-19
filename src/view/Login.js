@@ -12,6 +12,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const id = sessionStorage.getItem("userId");
   const navigation = useNavigate();
+  console.log(id);
 
   useEffect(() => {
     if (id) {

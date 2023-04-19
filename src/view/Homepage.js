@@ -30,7 +30,6 @@ const HomePage = () => {
   const [currentSavedEvents, setCurrentSavedEvents] = useState([]);
 
   const id = sessionStorage.getItem("userId");
-
   const navigation = useNavigate();
 
   const handleChange = (e) => {
