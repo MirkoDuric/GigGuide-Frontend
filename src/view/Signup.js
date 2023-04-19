@@ -55,13 +55,16 @@ const Signup = () => {
     //const headers = { "Content-Type": "multipart/form-data" };
     console.log(formData);
     try {
-      const response = await fetch("http://localhost:8000/api/user/signup", {
-        method: "POST",
+      const response = await fetch(
+        `${process.env.REACT_APP_BACKEND_URL}api/user/signup`,
+        {
+          method: "POST",
 
-        //headers,
-        //body: payload,
-        body: formData,
-      });
+          //headers,
+          //body: payload,
+          body: formData,
+        }
+      );
       if (response.ok) {
         setTimeout(() => {
           navigate("/login");

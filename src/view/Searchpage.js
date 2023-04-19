@@ -91,7 +91,7 @@ const Searchpage = () => {
       const payload = { plannedEvents };
       try {
         const response = await axios.put(
-          `http://localhost:8000/api/user/${id}/plannedEvents`,
+          `${process.env.REACT_APP_BACKEND_URL}api/user/${id}/plannedEvents`,
           payload
         );
         console.log(response);
@@ -112,7 +112,7 @@ const Searchpage = () => {
     }
     axios
       .get(
-        `http://localhost:8000/api/artists/${name}/${country}/${city}/${genre}`
+        `${process.env.REACT_APP_BACKEND_URL}api/artists/${name}/${country}/${city}/${genre}`
       )
       .then((response) => {
         setLocalBands(response.data);

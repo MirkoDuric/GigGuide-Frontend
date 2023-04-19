@@ -70,7 +70,7 @@ const EventsPage = () => {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get(`http://localhost:8000/api/artists/${userId}`)
+      .get(`${process.env.REACT_APP_BACKEND_URL}api/artists/${userId}`)
       .then((response) => {
         setUserName(response.data.name);
         if (response.data.bannerPicture) {
@@ -322,7 +322,7 @@ const EventsPage = () => {
       });
     if (id) {
       axios
-        .get(`http://localhost:8000/api/artists/${id}`)
+        .get(`${process.env.REACT_APP_BACKEND_URL}api/artists/${id}`)
         .then((response) => {
           setCity(response.data.city);
           setCountry(response.data.country);
@@ -364,7 +364,7 @@ const EventsPage = () => {
 
     axios
       .put(
-        `http://localhost:8000/api/user/${userId}/upcomingEvent/${eventId}`,
+        `${process.env.REACT_APP_BACKEND_URL}api/user/${userId}/upcomingEvent/${eventId}`,
         payload,
         {
           headers,
@@ -426,7 +426,7 @@ const EventsPage = () => {
       const payload = { plannedEvents };
       try {
         const response = await axios.put(
-          `http://localhost:8000/api/user/${id}/plannedEvents`,
+          `${process.env.REACT_APP_BACKEND_URL}api/user/${id}/plannedEvents`,
           payload
         );
         console.log(response);

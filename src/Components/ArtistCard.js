@@ -19,7 +19,7 @@ const ArtistCard = (props) => {
       style={{ width: "auto" }}
       key={bandId}
     >
-      <Nav.Link href={"artist/" + bandId}>
+      <Nav.Link href={"/userprofile"}>
         <Card.Img src={bandPic} alt="Artist Picture" />
       </Nav.Link>
       <Card.ImgOverlay>
@@ -29,7 +29,7 @@ const ArtistCard = (props) => {
               currentFaveArtists.find((artist) => artist.id === bandId) ? (
                 <Image
                   roundedCircle={true}
-                  src={`http://localhost:8000/profile-pics/Filled.png`}
+                  src={`${process.env.REACT_APP_BACKEND_URL}profile-pics/Filled.png`}
                   alt="Filled Heart"
                   className="favorite"
                   onClick={props.onHeartClick}
@@ -39,7 +39,7 @@ const ArtistCard = (props) => {
               ) : (
                 <Image
                   roundedCircle={true}
-                  src={`http://localhost:8000/profile-pics/Outline.png`}
+                  src={`${process.env.REACT_APP_BACKEND_URL}profile-pics/Outline.png`}
                   alt="Heart Outline"
                   className="favorite"
                   onClick={props.onHeartClick}
@@ -50,7 +50,7 @@ const ArtistCard = (props) => {
             ) : (
               <Image
                 roundedCircle={true}
-                src={`http://localhost:8000/profile-pics/Outline.png`}
+                src={`${process.env.REACT_APP_BACKEND_URL}profile-pics/Outline.png`}
                 alt="Heart Outline"
                 className="favorite"
                 onClick={props.onHeartClick}
@@ -60,7 +60,7 @@ const ArtistCard = (props) => {
             )
           ) : null}
         </div>
-        <Nav.Link href={"artist/" + bandId}>
+        <Nav.Link href={"userprofile"}>
           <Card.Title className="bandName">{bandName}</Card.Title>
           {isTouring ? (
             <Card.Footer className="isTouring">Upcoming Shows</Card.Footer>

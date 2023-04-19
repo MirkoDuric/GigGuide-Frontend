@@ -2,15 +2,13 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { useNavigate } from "react-router";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Button from "../Components/Button";
 import "../CustomNav.css";
 
-const CustomNav = (props) => {
+const CustomNav = () => {
   const id = sessionStorage.getItem("userId");
-  const navigation = useNavigate();
   return id ? (
     <Navbar bg="dark" expand={false} className="navdiv" fixed="top">
       <Container fluid>
