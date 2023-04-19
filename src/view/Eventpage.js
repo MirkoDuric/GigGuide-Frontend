@@ -1,24 +1,26 @@
-import { Image } from "react-bootstrap";
 import { useState, useEffect } from "react";
+import {
+  Image,
+  Nav,
+  Button,
+  Modal,
+  Form,
+  Figure,
+  Accordion,
+} from "react-bootstrap";
 import { useParams, useNavigate } from "react-router-dom";
+
 import axios from "axios";
-import Figure from "react-bootstrap/Figure";
-import Accordion from "react-bootstrap/Accordion";
+
 import AccordionHeader from "react-bootstrap/AccordionHeader";
-import AccordionBody from "react-bootstrap/AccordionBody";
 import AccordionItem from "react-bootstrap/AccordionItem";
-import "../Profilepage.css";
-import "../ArtistCard.css";
-import Carousel from "react-grid-carousel";
-import { InputGroup, FormControl, Button } from "react-bootstrap";
-import Badge from "react-bootstrap/Badge";
-import ListGroup from "react-bootstrap/ListGroup";
-import { Modal, Form } from "react-bootstrap";
+
 import Datetime from "react-datetime";
-import moment from "moment";
 import LoadingIndicator from "../Components/LoadingIndicator";
 import { getCountryCode } from "../utils";
-import { Nav } from "react-bootstrap";
+
+import "../Profilepage.css";
+import "../ArtistCard.css";
 
 const EventsPage = () => {
   const { userId, eventId } = useParams();
@@ -49,6 +51,19 @@ const EventsPage = () => {
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
+  console.log(`User Name: ${userName}`);
+  console.log(`User Name: ${userName}`);
+  console.log(`User Name: ${userName}`);
+  console.log(`Banner Image: ${userBannerImg}`);
+  console.log(`Profile Image: ${userProfileImg}`);
+  console.log(`Username: ${userUsername}`);
+  console.log(`Artist Name: ${artistName}`);
+  console.log(`Event Name: ${eventName}`);
+  console.log(`Event Address: ${eventAddress}`);
+  console.log(`Event Info: ${eventInfo}`);
+  console.log(`Event Date: ${eventDate._d}`);
+  console.log(`Event Venue: ${eventVenue}`);
+
   let eventKey = 0;
   console.log(`Upcoming Events: ${upcomingEvents}`);
 
@@ -57,7 +72,6 @@ const EventsPage = () => {
     axios
       .get(`http://localhost:8000/api/artists/${userId}`)
       .then((response) => {
-        console.log(response);
         setUserName(response.data.name);
         if (response.data.bannerPicture) {
           setUserBannerImg(
@@ -97,10 +111,16 @@ const EventsPage = () => {
               setUserName(
                 response.data._embedded.events[0]._embedded.attractions[0].name
               );
-              setUserBannerImg(
-                response.data._embedded.events[0]._embedded.venues[0].images[0]
-                  .url
-              );
+              if (
+                response.data._embedded.events[0]._embedded.venues[0].images
+              ) {
+                setUserBannerImg(
+                  response.data._embedded.events[0]._embedded.venues[0]
+                    .images[0].url
+                );
+              } else {
+                setUserBannerImg("");
+              }
               setUserProfileImg(
                 response.data._embedded.events[0]._embedded.attractions[0].images.find(
                   (element) => element.ratio === "16_9" && element.height > 150
@@ -153,7 +173,9 @@ const EventsPage = () => {
                       .country.countryCode
                 );
               }
-              setEventName(response.data._embedded.events[0].name);
+              setEventName(
+                response.data._embedded.events[0]._embedded.venues[0].name
+              );
               setNewEventDate({
                 _d: response.data._embedded.events[0].dates.start.dateTime.toString(),
               });
@@ -197,7 +219,9 @@ const EventsPage = () => {
                       .country.countryCode
                 );
               }
-              setNewEventName(response.data._embedded.events[0].name);
+              setNewEventName(
+                response.data._embedded.events[0]._embedded.venues[0].name
+              );
               if (
                 response.data._embedded.events[0]._embedded.attractions[0]
                   .upcomingEvents._total > 0
@@ -272,8 +296,6 @@ const EventsPage = () => {
                                 event._embedded.venues[0].address.line1 +
                                 " " +
                                 event._embedded.venues[0].city.name +
-                                ", " +
-                                event._embedded.venues[0].state.stateCode +
                                 ", " +
                                 event._embedded.venues[0].country.countryCode,
                               info: event._embedded.venues[0].generalInfo,
@@ -417,7 +439,6 @@ const EventsPage = () => {
       }
     }
   };
-  console.log(userProfileImg);
   return success ? (
     <Modal show={true} centered>
       <Modal.Header>
@@ -510,8 +531,6 @@ const EventsPage = () => {
           <Accordion className="accordion">
             {upcomingEvents.length ? (
               upcomingEvents.map((event) => {
-                console.log(event.venue);
-                console.log(eventInfo);
                 eventKey++;
                 return (
                   <AccordionItem className="AcordionItem" eventKey={eventKey}>
