@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router";
 import FanProfilepage from "./FanProfilepage";
 import ArtistProfilepage from "./ArtistProfilepage";
 
 const UserProfilepage = () => {
+  const { userId } = useParams();
   const id = sessionStorage.getItem("userId");
 
   const [user, setUser] = useState({
@@ -23,8 +25,9 @@ const UserProfilepage = () => {
 
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_BACKEND_URL}api/user/${id}`)
+      .get(`${process.env.REACT_APP_BACKEND_URL}api/user/${userId}`)
       .then((response) => {
+        console.log(response);
         setUser({
           userUsername: response.data.username,
           userName: response.data.name,

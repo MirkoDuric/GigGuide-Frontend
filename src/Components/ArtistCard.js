@@ -19,7 +19,7 @@ const ArtistCard = (props) => {
       style={{ width: "auto" }}
       key={bandId}
     >
-      <Nav.Link href={"/userprofile"}>
+      <Nav.Link href={`/userprofile/${bandId}`}>
         <Card.Img src={bandPic} alt="Artist Picture" />
       </Nav.Link>
       <Card.ImgOverlay>
@@ -60,7 +60,7 @@ const ArtistCard = (props) => {
             )
           ) : null}
         </div>
-        <Nav.Link href={"userprofile"}>
+        <Nav.Link href={`/userprofile/${bandId}`}>
           <Card.Title className="bandName">{bandName}</Card.Title>
           {isTouring ? (
             <Card.Footer className="isTouring">Upcoming Shows</Card.Footer>
