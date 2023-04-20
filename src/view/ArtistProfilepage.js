@@ -16,9 +16,9 @@ import ListGroup from "react-bootstrap/ListGroup";
 import { Modal, Form } from "react-bootstrap";
 import Datetime from "react-datetime";
 import moment from "moment";
+import "../Event.css";
 
 const ArtistProfilepage = (userData) => {
-  //Mock data for artist user
   const user = userData.userData;
   const {
     userUsername,
@@ -161,7 +161,7 @@ const ArtistProfilepage = (userData) => {
         window.location.reload();
       });
   };
-  console.log(upcomingEvents);
+
   return (
     <main className="profile-container">
       <section className="img-container">
@@ -223,7 +223,7 @@ const ArtistProfilepage = (userData) => {
             </InputGroup>
           ) : (
             <>
-              {content === "" ? <p>{"No content jet"}</p> : <p>{content}</p>}
+              {content === "" ? <p>{"No biography jet"}</p> : <p>{content}</p>}
               <Button
                 className="edit-bio-button"
                 onClick={() => handleEditButtonClick()}
@@ -235,7 +235,7 @@ const ArtistProfilepage = (userData) => {
         </div>
       </section>
       <section className="events-and-fav-artist-contaiener">
-        <article className="favourite-artists-events">
+        <article className="eventdiv">
           <p className="event-list-title">{userName} Upcoming Shows:</p>
           <Accordion className="accordion">
             {upcomingEvents.length
@@ -244,10 +244,19 @@ const ArtistProfilepage = (userData) => {
                   return show?.eventName ? (
                     <AccordionItem eventKey={index}>
                       <AccordionHeader className="row">
+                        <div className="col-5 col-sm-4 col-md-3 col-lg-2">
+                          <Figure>
+                            <Figure.Image
+                              width={"100%"}
+                              src={`${process.env.REACT_APP_BACKEND_URL}${userProfileImg}`}
+                              alt="Artist Image"
+                            />
+                          </Figure>
+                        </div>
                         <div className="col eventTitle">
                           <h3>{show.artistName}</h3>
                           <p>
-                            {new Date(show.eventDate ?? "").toLocaleDateString(
+                            {new Date(show.date ?? "").toLocaleDateString(
                               "en-US",
                               {
                                 weekday: "long",
@@ -261,7 +270,7 @@ const ArtistProfilepage = (userData) => {
                       </AccordionHeader>
                       <AccordionBody>
                         <div className="row">
-                          <h3>{show.eventVenue ?? ""}</h3>
+                          <h3>{show.venue ?? ""}</h3>
                           <p className="venueAddress">{show.address ?? ""}</p>
                         </div>
                         <div className="row">

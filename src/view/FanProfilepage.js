@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Image } from "react-bootstrap";
@@ -12,7 +12,7 @@ import "../Profilepage.css";
 import "../ArtistCard.css";
 import ArtistCard from "../Components/ArtistCard";
 import LoadingIndicator from "../Components/LoadingIndicator";
-
+import "../Event.css";
 const FanProfilepage = (userData) => {
   const [index, setIndex] = useState(0);
   const handleSelect = (selectedIndex) => {
@@ -20,9 +20,10 @@ const FanProfilepage = (userData) => {
   };
   const navigation = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const currentArtistIndex = useRef(0);
 
   const user = userData.userData;
-
+  console.log(user.plannedEvents);
   //data that I got once I filtered the list of local artists based on the n
   const [favouriteLocalArtists, setFavouriteLocalArtists] = useState([]);
   // getting all mainstream artists from ticketmaster
@@ -44,51 +45,55 @@ const FanProfilepage = (userData) => {
 
   // getting basic user data
   useEffect(() => {
-    console.log(plannedEvents);
-
-    let localArtist = [];
-    for (const artist of favouriteArtists) {
-      axios
-        .get(`${process.env.REACT_APP_BACKEND_URL}api/artists/${artist.id}`)
-        .then((res) => {
-          if (!res.data) {
-            console.log("User not found, move to the next one.");
-          } else {
-            console.log(res.data);
-            localArtist = [...favouriteLocalArtists, res.data];
-            console.log("My locals array", localArtist);
-          }
-          setFavouriteLocalArtists(localArtist);
-          console.log("My final locals array", favouriteLocalArtists);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
-      let popularArtists = [];
+    const intervalId = setInterval(() => {
+      const currentArtist = favouriteArtists[currentArtistIndex.current];
       axios
         .get(
-          `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&keyword=${artist.name}`
+          `${process.env.REACT_APP_BACKEND_URL}api/artists/${currentArtist.id}`
         )
         .then((res) => {
           if (!res.data) {
             console.log("User not found, move to the next one.");
           } else {
             console.log(res.data);
-            popularArtists = [
-              ...mainstreamArtists,
-              res.data._embedded.events[0],
-            ];
-            console.log("My populars array", popularArtists);
+            setFavouriteLocalArtists((prev) => [...prev, res.data]);
           }
-          setMainstreamArtists(popularArtists);
-          console.log("My final populars array", mainstreamArtists);
         })
         .catch((err) => {
           console.log(err);
         });
-    }
-  }, []);
+      axios
+        .get(
+          `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&attractionId=${currentArtist.id}`
+        )
+        .then((res) => {
+          if (!res.data._embedded) {
+            console.log("User not found, move to the next one.");
+          } else {
+            setMainstreamArtists((prev) => [
+              ...prev,
+              res.data._embedded.events[0],
+            ]);
+            console.log("MAINSTREAM", res.data._embedded.events[0]);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      currentArtistIndex.current++;
+      if (currentArtistIndex.current === favouriteArtists.length) {
+        clearInterval(intervalId);
+      }
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, [favouriteArtists]);
+
+  console.log("My final populars array", mainstreamArtists);
+  console.log("My final locals array", favouriteLocalArtists);
 
   return (
     <main className="profile-container">
@@ -135,7 +140,7 @@ const FanProfilepage = (userData) => {
       <section className="events-and-fav-artist-contaiener">
         <article className="saved-upcoming-events">
           <p className="saved-events-title">Saved upcoming events:</p>
-          {plannedEvents.length !== 0 ? (
+          {plannedEvents.length ? (
             plannedEvents.map((event, index) => {
               return event.address ? (
                 <Accordion key={index}>
@@ -151,7 +156,7 @@ const FanProfilepage = (userData) => {
                         </Figure>
                       </div>
                       <div className="col eventTitle">
-                        <h3>Artist name missing from the schema</h3>
+                        <h3>{event.artistName}</h3>
                         <p>
                           {new Date(event.date).toLocaleDateString("en-US", {
                             weekday: "long",
@@ -326,9 +331,9 @@ const FanProfilepage = (userData) => {
             Your favourite artists events :
           </p>
           <Accordion className="accordion">
-            {favouriteLocalArtists.length !== 0
+            {favouriteLocalArtists.length
               ? favouriteLocalArtists.map((artist, index) => {
-                  return artist?.upcomingEvents ? (
+                  return artist?.upcomingEvents.length ? (
                     <AccordionItem eventKey={index}>
                       <AccordionHeader className="row">
                         <div className="col-5 col-sm-4 col-md-3 col-lg-2">
@@ -369,7 +374,7 @@ const FanProfilepage = (userData) => {
                   ) : null;
                 })
               : null}
-            {mainstreamArtists.length !== 0
+            {mainstreamArtists.length
               ? mainstreamArtists.map((artist, index) => {
                   return artist ? (
                     <AccordionItem
@@ -415,11 +420,14 @@ const FanProfilepage = (userData) => {
                       <AccordionBody>
                         <a href={`${artist.url}`}>
                           <div className="row">
-                            <h3>{artist._embedded.venues[0].name ?? ""}</h3>
+                            <h3>
+                              {artist._embedded.venues[0].venue
+                                ? artist._embedded.venues[0].venue
+                                : artist.name}
+                            </h3>
                             <p className="venueAddress">
-                              {artist._embedded.venues[0].address.line1},{" "}
-                              {artist._embedded.venues[0].city.name},{" "}
-                              {artist._embedded.venues[0].state.name}{" "}
+                              {artist._embedded.venues[0].address?.line1},{" "}
+                              {artist._embedded.venues[0].city?.name},{" "}
                               {artist._embedded.venues[0].postalCode},{" "}
                               {artist._embedded.venues[0].country.name}
                             </p>

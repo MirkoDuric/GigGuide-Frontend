@@ -10,26 +10,26 @@
   overflow: auto;
   max-height: 25rem;
   overflow-x: hidden;
-  width:100%;
+  width: 100%;
 }
 
-.accordion-body{
-  display:flex;
+.accordion-body {
+  display: flex;
   justify-content: space-between;
   align-items: center;
   padding-top: 0;
   padding-bottom: 0;
 }
-.eventDetails{
-  width:100%;
+.eventDetails {
+  width: 100%;
   height: 100%;
-  display:flex;
+  display: flex;
   flex-direction: column;
-  margin-top:3rem;
+  margin-top: 3rem;
 }
 
-.noShowsdiv{
-  display:flex;
+.noShowsdiv {
+  display: flex;
   justify-content: center;
   height: 7rem;
   align-items: center;
@@ -40,12 +40,12 @@
   font-size: 3rem;
 }
 
-.saveEventButton{
+.saveEventButton {
   z-index: 100;
 }
 
-.saveEventdiv{
-  display:flex;
+.saveEventdiv {
+  display: flex;
   justify-content: center;
 }
 

@@ -41,6 +41,7 @@ const UserProfilepage = () => {
           bio: response.data.bio,
           songsList: response.data.songsList,
           upcomingEvents: response.data.upcomingEvents,
+          plannedEvents: response.data.plannedEvents,
           userType: response.data.userType,
         });
       });
