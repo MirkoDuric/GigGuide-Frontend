@@ -20,6 +20,7 @@ const FanProfilepage = (userData) => {
   };
   const navigation = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+
   const currentArtistIndex = useRef(0);
 
   const user = userData.userData;
