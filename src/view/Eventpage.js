@@ -49,6 +49,7 @@ const EventsPage = () => {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
   const [currentSavedEvents, setCurrentSavedEvents] = useState([]);
   const [success, setSuccess] = useState(false);
+  const [deleteEvent, setDeleteEvent] = useState(false);
   const navigate = useNavigate();
 
   console.log(`User Name: ${userName}`);
@@ -439,10 +440,35 @@ const EventsPage = () => {
       }
     }
   };
+
+  const handleEventDelete = (e) => {
+    e.preventDefault();
+    axios
+      .delete(
+        `${process.env.REACT_APP_BACKEND_URL}api/user/${userId}/upcomingEvent/${eventId}`
+      )
+      .then((response) => {
+        console.log(response.data); // log the edited event object
+        setDeleteEvent(true);
+        setTimeout(() => {
+          navigate(`/userprofile/${userId}`);
+        }, 3000);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return success ? (
     <Modal show={true} centered>
       <Modal.Header>
-        <Modal.Title>{eventName} Updated!</Modal.Title>
+        <Modal.Title>Event Updated!</Modal.Title>
+      </Modal.Header>
+    </Modal>
+  ) : deleteEvent ? (
+    <Modal show={true} centered>
+      <Modal.Header>
+        <Modal.Title>Event Deleted!</Modal.Title>
       </Modal.Header>
     </Modal>
   ) : isLoading ? (
@@ -502,11 +528,20 @@ const EventsPage = () => {
         {id === userId ? (
           <article className="edit-event-container">
             <Button
-              className="create-event-button"
               variant="primary"
+              className="eventbuttons"
               onClick={() => setShowEventModal(true)}
             >
               Edit Event
+            </Button>
+            <br />
+            <br />
+            <Button
+              variant="danger"
+              className="eventbuttons"
+              onClick={handleEventDelete}
+            >
+              Delete Event
             </Button>
           </article>
         ) : null}

@@ -21,6 +21,7 @@ import "../Event.css";
 const ArtistProfilepage = (userData) => {
   const user = userData.userData;
   const {
+    userId,
     userUsername,
     userName,
     userAge,
@@ -34,7 +35,6 @@ const ArtistProfilepage = (userData) => {
     upcomingEvents,
     userType,
   } = user;
-
   const id = sessionStorage.getItem("userId");
 
   //STATE VARIABLES AND FUNCTIONS FOR CREATING BIO CONTENT
@@ -122,7 +122,6 @@ const ArtistProfilepage = (userData) => {
   const [eventDate, setEventDate] = useState("");
   const [eventVenue, setEventVenue] = useState("");
   const [eventInfo, setEventInfo] = useState("");
-  console.log("MY EVENT TIME", eventDate._d);
   const handleEventSubmit = (e) => {
     e.preventDefault();
     const newEvent = {
@@ -161,7 +160,6 @@ const ArtistProfilepage = (userData) => {
         window.location.reload();
       });
   };
-
   return (
     <main className="profile-container">
       <section className="img-container">
@@ -170,7 +168,7 @@ const ArtistProfilepage = (userData) => {
             <Image
               fluid={true}
               className="banner-img"
-              src={`${process.env.REACT_APP_BACKEND_URL}${userBannerImg}`}
+              src={userBannerImg}
               alt="Banner img"
             />
           ) : (
@@ -183,7 +181,7 @@ const ArtistProfilepage = (userData) => {
               fluid={true}
               className="profile-img"
               roundedCircle={true}
-              src={`${process.env.REACT_APP_BACKEND_URL}${userProfileImg}`}
+              src={userProfileImg}
               alt="Profile img"
             />
           ) : (
@@ -223,13 +221,15 @@ const ArtistProfilepage = (userData) => {
             </InputGroup>
           ) : (
             <>
-              {content === "" ? <p>{"No biography jet"}</p> : <p>{content}</p>}
-              <Button
-                className="edit-bio-button"
-                onClick={() => handleEditButtonClick()}
-              >
-                Edit
-              </Button>
+              {content === "" ? <p>{"No content jet"}</p> : <p>{content}</p>}
+              {id === userId ? (
+                <Button
+                  className="edit-bio-button"
+                  onClick={() => handleEditButtonClick()}
+                >
+                  Edit
+                </Button>
+              ) : null}
             </>
           )}
         </div>
@@ -238,49 +238,45 @@ const ArtistProfilepage = (userData) => {
         <article className="eventdiv">
           <p className="event-list-title">{userName} Upcoming Shows:</p>
           <Accordion className="accordion">
-            {upcomingEvents.length
-              ? upcomingEvents.map((show, index) => {
-                  console.log(show.eventName);
-                  return show?.eventName ? (
-                    <AccordionItem eventKey={index}>
-                      <AccordionHeader className="row">
-                        <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                          <Figure>
-                            <Figure.Image
-                              width={"100%"}
-                              src={`${process.env.REACT_APP_BACKEND_URL}${userProfileImg}`}
-                              alt="Artist Image"
-                            />
-                          </Figure>
-                        </div>
-                        <div className="col eventTitle">
-                          <h3>{show.artistName}</h3>
-                          <p>
-                            {new Date(show.date ?? "").toLocaleDateString(
-                              "en-US",
-                              {
-                                weekday: "long",
-                                year: "numeric",
-                                month: "long",
-                                day: "numeric",
-                              }
-                            )}
-                          </p>
-                        </div>
-                      </AccordionHeader>
-                      <AccordionBody>
-                        <div className="row">
-                          <h3>{show.venue ?? ""}</h3>
-                          <p className="venueAddress">{show.address ?? ""}</p>
-                        </div>
-                        <div className="row">
-                          <p>{show.info ?? ""}</p>
-                        </div>
-                      </AccordionBody>
-                    </AccordionItem>
-                  ) : null;
-                })
-              : null}
+            {upcomingEvents.length ? (
+              upcomingEvents.map((show, index) => {
+                return show.eventName ? (
+                  <AccordionItem eventKey={index}>
+                    <AccordionHeader className="row">
+                      <div className="col eventTitle">
+                        <h3>{userName}</h3>
+                        <p>
+                          {new Date(show.eventDate ?? "").toLocaleDateString(
+                            "en-US",
+                            {
+                              weekday: "long",
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            }
+                          )}
+                        </p>
+                      </div>
+                    </AccordionHeader>
+                    <AccordionBody>
+                      <div className="row">
+                        <h3>{show.eventVenue ?? ""}</h3>
+                        <p className="venueAddress">{show.address ?? ""}</p>
+                      </div>
+                      <div className="row">
+                        <p>{show.info ?? ""}</p>
+                      </div>
+                    </AccordionBody>
+                  </AccordionItem>
+                ) : null;
+              })
+            ) : (
+              <div className="noShowsdiv">
+                <h6>No Upcoming Shows</h6>
+              </div>
+            )}
+          </Accordion>
+          {id === userId ? (
             <Button
               className="create-event-button"
               variant="primary"
@@ -288,7 +284,7 @@ const ArtistProfilepage = (userData) => {
             >
               Create event
             </Button>
-          </Accordion>
+          ) : null}
 
           <Modal show={showEventModal} onHide={() => setShowEventModal(false)}>
             <Modal.Header closeButton>
@@ -380,13 +376,19 @@ const ArtistProfilepage = (userData) => {
                 );
               })}
             </ListGroup>
+          ) : (
+            <div className="noShowsdiv">
+              <h6>No Songs Available</h6>
+            </div>
+          )}
+          {id === userId ? (
+            <Button
+              className="add-song-button"
+              onClick={() => setShowSongsModal(true)}
+            >
+              Add New Song
+            </Button>
           ) : null}
-          <Button
-            className="add-song-button"
-            onClick={() => setShowSongsModal(true)}
-          >
-            Add New Song
-          </Button>
           <Modal show={showSongsModal} onHide={() => setShowSongsModal(false)}>
             <Modal.Header closeButton>
               <Modal.Title>Add New Song</Modal.Title>

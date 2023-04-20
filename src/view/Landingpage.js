@@ -108,7 +108,6 @@ const LandingPage = (props) => {
       });
   }, []);
 
-  console.log(bands);
   return (
     <div className="landingpage-container">
       <br />
