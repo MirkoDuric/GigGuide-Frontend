@@ -7,27 +7,66 @@ import ArtistProfilepage from "./ArtistProfilepage";
 const UserProfilepage = () => {
   const { userId } = useParams();
   const id = sessionStorage.getItem("userId");
-  const [user, setUser] = useState({
-    userUsername: "",
-    userName: "",
-    userAge: null,
-    userCity: "",
-    userCountry: "",
-    userProfileImg: "",
-    userBannerImg: "",
-    favouriteArtists: [],
-    bio: "",
-    songsList: [],
-    upcomingEvents: [],
-    plannedEvents: [],
-    userType: "",
-  });
+  const [user, setUser] = useState({});
+  const [currentFaveArtists, setCurrentFaveArtists] = useState([]);
+
+  const handleHeartClick = async (e) => {
+    e.preventDefault();
+    console.log("clicked");
+    const faveId = e.target.getAttribute("id");
+    const faveName = e.target.getAttribute("title");
+    const favePic = e.target.getAttribute("pic");
+    const faveTouring = e.target.getAttribute("data-touring");
+    const fave = {
+      id: faveId,
+      name: faveName,
+      pic: favePic,
+      touring: faveTouring,
+    };
+    console.log(fave);
+    let favouriteArtists = currentFaveArtists;
+    if (
+      e.target.src ===
+      `${process.env.REACT_APP_BACKEND_URL}profile-pics/Outline.png`
+    ) {
+      if (currentFaveArtists.length > 0) {
+        setCurrentFaveArtists([...currentFaveArtists, fave]);
+        favouriteArtists = [...currentFaveArtists, fave];
+      } else {
+        setCurrentFaveArtists([fave]);
+        favouriteArtists = [fave];
+      }
+    } else {
+      setCurrentFaveArtists(
+        currentFaveArtists.filter((artist) => artist.id !== e.target.id)
+      );
+      favouriteArtists = currentFaveArtists.filter(
+        (artist) => artist.id !== e.target.id
+      );
+    }
+    if (id) {
+      const payload = { favouriteArtists };
+      try {
+        await axios.put(
+          `${process.env.REACT_APP_BACKEND_URL}api/user/${id}/faveArtist`,
+          payload
+        );
+      } catch (err) {
+        if (err.status === 404) {
+          console.log("Resource could not be found!");
+        } else {
+          console.log(err.message);
+        }
+      }
+    }
+  };
 
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}api/user/${userId}`)
       .then((response) => {
         setUser({
+          userId: userId,
           userUsername: response.data.username,
           userName: response.data.name,
           userAge: response.data.age,
@@ -43,6 +82,7 @@ const UserProfilepage = () => {
           plannedEvents: response.data.plannedEvents,
           userType: response.data.userType,
         });
+        setCurrentFaveArtists(response.data.favouriteArtists);
       })
       .catch((error) => {
         console.log(error);
@@ -177,10 +217,14 @@ const UserProfilepage = () => {
         }
       });
   }, []);
-  return (
+  return user ? (
     <>
       {user.userType === "Fan" ? (
-        <FanProfilepage userData={user} />
+        <FanProfilepage
+          userData={user}
+          currentFaveArtists={currentFaveArtists}
+          onHeartClick={handleHeartClick}
+        />
       ) : (
         <>
           {user.userType === "Artist" ? (
@@ -189,6 +233,6 @@ const UserProfilepage = () => {
         </>
       )}
     </>
-  );
+  ) : null;
 };
 export default UserProfilepage;

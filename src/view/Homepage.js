@@ -55,9 +55,17 @@ const HomePage = () => {
 
   const handleHeartClick = async (e) => {
     e.preventDefault();
-    const faveId = e.target.id;
-    const faveName = e.target.title;
-    const fave = { id: faveId, name: faveName };
+    const faveId = e.target.getAttribute("id");
+    const faveName = e.target.getAttribute("title");
+    const favePic = e.target.getAttribute("pic");
+    const faveTouring = e.target.getAttribute("data-touring");
+    const fave = {
+      id: faveId,
+      name: faveName,
+      pic: favePic,
+      touring: faveTouring,
+    };
+    console.log(fave);
     let favouriteArtists = currentFaveArtists;
     if (
       e.target.src ===
@@ -115,7 +123,6 @@ const HomePage = () => {
       };
     } else {
       eventInfo = band;
-      console.log(eventInfo);
     }
     if (e.target.value === "Save Event") {
       if (currentSavedEvents.length > 0) {
@@ -236,7 +243,7 @@ const HomePage = () => {
       setNewGenre(0);
     }
   }, [newSearch, newCity, newCountry, newGenre]);
-
+  console.log(localBands);
   return (
     <div className="landingpage-container">
       <br />

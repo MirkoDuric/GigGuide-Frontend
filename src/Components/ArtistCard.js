@@ -35,6 +35,8 @@ const ArtistCard = (props) => {
                   onClick={props.onHeartClick}
                   id={bandId}
                   title={bandName}
+                  data-touring={isTouring}
+                  pic={bandPic}
                 ></Image>
               ) : (
                 <Image
@@ -45,6 +47,8 @@ const ArtistCard = (props) => {
                   onClick={props.onHeartClick}
                   id={bandId}
                   title={bandName}
+                  data-touring={isTouring}
+                  pic={bandPic}
                 ></Image>
               )
             ) : (
@@ -56,6 +60,8 @@ const ArtistCard = (props) => {
                 onClick={props.onHeartClick}
                 id={bandId}
                 title={bandName}
+                data-touring={isTouring}
+                pic={bandPic}
               ></Image>
             )
           ) : null}

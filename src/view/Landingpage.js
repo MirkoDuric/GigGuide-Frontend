@@ -91,7 +91,7 @@ const LandingPage = (props) => {
           });
         axios
           .get(
-            `${process.env.REACT_APP_BACKEND_URL}api/artists/${name}/${country}/${city}/${genre}`
+            `${process.env.REACT_APP_BACKEND_URL}api/artists/${name}/${response.data.country}/${response.data.city}/${genre}`
           )
           .then((response) => {
             setLocalBands(response.data);
@@ -107,7 +107,6 @@ const LandingPage = (props) => {
         setIsLoading(false);
       });
   }, []);
-
   return (
     <div className="landingpage-container">
       <br />
