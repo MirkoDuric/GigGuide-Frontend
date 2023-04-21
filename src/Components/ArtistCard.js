@@ -20,9 +20,9 @@ const ArtistCard = (props) => {
       key={bandId}
     >
       <Nav.Link href={`/userprofile/${bandId}`}>
-        <Card.Img src={bandPic} alt="Artist Picture" />
+        <Card.Img src={bandPic} alt="Artist Picture" fluid={true} />
       </Nav.Link>
-      <Card.ImgOverlay>
+      <Card.ImgOverlay fluid={true}>
         <div className="favoritediv">
           {id ? (
             currentFaveArtists.length ? (

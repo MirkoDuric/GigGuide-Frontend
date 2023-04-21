@@ -209,6 +209,7 @@ const Event = (props) => {
                                       value="Saved"
                                       title={JSON.stringify(band)}
                                       id={JSON.stringify(event)}
+                                      data-artistType="local"
                                     >
                                       Saved
                                     </Button>
@@ -220,6 +221,7 @@ const Event = (props) => {
                                       value="Save Event"
                                       title={JSON.stringify(band)}
                                       id={JSON.stringify(event)}
+                                      data-artistType="local"
                                     >
                                       Save Event
                                     </Button>
@@ -232,6 +234,7 @@ const Event = (props) => {
                                     value="Save Event"
                                     title={JSON.stringify(band)}
                                     id={JSON.stringify(event)}
+                                    data-artistType="local"
                                   >
                                     Save Event
                                   </Button>

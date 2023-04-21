@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/Signup-Login.css";
 import logo from "../css/logo.png";
@@ -20,6 +20,7 @@ const Signup = () => {
   const [profile, setProfile] = useState({});
   const [email, setEmail] = useState("");
   const [genre, setGenre] = useState("");
+  const [success, setSuccess] = useState(false);
   const [id, setId] = useState(sessionStorage.getItem("userId"));
 
   useEffect(() => {
@@ -66,6 +67,7 @@ const Signup = () => {
         }
       );
       if (response.ok) {
+        setSuccess(true);
         setTimeout(() => {
           navigate("/login");
         }, 3000);
@@ -87,7 +89,13 @@ const Signup = () => {
     setProfile(img);
   };
 
-  return (
+  return success ? (
+    <Modal show={true} centered>
+      <Modal.Header>
+        <Modal.Title>Sign Up Successful!</Modal.Title>
+      </Modal.Header>
+    </Modal>
+  ) : (
     <div className="container signupdiv">
       <img className="logo" src={logo}></img>
       <Form className="signup-form" onSubmit={handleSubmit}>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Modal } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import "../css/Signup-Login.css";
@@ -10,6 +10,8 @@ const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [failure, setFailure] = useState(false);
   const id = sessionStorage.getItem("userId");
   const navigation = useNavigate();
   console.log(id);
@@ -35,20 +37,41 @@ const Login = () => {
         const id = data.response._id;
         sessionStorage.setItem("jwt", token);
         sessionStorage.setItem("userId", id);
-
-        navigate("/homepage");
+        setSuccess(true);
+        setTimeout(() => {
+          navigate("/homepage");
+        }, 3000);
       } else {
         const errorData = response.data;
         console.log(errorData);
-        navigate("/login");
+        setFailure(true);
+        setTimeout(() => {
+          window.location.reload(true);
+        }, 3000);
         throw new Error(errorData.message);
       }
     } catch (err) {
+      setFailure(true);
+      setTimeout(() => {
+        window.location.reload(true);
+      }, 3000);
       throw err;
     }
   };
-
-  return (
+  console.log(failure);
+  return success ? (
+    <Modal show={true} centered>
+      <Modal.Header>
+        <Modal.Title>Login Successful!</Modal.Title>
+      </Modal.Header>
+    </Modal>
+  ) : failure ? (
+    <Modal show={true} centered>
+      <Modal.Header>
+        <Modal.Title>Login Failed!</Modal.Title>
+      </Modal.Header>
+    </Modal>
+  ) : (
     <div className="container">
       <img className="logo" src={logo} alt="Logo" />
       <Form className="signup-form" onSubmit={handleLogin}>

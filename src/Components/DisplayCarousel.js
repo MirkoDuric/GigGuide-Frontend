@@ -22,44 +22,46 @@ const ControlledCarousel = (props) => {
   }
 
   return (
-    <Carousel
-      cols={6}
-      rows={1}
-      gap={10}
-      loop={true}
-      scrollSnap={true}
-      hideArrow={false}
-      showDots={true}
-      style={{ height: "100%" }}
-      responsiveLayout={[
-        {
-          breakpoint: 1200,
-          cols: 5,
-          rows: 1,
-          gap: 10,
-          loop: true,
-          hideArrow: false,
-          showDots: true,
-        },
-        {
-          breakpoint: 992,
-          cols: 4,
-          rows: 1,
-          gap: 10,
-          loop: true,
-          hideArrow: false,
-          showDots: true,
-        },
-        {
-          breakpoint: 768,
-          cols: 3,
-          rows: 1,
-          gap: 10,
-          loop: true,
-          hideArrow: false,
-          showDots: true,
-        },
-        /*  {
+    <div className="carouseldiv">
+      <Carousel
+        cols={6}
+        rows={1}
+        gap={10}
+        className="carousel"
+        loop={true}
+        scrollSnap={true}
+        hideArrow={false}
+        showDots={true}
+        style={{ height: "100%" }}
+        responsiveLayout={[
+          {
+            breakpoint: 1200,
+            cols: 5,
+            rows: 1,
+            gap: 10,
+            loop: true,
+            hideArrow: false,
+            showDots: true,
+          },
+          {
+            breakpoint: 992,
+            cols: 4,
+            rows: 1,
+            gap: 10,
+            loop: true,
+            hideArrow: false,
+            showDots: true,
+          },
+          {
+            breakpoint: 768,
+            cols: 3,
+            rows: 1,
+            gap: 10,
+            loop: true,
+            hideArrow: false,
+            showDots: true,
+          },
+          /*  {
           breakpoint: 576,
           cols: 2,
           rows: 1,
@@ -68,74 +70,75 @@ const ControlledCarousel = (props) => {
           hideArrow: false,
           showDots: true,
         }, */
-      ]}
-      mobileBreakpoint={576}
-    >
-      {bands.length
-        ? type === "local"
-          ? bands.map((band, index) => {
-              return (
-                index < 18 && (
-                  <Carousel.Item>
-                    <ArtistCard
-                      className="band"
-                      name={band.name}
-                      profilePicture={`${process.env.REACT_APP_BACKEND_URL}${band.profilePicture}`}
-                      id={band._id}
-                      touring={
-                        band.upcomingEvents
-                          ? band.upcomingEvents.length
-                            ? true
+        ]}
+        mobileBreakpoint={576}
+      >
+        {bands.length
+          ? type === "local"
+            ? bands.map((band, index) => {
+                return (
+                  index < 18 && (
+                    <Carousel.Item>
+                      <ArtistCard
+                        className="band"
+                        name={band.name}
+                        profilePicture={`${process.env.REACT_APP_BACKEND_URL}${band.profilePicture}`}
+                        id={band._id}
+                        touring={
+                          band.upcomingEvents
+                            ? band.upcomingEvents.length
+                              ? true
+                              : false
                             : false
-                          : false
-                      }
-                      onHeartClick={onHeartClick}
-                      currentFaveArtists={currentFaveArtists}
-                    />
-                  </Carousel.Item>
-                )
-              );
-            })
-          : bands.map((band, index) => {
-              return (
-                index < 18 && (
-                  <Carousel.Item>
-                    <ArtistCard
-                      className="band"
-                      name={
-                        band._embedded.attractions
-                          ? band._embedded.attractions[0].name
-                          : band.name
-                      }
-                      profilePicture={
-                        band.images.find(
-                          (element) =>
-                            element.ratio === "16_9" && element.height > 150
-                        ).url
-                      }
-                      id={
-                        band._embedded.attractions[0]
-                          ? band._embedded.attractions[0].id
-                          : band.id
-                      }
-                      touring={
-                        band._embedded.attractions[0].upcomingEvents
-                          ? band._embedded.attractions[0].upcomingEvents
-                              ._total > 0
-                            ? true
+                        }
+                        onHeartClick={onHeartClick}
+                        currentFaveArtists={currentFaveArtists}
+                      />
+                    </Carousel.Item>
+                  )
+                );
+              })
+            : bands.map((band, index) => {
+                return (
+                  index < 18 && (
+                    <Carousel.Item>
+                      <ArtistCard
+                        className="band"
+                        name={
+                          band._embedded.attractions
+                            ? band._embedded.attractions[0].name
+                            : band.name
+                        }
+                        profilePicture={
+                          band.images.find(
+                            (element) =>
+                              element.ratio === "16_9" && element.height > 150
+                          ).url
+                        }
+                        id={
+                          band._embedded.attractions[0]
+                            ? band._embedded.attractions[0].id
+                            : band.id
+                        }
+                        touring={
+                          band._embedded.attractions[0].upcomingEvents
+                            ? band._embedded.attractions[0].upcomingEvents
+                                ._total > 0
+                              ? true
+                              : false
                             : false
-                          : false
-                      }
-                      onHeartClick={onHeartClick}
-                      currentFaveArtists={currentFaveArtists}
-                    />{" "}
-                    :
-                  </Carousel.Item>
-                )
-              );
-            })
-        : null}
-    </Carousel>
+                        }
+                        onHeartClick={onHeartClick}
+                        currentFaveArtists={currentFaveArtists}
+                      />{" "}
+                      :
+                    </Carousel.Item>
+                  )
+                );
+              })
+          : null}
+      </Carousel>
+    </div>
   );
 };
 
