@@ -1,9 +1,14 @@
 .card-img-overlay {
+  width: 100%;
+ object-fit: cover;
     display:flex;
     flex-direction: column;
     text-align: center;
     padding: 0 !important;
 }
+
+
+
 
 .bandName {
     align-self: center;
@@ -24,7 +29,9 @@
 }
 
 .artistCard {
-    margin: 0.2rem
+    margin: 0.2rem;
+        width: 100%;
+    
 }
 
 .favorite{
@@ -36,6 +43,10 @@
     display:flex;
     justify-content: flex-end;
     width:10%;
+    min-width:10px;
+    max-width:30px;
+    max-height: 30px;
+    min-height: 10px;
     height: 15%;
     z-index: 1000;
 }

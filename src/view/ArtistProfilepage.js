@@ -1,6 +1,5 @@
 import { Image } from "react-bootstrap";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useState } from "react";
 import axios from "axios";
 import Figure from "react-bootstrap/Figure";
 import Accordion from "react-bootstrap/Accordion";
@@ -9,17 +8,21 @@ import AccordionBody from "react-bootstrap/AccordionBody";
 import AccordionItem from "react-bootstrap/AccordionItem";
 import "../Profilepage.css";
 import "../ArtistCard.css";
-import Carousel from "react-grid-carousel";
-import { InputGroup, FormControl, Button } from "react-bootstrap";
+import { useNavigate } from "react-router";
+import { InputGroup, FormControl, Button, ModalBody } from "react-bootstrap";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
 import Badge from "react-bootstrap/Badge";
 import ListGroup from "react-bootstrap/ListGroup";
-import { Modal, Form } from "react-bootstrap";
+import { Modal, Form, Nav } from "react-bootstrap";
 import Datetime from "react-datetime";
 import moment from "moment";
 import "../Event.css";
+import PlannedEvents from "../Components/PlannedEvents";
 
 const ArtistProfilepage = (userData) => {
   const user = userData.userData;
+  const navigate = useNavigate();
   const {
     userId,
     userUsername,
@@ -33,9 +36,13 @@ const ArtistProfilepage = (userData) => {
     bio,
     songsList,
     upcomingEvents,
+    plannedEvents,
     userType,
   } = user;
+  const currentFaveArtists = userData.currentFaveArtists;
+  const currentSavedEvents = userData.currentSavedEvents;
   const id = sessionStorage.getItem("userId");
+  let eventKey = 0;
 
   //STATE VARIABLES AND FUNCTIONS FOR CREATING BIO CONTENT
   const [content, setContent] = useState(bio);
@@ -160,7 +167,7 @@ const ArtistProfilepage = (userData) => {
         window.location.reload();
       });
   };
-  return (
+  return user.userName ? (
     <main className="profile-container">
       <section className="img-container">
         <article>
@@ -187,15 +194,66 @@ const ArtistProfilepage = (userData) => {
               fluid={true}
               className="no-profile-img"
               roundedCircle={true}
-              alt="No profile img"
+              alt="No Profile Image"
             />
           )}
         </article>
       </section>
       <section className="name-location-container">
-        <article>
-          <p className="name">{userName}</p>
-          <p className="username">{userUsername}</p>
+        <article style={{ display: "flex", flexDirection: "column" }}>
+          <Row className="col-6 col-sm-5 col-md-4">
+            <Col>
+              <p className="name">{userName}</p>
+              <p className="username">{userUsername}</p>
+            </Col>
+            <Col>
+              <div className="liked">
+                {id ? (
+                  currentFaveArtists.length ? (
+                    currentFaveArtists.find(
+                      (artist) => artist.id === userId
+                    ) ? (
+                      <Image
+                        roundedCircle={true}
+                        src={`${process.env.REACT_APP_BACKEND_URL}profile-pics/Filled.png`}
+                        alt="Filled Heart"
+                        className="favorite"
+                        onClick={userData.onHeartClick}
+                        id={userId}
+                        title={userName}
+                        data-touring={userData.isTouring}
+                        pic={userProfileImg}
+                      ></Image>
+                    ) : (
+                      <Image
+                        roundedCircle={true}
+                        src={`${process.env.REACT_APP_BACKEND_URL}profile-pics/Outline.png`}
+                        alt="Heart Outline"
+                        className="favorite"
+                        onClick={userData.onHeartClick}
+                        id={userId}
+                        title={userName}
+                        data-touring={userData.isTouring}
+                        pic={userProfileImg}
+                      ></Image>
+                    )
+                  ) : (
+                    <Image
+                      roundedCircle={true}
+                      src={`${process.env.REACT_APP_BACKEND_URL}profile-pics/Outline.png`}
+                      alt="Heart Outline"
+                      className="favorite"
+                      onClick={userData.onHeartClick}
+                      id={userId}
+                      title={userName}
+                      data-touring={userData.isTouring}
+                      pic={userProfileImg}
+                    ></Image>
+                  )
+                ) : null}
+              </div>
+            </Col>
+          </Row>
         </article>
       </section>
       <section className="artist-bio">
@@ -219,7 +277,7 @@ const ArtistProfilepage = (userData) => {
             </InputGroup>
           ) : (
             <>
-              {content === "" ? <p>{"No content jet"}</p> : <p>{content}</p>}
+              {content === "" ? <p>{"No content yet"}</p> : <p>{content}</p>}
               {id === userId ? (
                 <Button
                   className="edit-bio-button"
@@ -237,36 +295,58 @@ const ArtistProfilepage = (userData) => {
           <p className="event-list-title">{userName} Upcoming Shows:</p>
           <Accordion className="accordion">
             {upcomingEvents.length ? (
-              upcomingEvents.map((show, index) => {
-                return show.eventName ? (
-                  <AccordionItem eventKey={index}>
+              upcomingEvents.map((event) => {
+                eventKey++;
+                return (
+                  <AccordionItem className="AcordionItem" eventKey={eventKey}>
                     <AccordionHeader className="row">
+                      <div className="col-5 col-sm-4 col-md-3 col-lg-2">
+                        <Nav.Link href={`/${userId}/event/${event._id}`}>
+                          <Figure>
+                            <Figure.Image
+                              width={"100%"}
+                              src={userProfileImg}
+                              alt="Artist Image"
+                            />
+                          </Figure>
+                        </Nav.Link>
+                      </div>
                       <div className="col eventTitle">
-                        <h3>{userName}</h3>
-                        <p>
-                          {new Date(show.eventDate ?? "").toLocaleDateString(
+                        <h2>
+                          {userName} at {event.eventName}
+                        </h2>
+                        <h3>
+                          {new Date(event.date).toLocaleDateString("en-US", {
+                            weekday: "long",
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
+                          ,{" "}
+                          {new Date(event.startTime).toLocaleTimeString(
                             "en-US",
                             {
-                              weekday: "long",
-                              year: "numeric",
-                              month: "long",
-                              day: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
                             }
                           )}
-                        </p>
+                        </h3>
                       </div>
                     </AccordionHeader>
-                    <AccordionBody>
-                      <div className="row">
-                        <h3>{show.eventVenue ?? ""}</h3>
-                        <p className="venueAddress">{show.address ?? ""}</p>
-                      </div>
-                      <div className="row">
-                        <p>{show.info ?? ""}</p>
-                      </div>
-                    </AccordionBody>
+                    <Accordion.Body>
+                      <Nav.Link href={`/${userId}/event/${event._id}`}>
+                        <div className="row">
+                          <p>{event.venue} </p>
+                          <p className="venueAddress">{event.address}</p>
+                        </div>
+                        <div className="row">
+                          <p className="eventInfo">{event.info}</p>
+                        </div>
+                      </Nav.Link>
+                      <div className="col-5 col-sm-3 saveEventdiv"></div>
+                    </Accordion.Body>
                   </AccordionItem>
-                ) : null;
+                );
               })
             ) : (
               <div className="noShowsdiv">
@@ -452,6 +532,24 @@ const ArtistProfilepage = (userData) => {
         </article>
       </section>
     </main>
+  ) : (
+    <Modal show={true} centered>
+      <Modal.Header style={{ display: "flex", justifyContent: "center" }}>
+        <Modal.Title>Profile Not Found</Modal.Title>
+      </Modal.Header>
+      <ModalBody>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            variant="primary"
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Homepage
+          </Button>
+        </div>
+      </ModalBody>
+    </Modal>
   );
 };
 

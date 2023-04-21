@@ -388,6 +388,7 @@ const EventsPage = () => {
 
   const handleEventClick = async (e) => {
     e.preventDefault();
+    console.log(e.target);
     let eventInfo = "";
     let plannedEvents = currentSavedEvents;
     const band = JSON.parse(e.target.title);
@@ -395,18 +396,52 @@ const EventsPage = () => {
       const event = JSON.parse(e.target.id);
       eventInfo = {
         id: event._id,
+        bandId: band._id,
         ticketUrl: event.ticketUrl,
-        profilePicture: band.profilePicture,
+        profilePicture: process.env.REACT_APP_BACKEND_URL + band.profilePicture,
         artistName: band.name,
         date: event.date,
         startTime: event.startTime,
         venue: event.venue,
         address: event.address,
         info: event.info,
+        artistType: e.target.getAttribute("data-artistType"),
       };
     } else {
-      eventInfo = band;
+      eventInfo = {
+        id: band.id,
+        bandId: band._embedded.attractions[0].id,
+        ticketUrl: band.ticketUrl,
+        profilePicture: band.images.find(
+          (element) => element.ratio === "16_9" && element.height > 150
+        ).url,
+        artistName: band._embedded.attractions
+          ? band._embedded.attractions[0].name
+          : band.name,
+        date: band.dates.start.dateTime,
+        startTime: band.dates.start.dateTime,
+        venue: band._embedded.venues[0].name,
+        address: band._embedded.venues[0].state
+          ? band._embedded.venues[0].address.line1 +
+            " " +
+            band._embedded.venues[0].city.name +
+            ", " +
+            band._embedded.venues[0].state.name +
+            " " +
+            band._embedded.venues[0].postalCode +
+            ", " +
+            band._embedded.venues[0].country.name
+          : band._embedded.venues[0].address.line1 +
+            " " +
+            band._embedded.venues[0].city.name +
+            ", " +
+            band._embedded.venues[0].postalCode +
+            ", " +
+            band._embedded.venues[0].country.name,
+        info: band.info,
+      };
     }
+    console.log(eventInfo);
     if (e.target.value === "Save Event") {
       if (currentSavedEvents.length > 0) {
         setCurrentSavedEvents([...currentSavedEvents, eventInfo]);

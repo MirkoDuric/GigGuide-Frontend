@@ -60,7 +60,7 @@ const Searchpage = () => {
         id: event._id,
         ticketUrl: event.ticketUrl,
         profilePicture: band.profilePicture,
-        name: band.name,
+        artistName: band.name,
         date: event.date,
         startTime: event.startTime,
         venue: event.venue,
@@ -68,8 +68,38 @@ const Searchpage = () => {
         info: event.info,
       };
     } else {
-      eventInfo = band;
-      console.log(eventInfo);
+      eventInfo = {
+        id: band.id,
+        bandId: band._embedded.attractions[0].id,
+        ticketUrl: band.ticketUrl,
+        profilePicture: band.images.find(
+          (element) => element.ratio === "16_9" && element.height > 150
+        ).url,
+        artistName: band._embedded.attractions
+          ? band._embedded.attractions[0].name
+          : band.name,
+        date: band.dates.start.dateTime,
+        startTime: band.dates.start.dateTime,
+        venue: band._embedded.venues[0].name,
+        address: band._embedded.venues[0].state
+          ? band._embedded.venues[0].address.line1 +
+            " " +
+            band._embedded.venues[0].city.name +
+            ", " +
+            band._embedded.venues[0].state.name +
+            " " +
+            band._embedded.venues[0].postalCode +
+            ", " +
+            band._embedded.venues[0].country.name
+          : band._embedded.venues[0].address.line1 +
+            " " +
+            band._embedded.venues[0].city.name +
+            ", " +
+            band._embedded.venues[0].postalCode +
+            ", " +
+            band._embedded.venues[0].country.name,
+        info: band.info,
+      };
     }
     if (e.target.value === "Save Event") {
       if (currentSavedEvents.length > 0) {

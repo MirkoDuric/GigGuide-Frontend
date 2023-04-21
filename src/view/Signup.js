@@ -66,6 +66,7 @@ const Signup = () => {
         }
       );
       if (response.ok) {
+        setSuccess(true);
         setTimeout(() => {
           navigate("/login");
         }, 3000);
@@ -87,7 +88,13 @@ const Signup = () => {
     setProfile(img);
   };
 
-  return (
+  return success ? (
+    <Modal show={true} centered>
+      <Modal.Header>
+        <Modal.Title>Sign Up Successful!</Modal.Title>
+      </Modal.Header>
+    </Modal>
+  ) : (
     <div className="container signupdiv">
       <img className="logo" src={logo}></img>
       {success ? (

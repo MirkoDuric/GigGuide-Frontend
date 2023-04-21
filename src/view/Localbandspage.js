@@ -103,39 +103,60 @@ const LocalBandsPage = () => {
 
   const handleEventClick = async (e) => {
     e.preventDefault();
+    console.log(e.target);
     let eventInfo = "";
     let plannedEvents = currentSavedEvents;
     const band = JSON.parse(e.target.title);
     if (e.target.id) {
       const event = JSON.parse(e.target.id);
-      if (event._id) {
-        eventInfo = {
-          id: event._id,
-          ticketUrl: event.ticketUrl,
-          profilePicture: band.profilePicture,
-          artistName: band.name,
-          date: event.date,
-          startTime: event.startTime,
-          venue: event.venue,
-          address: event.address,
-          info: event.info,
-        };
-      } else {
-        eventInfo = {
-          id: event.id,
-          ticketUrl: event.ticketUrl,
-          profilePicture: band.profilePicture,
-          name: band.name,
-          date: event.date,
-          startTime: event.startTime,
-          venue: event.venue,
-          address: event.address,
-          info: event.info,
-        };
-      }
+      eventInfo = {
+        id: event._id,
+        bandId: band._id,
+        ticketUrl: event.ticketUrl,
+        profilePicture: process.env.REACT_APP_BACKEND_URL + band.profilePicture,
+        artistName: band.name,
+        date: event.date,
+        startTime: event.startTime,
+        venue: event.venue,
+        address: event.address,
+        info: event.info,
+        artistType: e.target.getAttribute("data-artistType"),
+      };
     } else {
-      eventInfo = band;
+      eventInfo = {
+        id: band.id,
+        bandId: band._embedded.attractions[0].id,
+        ticketUrl: band.ticketUrl,
+        profilePicture: band.images.find(
+          (element) => element.ratio === "16_9" && element.height > 150
+        ).url,
+        artistName: band._embedded.attractions
+          ? band._embedded.attractions[0].name
+          : band.name,
+        date: band.dates.start.dateTime,
+        startTime: band.dates.start.dateTime,
+        venue: band._embedded.venues[0].name,
+        address: band._embedded.venues[0].state
+          ? band._embedded.venues[0].address.line1 +
+            " " +
+            band._embedded.venues[0].city.name +
+            ", " +
+            band._embedded.venues[0].state.name +
+            " " +
+            band._embedded.venues[0].postalCode +
+            ", " +
+            band._embedded.venues[0].country.name
+          : band._embedded.venues[0].address.line1 +
+            " " +
+            band._embedded.venues[0].city.name +
+            ", " +
+            band._embedded.venues[0].postalCode +
+            ", " +
+            band._embedded.venues[0].country.name,
+        info: band.info,
+      };
     }
+    console.log(eventInfo);
     if (e.target.value === "Save Event") {
       if (currentSavedEvents.length > 0) {
         setCurrentSavedEvents([...currentSavedEvents, eventInfo]);
@@ -145,7 +166,6 @@ const LocalBandsPage = () => {
         plannedEvents = [eventInfo];
       }
     } else {
-      console.log(eventInfo.id);
       setCurrentSavedEvents(
         currentSavedEvents.filter((event) => event.id !== eventInfo.id)
       );
@@ -199,7 +219,7 @@ const LocalBandsPage = () => {
             setGenre(response.data.favouriteGenre);
             axios
               .get(
-                `${process.env.REACT_APP_BACKEND_URL}api/artists/0/${response.data.country}/${response.data.city}/${response.data.favouriteGenre}`
+                `${process.env.REACT_APP_BACKEND_URL}api/artists/0/${response.data.country}/${response.data.city}/0`
               )
               .then((response) => {
                 setLocalBands(response.data);

@@ -21,7 +21,7 @@ const Event = (props) => {
         type === "local" ? (
           events
             .map((event) => {
-              if (!event._embedded) {
+              if (event.artistType === "local") {
                 eventKey++;
                 return (
                   <AccordionItem
@@ -31,7 +31,7 @@ const Event = (props) => {
                   >
                     <AccordionHeader className="row">
                       <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                        <Nav.Link href={`https://${event.ticketUrl}`}>
+                        <Nav.Link href={`/${event.bandId}/event/${event.id}`}>
                           <Figure>
                             <Figure.Image
                               width={"100%"}
@@ -62,7 +62,7 @@ const Event = (props) => {
                       </div>
                     </AccordionHeader>
                     <Accordion.Body>
-                      <Nav.Link href={`https://${event.ticketUrl}`}>
+                      <Nav.Link href={`/${event.bandId}/event/${event.id}`}>
                         <div className="row">
                           <p>{event.venue} </p>
                           <p className="venueAddress">{event.address}</p>
@@ -120,7 +120,7 @@ const Event = (props) => {
             })
             .some((el) => el !== undefined) ? (
             events.map((event) => {
-              if (!event._embedded) {
+              if (event.artistType === "local") {
                 eventKey++;
                 return (
                   <AccordionItem
@@ -130,11 +130,11 @@ const Event = (props) => {
                   >
                     <AccordionHeader className="row">
                       <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                        <Nav.Link href={`https://${event.ticketUrl}`}>
+                        <Nav.Link href={`/${event.bandId}/event/${event.id}`}>
                           <Figure>
                             <Figure.Image
                               width={"100%"}
-                              src={`http://localhost:8000/${event.profilePicture}`}
+                              src={event.profilePicture}
                               alt="Artist Image"
                             />
                           </Figure>
@@ -161,7 +161,7 @@ const Event = (props) => {
                       </div>
                     </AccordionHeader>
                     <Accordion.Body>
-                      <Nav.Link href={`https://${event.ticketUrl}`}>
+                      <Nav.Link href={`/${event.bandId}/event/${event.id}`}>
                         <div className="row">
                           <p>{event.venue} </p>
                           <p className="venueAddress">{event.address}</p>

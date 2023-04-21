@@ -1,30 +1,28 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Image } from "react-bootstrap";
+import { Image, Nav, Button, Modal, ModalBody } from "react-bootstrap";
 import Figure from "react-bootstrap/Figure";
 import Accordion from "react-bootstrap/Accordion";
 import AccordionHeader from "react-bootstrap/AccordionHeader";
-import AccordionBody from "react-bootstrap/AccordionBody";
 import AccordionItem from "react-bootstrap/AccordionItem";
 import Carousel from "react-grid-carousel";
 import "../Profilepage.css";
 import "../ArtistCard.css";
 import ArtistCard from "../Components/ArtistCard";
 import LoadingIndicator from "../Components/LoadingIndicator";
-import "../Event.css";
+import PlannedEvents from "../Components/PlannedEvents";
+
 const FanProfilepage = (userData) => {
   const [index, setIndex] = useState(0);
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-
-  const currentArtistIndex = useRef(0);
-
+  let eventKey = 0;
   const user = userData.userData;
-  console.log(user.plannedEvents);
+  const currentSavedEvents = userData.currentSavedEvents;
   //data that I got once I filtered the list of local artists based on the n
   const [favouriteLocalArtists, setFavouriteLocalArtists] = useState([]);
   // getting all mainstream artists from ticketmaster
@@ -33,6 +31,7 @@ const FanProfilepage = (userData) => {
   const id = sessionStorage.getItem("userId");
 
   const {
+    userId,
     userUsername,
     userName,
     userAge,
@@ -110,11 +109,8 @@ const FanProfilepage = (userData) => {
     setIsLoading(false);
   }, []); */
 
-  console.log(favouriteArtists);
-
-  return isLoading ? (
-    <LoadingIndicator />
-  ) : (
+  console.log(plannedEvents);
+  return user.userName ? (
     <main className="profile-container">
       <section className="img-container">
         <article>
@@ -155,9 +151,96 @@ const FanProfilepage = (userData) => {
         </article>
       </section>
       <section className="events-and-fav-artist-contaiener">
+        <article className="favourite-artists-carousel">
+          <p className="favourite-artists-title">My favourite artists:</p>
+          <Carousel
+            activeIndex={index}
+            onSelect={handleSelect}
+            cols={6}
+            rows={1}
+            gap={10}
+            loop={true}
+            scrollSnap={true}
+            hideArrow={false}
+            showDots={true}
+            style={{ height: "100%" }}
+            responsiveLayout={[
+              {
+                breakpoint: 1200,
+                cols: 5,
+                rows: 1,
+                gap: 10,
+                loop: true,
+                hideArrow: false,
+                showDots: true,
+              },
+              {
+                breakpoint: 992,
+                cols: 4,
+                rows: 1,
+                gap: 10,
+                loop: true,
+                hideArrow: false,
+                showDots: true,
+              },
+              {
+                breakpoint: 768,
+                cols: 3,
+                rows: 1,
+                gap: 10,
+                loop: true,
+                hideArrow: false,
+                showDots: true,
+              },
+              {
+                breakpoint: 576,
+                cols: 2,
+                rows: 1,
+                gap: 10,
+                loop: true,
+                hideArrow: false,
+                showDots: true,
+              },
+              {
+                breakpoint: 350,
+                cols: 1,
+                rows: 1,
+                gap: 10,
+                loop: true,
+                hideArrow: false,
+                showDots: true,
+              },
+            ]}
+            mobileBreakpoint={3}
+          >
+            {favouriteArtists.length
+              ? favouriteArtists.map((artist, index) => {
+                  return artist ? (
+                    <Carousel.Item key={index}>
+                      <ArtistCard
+                        className="band"
+                        name={artist.name}
+                        id={artist.id}
+                        profilePicture={artist.pic}
+                        touring={artist.touring}
+                        onHeartClick={userData.onHeartClick}
+                        currentFaveArtists={userData.currentFaveArtists}
+                      />
+                    </Carousel.Item>
+                  ) : null;
+                })
+              : null}
+          </Carousel>
+        </article>
         <article className="saved-upcoming-events">
           <p className="saved-events-title">Saved upcoming events:</p>
-          {plannedEvents.length ? (
+          <PlannedEvents
+            plannedEvents={plannedEvents}
+            currentSavedEvents={currentSavedEvents}
+            onEventClick={userData.onEventClick}
+          />
+
+          {/* plannedEvents.length !== 0 ? (
             plannedEvents.map((event, index) => {
               return event.address ? (
                 <Accordion key={index}>
@@ -241,90 +324,9 @@ const FanProfilepage = (userData) => {
             })
           ) : (
             <p className="no-saved-events">Still no events saved!</p>
-          )}
+          )} */}
         </article>
-        <article className="favourite-artists-carousel">
-          <p className="favourite-artists-title">My favourite artists:</p>
-          <Carousel
-            activeIndex={index}
-            onSelect={handleSelect}
-            cols={6}
-            rows={1}
-            gap={10}
-            loop={true}
-            scrollSnap={true}
-            hideArrow={false}
-            showDots={true}
-            style={{ height: "100%" }}
-            responsiveLayout={[
-              {
-                breakpoint: 1200,
-                cols: 5,
-                rows: 1,
-                gap: 10,
-                loop: true,
-                hideArrow: false,
-                showDots: true,
-              },
-              {
-                breakpoint: 992,
-                cols: 4,
-                rows: 1,
-                gap: 10,
-                loop: true,
-                hideArrow: false,
-                showDots: true,
-              },
-              {
-                breakpoint: 768,
-                cols: 3,
-                rows: 1,
-                gap: 10,
-                loop: true,
-                hideArrow: false,
-                showDots: true,
-              },
-              {
-                breakpoint: 576,
-                cols: 2,
-                rows: 1,
-                gap: 10,
-                loop: true,
-                hideArrow: false,
-                showDots: true,
-              },
-              {
-                breakpoint: 350,
-                cols: 1,
-                rows: 1,
-                gap: 10,
-                loop: true,
-                hideArrow: false,
-                showDots: true,
-              },
-            ]}
-            mobileBreakpoint={3}
-          >
-            {favouriteArtists.length
-              ? favouriteArtists.map((artist, index) => {
-                  return artist ? (
-                    <Carousel.Item key={index}>
-                      <ArtistCard
-                        className="band"
-                        name={artist.name}
-                        id={artist.id}
-                        profilePicture={artist.pic}
-                        touring={artist.touring}
-                        onHeartClick={userData.onHeartClick}
-                        currentFaveArtists={userData.currentFaveArtists}
-                      />
-                    </Carousel.Item>
-                  ) : null;
-                })
-              : null}
-          </Carousel>
-        </article>
-        <article className="favourite-artists-events">
+        {/* <article className="favourite-artists-events">
           <p className="favourite-artists-events">
             Your favourite artists events :
           </p>
@@ -426,7 +428,7 @@ const FanProfilepage = (userData) => {
                             <p className="venueAddress">
                               {artist._embedded.venues[0].address.line1},{" "}
                               {artist._embedded.venues[0].city.name},{" "}
-                              {/* {artist._embedded.venues[0].state.name}{" "} */}
+                              {/* {artist._embedded.venues[0].state.name}{" "} 
                               {artist._embedded.venues[0].postalCode},{" "}
                               {artist._embedded.venues[0].country.name}
                             </p>
@@ -441,9 +443,27 @@ const FanProfilepage = (userData) => {
                 })
               : null}
           </Accordion>
-        </article>
+        </article> */}
       </section>
     </main>
+  ) : (
+    <Modal show={true} centered>
+      <Modal.Header style={{ display: "flex", justifyContent: "center" }}>
+        <Modal.Title>Profile Not Found</Modal.Title>
+      </Modal.Header>
+      <ModalBody>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            variant="primary"
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Homepage
+          </Button>
+        </div>
+      </ModalBody>
+    </Modal>
   );
 };
 

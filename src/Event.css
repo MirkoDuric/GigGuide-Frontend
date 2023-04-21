@@ -52,8 +52,7 @@
   justify-self: center;
   margin-bottom: 10px;
 }
-.event-img-container {
-}
+
 @media screen and (min-width: 1px) {
   .eventTitle h2 {
     font-size: 13px;
