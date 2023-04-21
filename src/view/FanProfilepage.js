@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Image, Nav, Button } from "react-bootstrap";
+import { Image, Nav, Button, Modal, ModalBody } from "react-bootstrap";
 import Figure from "react-bootstrap/Figure";
 import Accordion from "react-bootstrap/Accordion";
 import AccordionHeader from "react-bootstrap/AccordionHeader";
@@ -18,7 +18,7 @@ const FanProfilepage = (userData) => {
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
   };
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   let eventKey = 0;
   const user = userData.userData;
@@ -110,9 +110,7 @@ const FanProfilepage = (userData) => {
   }, []); */
 
   console.log(plannedEvents);
-  return isLoading ? (
-    <LoadingIndicator />
-  ) : (
+  return user.userName ? (
     <main className="profile-container">
       <section className="img-container">
         <article>
@@ -444,6 +442,24 @@ const FanProfilepage = (userData) => {
         </article> */}
       </section>
     </main>
+  ) : (
+    <Modal show={true} centered>
+      <Modal.Header style={{ display: "flex", justifyContent: "center" }}>
+        <Modal.Title>Profile Not Found</Modal.Title>
+      </Modal.Header>
+      <ModalBody>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            variant="primary"
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Homepage
+          </Button>
+        </div>
+      </ModalBody>
+    </Modal>
   );
 };
 

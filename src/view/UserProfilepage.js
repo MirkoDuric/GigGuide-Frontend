@@ -319,7 +319,7 @@ const UserProfilepage = () => {
     >
       <LoadingIndicator />
     </div>
-  ) : user.userType ? (
+  ) : (
     <>
       {user.userType === "Fan" ? (
         <FanProfilepage
@@ -341,29 +341,6 @@ const UserProfilepage = () => {
         />
       ) : null}
     </>
-  ) : (
-    <Modal
-      show={setTimeout(() => {
-        return true;
-      }, 7000)}
-      centered
-    >
-      <Modal.Header style={{ display: "flex", justifyContent: "center" }}>
-        <Modal.Title>Profile Not Found</Modal.Title>
-      </Modal.Header>
-      <ModalBody>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button
-            variant="primary"
-            onClick={() => {
-              navigate("/");
-            }}
-          >
-            Homepage
-          </Button>
-        </div>
-      </ModalBody>
-    </Modal>
   );
 };
 export default UserProfilepage;

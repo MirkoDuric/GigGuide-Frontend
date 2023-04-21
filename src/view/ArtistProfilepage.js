@@ -8,7 +8,8 @@ import AccordionBody from "react-bootstrap/AccordionBody";
 import AccordionItem from "react-bootstrap/AccordionItem";
 import "../Profilepage.css";
 import "../ArtistCard.css";
-import { InputGroup, FormControl, Button } from "react-bootstrap";
+import { useNavigate } from "react-router";
+import { InputGroup, FormControl, Button, ModalBody } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Badge from "react-bootstrap/Badge";
@@ -19,6 +20,7 @@ import PlannedEvents from "../Components/PlannedEvents";
 
 const ArtistProfilepage = (userData) => {
   const user = userData.userData;
+  const navigate = useNavigate();
   const {
     userId,
     userUsername,
@@ -163,7 +165,7 @@ const ArtistProfilepage = (userData) => {
         window.location.reload();
       });
   };
-  return (
+  return user.userName ? (
     <main className="profile-container">
       <section className="img-container">
         <article>
@@ -528,6 +530,24 @@ const ArtistProfilepage = (userData) => {
         </article>
       </section>
     </main>
+  ) : (
+    <Modal show={true} centered>
+      <Modal.Header style={{ display: "flex", justifyContent: "center" }}>
+        <Modal.Title>Profile Not Found</Modal.Title>
+      </Modal.Header>
+      <ModalBody>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            variant="primary"
+            onClick={() => {
+              navigate("/");
+            }}
+          >
+            Homepage
+          </Button>
+        </div>
+      </ModalBody>
+    </Modal>
   );
 };
 
