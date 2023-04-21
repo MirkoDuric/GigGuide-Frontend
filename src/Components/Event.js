@@ -36,6 +36,7 @@ const Event = (props) => {
                               >
                                 <Figure>
                                   <Figure.Image
+                                    className="event-img-container"
                                     width={"100%"}
                                     src={`http://localhost:8000/${band.profilePicture}`}
                                     alt="Artist Image"
@@ -267,6 +268,7 @@ const Event = (props) => {
                             >
                               <Figure>
                                 <Figure.Image
+                                  className="event-img-container"
                                   width={"100%"}
                                   alt="Artist Image"
                                   src={
@@ -372,6 +374,7 @@ const Event = (props) => {
                             >
                               <Figure>
                                 <Figure.Image
+                                  className="event-img-container"
                                   width={"100%"}
                                   alt="Artist Image"
                                   src={
@@ -487,6 +490,7 @@ const Event = (props) => {
                           >
                             <Figure>
                               <Figure.Image
+                                className="event-img-container"
                                 width={"100%"}
                                 alt="Artist Image"
                                 src={
@@ -592,6 +596,7 @@ const Event = (props) => {
                           >
                             <Figure>
                               <Figure.Image
+                                className="event-img-container"
                                 width={"100%"}
                                 alt="Artist Image"
                                 src={

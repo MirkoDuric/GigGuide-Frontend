@@ -30,7 +30,7 @@ const FanProfilepage = (userData) => {
   // getting all mainstream artists from ticketmaster
   const [mainstreamArtists, setMainstreamArtists] = useState([]);
 
-  // const id = sessionStorage.getItem("userId");
+  const id = sessionStorage.getItem("userId");
 
   const {
     userUsername,
@@ -44,72 +44,88 @@ const FanProfilepage = (userData) => {
     plannedEvents,
   } = user;
 
+  /* const getArtistInfo = async () => {
+    let mainstream = [];
+    let local = [];
+    for (let i = 0; i < favouriteArtists.length; i++) {
+      const id = favouriteArtists[i].id;
+      if (id.length < 20) {
+        const result = await axios.get(
+          `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&attractionId=${id}&locale=*&segmentName=Music`
+        );
+        mainstream.push(result.data._embedded.events[0]);
+      } else {
+        const result = await axios.get(
+          `${process.env.REACT_APP_BACKEND_URL}api/artists/${id}`
+        );
+        local.push(result.data);
+      }
+      setMainstreamArtists(mainstream);
+      setFavouriteLocalArtists(local);
+    }
+  };
+
   // getting basic user data
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      const currentArtist = favouriteArtists[currentArtistIndex.current];
-      axios
-        .get(
-          `${process.env.REACT_APP_BACKEND_URL}api/artists/${currentArtist.id}`
-        )
-        .then((res) => {
-          if (!res.data) {
-            console.log("User not found, move to the next one.");
-          } else {
-            console.log(res.data);
-            setFavouriteLocalArtists((prev) => [...prev, res.data]);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      axios
-        .get(
-          `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&attractionId=${currentArtist.id}`
-        )
-        .then((res) => {
-          if (!res.data._embedded) {
-            console.log("User not found, move to the next one.");
-          } else {
-            setMainstreamArtists((prev) => [
-              ...prev,
-              res.data._embedded.events[0],
-            ]);
-            console.log("MAINSTREAM", res.data._embedded.events[0]);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    setIsLoading(true);
+    getArtistInfo();
+    /* favouriteArtists.forEach((artist) => {
+      console.log(artist.id.length); */
+  /* if (artist.id.length < 20) {
+        setTimeout(() => {
+          console.log("paused");
+        }, 6000);
+        axios
+          .get(
+            `https://app.ticketmaster.com/discovery/v2/events?apikey=${process.env.REACT_APP_TICKETMASTER_API}&attractionId=${artist.id}&locale=*&segmentName=Music`
+          )
+          .then((res) => {
+            if (!res.data) {
+              console.log("User not found, move to the next one.");
+            } else {
+              setMainstreamArtists([
+                ...mainstreamArtists,
+                res.data._embedded.events[0],
+              ]);
+            }
+            /* setMainstreamArtists(popularArtists); 
+          })
+          .catch((err) => {
+            console.log(err.message);
+          });
+      } else {
+        axios
+          .get(`${process.env.REACT_APP_BACKEND_URL}api/artists/${artist.id}`)
+          .then((res) => {
+            if (!res.data) {
+              console.log("User not found, move to the next one.");
+            } else {
+              setFavouriteLocalArtists([...favouriteLocalArtists, res.data]);
+            }
+            /* setFavouriteLocalArtists(localArtist); 
+          })
+          .catch((err) => {});
+      } 
+    });
+    setIsLoading(false);
+  }, []); */
 
-      currentArtistIndex.current++;
-      if (currentArtistIndex.current === favouriteArtists.length) {
-        clearInterval(intervalId);
-      }
-    }, 1000);
+  console.log(favouriteArtists);
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [favouriteArtists]);
-
-  console.log("My final populars array", mainstreamArtists);
-  console.log("My final locals array", favouriteLocalArtists);
-
-  return (
+  return isLoading ? (
+    <LoadingIndicator />
+  ) : (
     <main className="profile-container">
       <section className="img-container">
         <article>
-          {userProfileImg ? (
+          {userBannerImg ? (
             <Image
               fluid={true}
               className="banner-img"
-              src={`${process.env.REACT_APP_BACKEND_URL}${userProfileImg}`}
+              src={userBannerImg}
               alt="Banner img"
             />
-          ) : (
-            <Image fluid={true} className="no-banner-img" alt="No banner img" />
-          )}
+          ) : null}
         </article>
         <article>
           {userProfileImg ? (
@@ -117,7 +133,7 @@ const FanProfilepage = (userData) => {
               fluid={true}
               className="profile-img"
               roundedCircle={true}
-              src={`${process.env.REACT_APP_BACKEND_URL}${userProfileImg}`}
+              src={userProfileImg}
               alt="Profile img"
             />
           ) : (
@@ -170,7 +186,7 @@ const FanProfilepage = (userData) => {
                     </AccordionHeader>
                     <AccordionBody>
                       <div className="row">
-                        <h5>{event.venue}</h5>
+                        <h3>{event.venue}</h3>
                       </div>
                       <div className="row">
                         <p className="venueAddress">{event.address}</p>
@@ -208,7 +224,7 @@ const FanProfilepage = (userData) => {
                     </AccordionHeader>
                     <AccordionBody>
                       <div className="row">
-                        <h5>{event._embedded.venues[0].name}</h5>
+                        <h3>{event._embedded.venues[0].name}</h3>
                       </div>
                       <div className="row">
                         <p className="venueAddress">
@@ -289,37 +305,18 @@ const FanProfilepage = (userData) => {
             ]}
             mobileBreakpoint={3}
           >
-            {favouriteLocalArtists.length
-              ? favouriteLocalArtists.map((artist, index) => {
+            {favouriteArtists.length
+              ? favouriteArtists.map((artist, index) => {
                   return artist ? (
                     <Carousel.Item key={index}>
                       <ArtistCard
-                        currentFaveArtists={artist}
                         className="band"
-                        name={artist.name}
-                        id={artist._id}
-                        profilePicture={`${process.env.REACT_APP_BACKEND_URL}${artist.profilePicture}`}
-                      />
-                    </Carousel.Item>
-                  ) : null;
-                })
-              : null}
-            {mainstreamArtists.length
-              ? mainstreamArtists.map((artist, index) => {
-                  return artist ? (
-                    <Carousel.Item key={index + favouriteLocalArtists.length}>
-                      <ArtistCard
-                        className="band"
-                        currentFaveArtists={artist}
                         name={artist.name}
                         id={artist.id}
-                        profilePicture={
-                          artist.images &&
-                          artist.images.find(
-                            (element) =>
-                              element.ratio === "16_9" && element.height > 150
-                          )?.url
-                        }
+                        profilePicture={artist.pic}
+                        touring={artist.touring}
+                        onHeartClick={userData.onHeartClick}
+                        currentFaveArtists={userData.currentFaveArtists}
                       />
                     </Carousel.Item>
                   ) : null;
@@ -427,8 +424,9 @@ const FanProfilepage = (userData) => {
                                 : artist.name}
                             </h3>
                             <p className="venueAddress">
-                              {artist._embedded.venues[0].address?.line1},{" "}
-                              {artist._embedded.venues[0].city?.name},{" "}
+                              {artist._embedded.venues[0].address.line1},{" "}
+                              {artist._embedded.venues[0].city.name},{" "}
+                              {/* {artist._embedded.venues[0].state.name}{" "} */}
                               {artist._embedded.venues[0].postalCode},{" "}
                               {artist._embedded.venues[0].country.name}
                             </p>

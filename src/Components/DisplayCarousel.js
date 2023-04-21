@@ -17,6 +17,8 @@ const ControlledCarousel = (props) => {
         (band) => band._embedded.attractions[0].id === id
       );
     });
+  } else {
+    bands = originalBands;
   }
 
   return (
@@ -100,7 +102,11 @@ const ControlledCarousel = (props) => {
                   <Carousel.Item>
                     <ArtistCard
                       className="band"
-                      name={band.name}
+                      name={
+                        band._embedded.attractions
+                          ? band._embedded.attractions[0].name
+                          : band.name
+                      }
                       profilePicture={
                         band.images.find(
                           (element) =>
@@ -122,7 +128,8 @@ const ControlledCarousel = (props) => {
                       }
                       onHeartClick={onHeartClick}
                       currentFaveArtists={currentFaveArtists}
-                    />
+                    />{" "}
+                    :
                   </Carousel.Item>
                 )
               );

@@ -54,9 +54,16 @@ const LocalBandsPage = () => {
 
   const handleHeartClick = async (e) => {
     e.preventDefault();
-    const faveId = e.target.id;
-    const faveName = e.target.title;
-    const fave = { id: faveId, name: faveName };
+    const faveId = e.target.getAttribute("id");
+    const faveName = e.target.getAttribute("title");
+    const favePic = e.target.getAttribute("pic");
+    const faveTouring = e.target.getAttribute("data-touring");
+    const fave = {
+      id: faveId,
+      name: faveName,
+      pic: favePic,
+      touring: faveTouring,
+    };
     let favouriteArtists = currentFaveArtists;
     if (
       e.target.src ===

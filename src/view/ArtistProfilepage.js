@@ -171,9 +171,7 @@ const ArtistProfilepage = (userData) => {
               src={userBannerImg}
               alt="Banner img"
             />
-          ) : (
-            <Image fluid={true} className="no-banner-img" alt="No banner img" />
-          )}
+          ) : null}
         </article>
         <article>
           {userProfileImg ? (
