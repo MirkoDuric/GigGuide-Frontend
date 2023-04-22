@@ -312,7 +312,7 @@ const LocalBandsPage = () => {
           <h6 style={{ color: "white" }}>No Local Artists Available</h6>
         </>
       )}
-      {isLoading ? (
+      {/* {isLoading ? (
         <LoadingIndicator />
       ) : id ? (
         currentSavedEvents.length ? (
@@ -344,7 +344,7 @@ const LocalBandsPage = () => {
             <h6 style={{ color: "white" }}>No Saved Upcoming Local Shows</h6>
           </>
         )
-      ) : null}
+      ) : null} */}
       {isLoading ? (
         <LoadingIndicator />
       ) : localBands.length ? (
