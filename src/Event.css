@@ -10,26 +10,27 @@
   overflow: auto;
   max-height: 25rem;
   overflow-x: hidden;
-  width:100%;
+  width: 100%;
 }
 
-.accordion-body{
-  display:flex;
+.accordion-body {
+  display: flex;
   justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   padding-top: 0;
   padding-bottom: 0;
 }
-.eventDetails{
-  width:100%;
+.eventDetails {
+  width: 100%;
   height: 100%;
-  display:flex;
+  display: flex;
   flex-direction: column;
-  margin-top:3rem;
+  margin-top: 3rem;
 }
 
-.noShowsdiv{
-  display:flex;
+.noShowsdiv {
+  display: flex;
   justify-content: center;
   height: 7rem;
   align-items: center;
@@ -40,13 +41,22 @@
   font-size: 3rem;
 }
 
-.saveEventButton{
+.saveEventButton {
   z-index: 100;
 }
 
-.saveEventdiv{
-  display:flex;
+.saveEventdiv {
+  display: flex;
   justify-content: center;
+  align-self: flex-end;
+  justify-self: center;
+  margin-bottom: 10px;
+}
+.figure img {
+  min-height: 110px;
+  max-height: 110px;
+  min-width: 160px;
+  max-width: 160px;
 }
 
 @media screen and (min-width: 1px) {
@@ -176,5 +186,29 @@
   .venueAddress,
   .eventInfo {
     font-size: 30px;
+  }
+}
+@media (min-width: 260px) {
+  .figure img {
+    min-height: 70px;
+    max-height: 70px;
+    min-width: 100px;
+    max-width: 100px;
+  }
+}
+@media (min-width: 360px) {
+  .figure img {
+    min-height: 90px;
+    max-height: 90px;
+    min-width: 130px;
+    max-width: 130px;
+  }
+}
+@media (min-width: 1024px) {
+  .figure img {
+    min-height: 140px;
+    max-height: 140px;
+    min-width: 200px;
+    max-width: 200px;
   }
 }

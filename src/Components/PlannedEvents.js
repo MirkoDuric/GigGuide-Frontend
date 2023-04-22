@@ -24,6 +24,7 @@ const PlannedEvents = (props) => {
                   <Nav.Link href={`/${event.bandId}/event/${event.id}`}>
                     <Figure>
                       <Figure.Image
+                        className="event-img"
                         width={"100%"}
                         src={event.profilePicture}
                         alt="Artist Image"

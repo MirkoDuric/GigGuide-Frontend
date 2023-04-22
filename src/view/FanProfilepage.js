@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Image, Nav, Button, Modal, ModalBody } from "react-bootstrap";
@@ -218,7 +218,7 @@ const FanProfilepage = (userData) => {
                   return artist ? (
                     <Carousel.Item key={index}>
                       <ArtistCard
-                        className="band"
+                        className="band "
                         name={artist.name}
                         id={artist.id}
                         profilePicture={artist.pic}
@@ -256,7 +256,7 @@ const FanProfilepage = (userData) => {
                         </Figure>
                       </div>
                       <div className="col eventTitle">
-                        <h3>Artist name missing from the schema</h3>
+                        <h3>{event.artistName}</h3>
                         <p>
                           {new Date(event.date).toLocaleDateString("en-US", {
                             weekday: "long",
@@ -269,7 +269,7 @@ const FanProfilepage = (userData) => {
                     </AccordionHeader>
                     <AccordionBody>
                       <div className="row">
-                        <h5>{event.venue}</h5>
+                        <h3>{event.venue}</h3>
                       </div>
                       <div className="row">
                         <p className="venueAddress">{event.address}</p>
@@ -307,7 +307,7 @@ const FanProfilepage = (userData) => {
                     </AccordionHeader>
                     <AccordionBody>
                       <div className="row">
-                        <h5>{event._embedded.venues[0].name}</h5>
+                        <h3>{event._embedded.venues[0].name}</h3>
                       </div>
                       <div className="row">
                         <p className="venueAddress">
@@ -331,7 +331,7 @@ const FanProfilepage = (userData) => {
             Your favourite artists events :
           </p>
           <Accordion className="accordion">
-            {favouriteLocalArtists.length !== 0
+            {favouriteLocalArtists.length
               ? favouriteLocalArtists.map((artist, index) => {
                   return artist?.upcomingEvents.length ? (
                     <AccordionItem eventKey={index}>
@@ -374,7 +374,7 @@ const FanProfilepage = (userData) => {
                   ) : null;
                 })
               : null}
-            {mainstreamArtists.length !== 0
+            {mainstreamArtists.length
               ? mainstreamArtists.map((artist, index) => {
                   return artist ? (
                     <AccordionItem
@@ -420,7 +420,11 @@ const FanProfilepage = (userData) => {
                       <AccordionBody>
                         <a href={`${artist.url}`}>
                           <div className="row">
-                            <h3>{artist._embedded.venues[0].name ?? ""}</h3>
+                            <h3>
+                              {artist._embedded.venues[0].venue
+                                ? artist._embedded.venues[0].venue
+                                : artist.name}
+                            </h3>
                             <p className="venueAddress">
                               {artist._embedded.venues[0].address.line1},{" "}
                               {artist._embedded.venues[0].city.name},{" "}

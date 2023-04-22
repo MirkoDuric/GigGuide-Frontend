@@ -302,6 +302,7 @@ const ArtistProfilepage = (userData) => {
                         <Nav.Link href={`/${userId}/event/${event._id}`}>
                           <Figure>
                             <Figure.Image
+                              className="event-img"
                               width={"100%"}
                               src={userProfileImg}
                               alt="Artist Image"

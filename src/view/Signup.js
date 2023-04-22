@@ -8,7 +8,7 @@ import { countryNames, genreNames } from "../utils";
 
 const Signup = () => {
   const navigate = useNavigate();
-
+  const [success, setSuccess] = useState(false);
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [username, setUsername] = useState("");
@@ -20,7 +20,6 @@ const Signup = () => {
   const [profile, setProfile] = useState({});
   const [email, setEmail] = useState("");
   const [genre, setGenre] = useState("");
-  const [success, setSuccess] = useState(false);
   const [id, setId] = useState(sessionStorage.getItem("userId"));
 
   useEffect(() => {
@@ -41,7 +40,7 @@ const Signup = () => {
     formData.append("country", country);
     formData.append("userType", userType);
     formData.append("genre", genre);
-
+    setSuccess(true);
     /*   const payload = {
       name,
       age,
@@ -98,147 +97,155 @@ const Signup = () => {
   ) : (
     <div className="container signupdiv">
       <img className="logo" src={logo}></img>
-      <Form className="signup-form" onSubmit={handleSubmit}>
-        <p className="signup-title">
-          <span className="signup-title-span">Sign up</span> and enjoy our
-          GigGuide<span className="signup-title-span">!</span>
-        </p>
-        <Form.Group controlId="formName">
-          <Form.Label>Name:</Form.Label>
-          <Form.Control
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Enter email"
-          />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
-        </Form.Group>
-        <Form.Group controlId="formAge">
-          <Form.Label>Age:</Form.Label>
-          <Form.Control
-            type="text"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group controlId="formUsername">
-          <Form.Label>Username:</Form.Label>
-          <Form.Control
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group controlId="formPassword">
-          <Form.Label>Password:</Form.Label>
-          <Form.Control
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            autoComplete="new-password"
-          />
-        </Form.Group>
-        <Form.Group controlId="formConfirmPassword">
-          <Form.Label>Confirm Password:</Form.Label>
-          <Form.Control
-            type="password"
-            value={confirmPassword}
-            placeholder="Repeat the password"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            autoComplete="new-password"
-          />
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Choose your profile image:</Form.Label>
-          <Form.Control
-            type="file"
-            name="profile"
-            onChange={handleFileChange}
-          />
-          <Form.Text className="text-muted">
-            Please select an image to upload.
-          </Form.Text>
-        </Form.Group>
-        <Form.Group controlId="formCity">
-          <Form.Label>City:</Form.Label>
-          <Form.Control
-            type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group controlId="formCountry">
-          <Form.Label>Country:</Form.Label>
-          <Form.Select
-            onChange={(e) => setCountry(e.target.value)}
-            placeholder="Country"
-          >
-            <option key="blankChoice" hidden value>
-              {" "}
-              --Country--{" "}
-            </option>
-            <option>None</option>
-            {countryNames.map((countryName) => {
-              return <option key={countryName}>{countryName}</option>;
-            })}
-          </Form.Select>
-        </Form.Group>
-
-        <Form.Group controlId="formUserType">
-          <Form.Label>Are you a fan or an artist?</Form.Label>
-          <Form.Check
-            inline
-            label="Fan"
-            type="radio"
-            id="fan"
-            name="userType"
-            value="Fan"
-            checked={userType === "Fan"}
-            onChange={(e) => setUserType(e.target.value)}
-          />
-          <Form.Check
-            inline
-            label="Artist"
-            type="radio"
-            id="Artist"
-            name="userType"
-            value="Artist"
-            checked={userType === "Artist"}
-            onChange={(e) => setUserType(e.target.value)}
-          />
-        </Form.Group>
-        {userType === "Artist" ? (
-          <Form.Group controlId="formGenre">
-            <Form.Label>Genre:</Form.Label>
+      {success ? (
+        <Modal show={true} centered>
+          <Modal.Header>
+            <Modal.Title>Successful signup!</Modal.Title>
+          </Modal.Header>
+        </Modal>
+      ) : (
+        <Form className="signup-form" onSubmit={handleSubmit}>
+          <p className="signup-title">
+            <span className="signup-title-span">Sign up</span> and enjoy our
+            GigGuide<span className="signup-title-span">!</span>
+          </p>
+          <Form.Group controlId="formName">
+            <Form.Label>Name:</Form.Label>
+            <Form.Control
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Email address</Form.Label>
+            <Form.Control
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter email"
+            />
+            <Form.Text className="text-muted">
+              We'll never share your email with anyone else.
+            </Form.Text>
+          </Form.Group>
+          <Form.Group controlId="formAge">
+            <Form.Label>Age:</Form.Label>
+            <Form.Control
+              type="text"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="formUsername">
+            <Form.Label>Username:</Form.Label>
+            <Form.Control
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="formPassword">
+            <Form.Label>Password:</Form.Label>
+            <Form.Control
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="new-password"
+            />
+          </Form.Group>
+          <Form.Group controlId="formConfirmPassword">
+            <Form.Label>Confirm Password:</Form.Label>
+            <Form.Control
+              type="password"
+              value={confirmPassword}
+              placeholder="Repeat the password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              autoComplete="new-password"
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Choose your profile image:</Form.Label>
+            <Form.Control
+              type="file"
+              name="profile"
+              onChange={handleFileChange}
+            />
+            <Form.Text className="text-muted">
+              Please select an image to upload.
+            </Form.Text>
+          </Form.Group>
+          <Form.Group controlId="formCity">
+            <Form.Label>City:</Form.Label>
+            <Form.Control
+              type="text"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+          </Form.Group>
+          <Form.Group controlId="formCountry">
+            <Form.Label>Country:</Form.Label>
             <Form.Select
-              onChange={(e) => setGenre(e.target.value)}
-              placeholder="Genre"
+              onChange={(e) => setCountry(e.target.value)}
+              placeholder="Country"
             >
               <option key="blankChoice" hidden value>
                 {" "}
-                --Genre--{" "}
+                --Country--{" "}
               </option>
               <option>None</option>
-              {genreNames.map((genreName) => {
-                return <option>{genreName}</option>;
+              {countryNames.map((countryName) => {
+                return <option key={countryName}>{countryName}</option>;
               })}
             </Form.Select>
           </Form.Group>
-        ) : null}
-        <Button variant="primary" type="submit">
-          Sign Up
-        </Button>
-      </Form>
+
+          <Form.Group controlId="formUserType">
+            <Form.Label>Are you a fan or an artist?</Form.Label>
+            <Form.Check
+              inline
+              label="Fan"
+              type="radio"
+              id="fan"
+              name="userType"
+              value="Fan"
+              checked={userType === "Fan"}
+              onChange={(e) => setUserType(e.target.value)}
+            />
+            <Form.Check
+              inline
+              label="Artist"
+              type="radio"
+              id="Artist"
+              name="userType"
+              value="Artist"
+              checked={userType === "Artist"}
+              onChange={(e) => setUserType(e.target.value)}
+            />
+          </Form.Group>
+          {userType === "Artist" ? (
+            <Form.Group controlId="formGenre">
+              <Form.Label>Genre:</Form.Label>
+              <Form.Select
+                onChange={(e) => setGenre(e.target.value)}
+                placeholder="Genre"
+              >
+                <option key="blankChoice" hidden value>
+                  {" "}
+                  --Genre--{" "}
+                </option>
+                <option>None</option>
+                {genreNames.map((genreName) => {
+                  return <option>{genreName}</option>;
+                })}
+              </Form.Select>
+            </Form.Group>
+          ) : null}
+          <Button variant="primary" type="submit">
+            Sign Up
+          </Button>
+        </Form>
+      )}
     </div>
   );
 };
