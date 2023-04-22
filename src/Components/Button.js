@@ -20,7 +20,7 @@ const Button = (props) => {
       ></Image>
     </NavLink>
   ) : name === "signup" ? (
-    <NavLink to={`/${name}`}>
+    <NavLink to={`/signup`}>
       <Image
         fluid={true}
         roundedCircle={true}
@@ -30,7 +30,7 @@ const Button = (props) => {
       ></Image>
     </NavLink>
   ) : name === "login" ? (
-    <NavLink to={`/${name}`}>
+    <NavLink to={`/login`}>
       <Image
         fluid={true}
         roundedCircle={true}
@@ -40,7 +40,7 @@ const Button = (props) => {
       ></Image>
     </NavLink>
   ) : name === "localartists" ? (
-    <NavLink to={`/${name}`}>
+    <NavLink to={`/localartists`}>
       <Image
         fluid={true}
         roundedCircle={true}
