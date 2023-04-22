@@ -4,7 +4,7 @@ import AccordionHeader from "react-bootstrap/esm/AccordionHeader";
 import AccordionItem from "react-bootstrap/esm/AccordionItem";
 import Button from "react-bootstrap/Button";
 import "../Event.css";
-import { Nav } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 
 const Event = (props) => {
   const bands = props.bands;
@@ -31,9 +31,7 @@ const Event = (props) => {
                         >
                           <AccordionHeader className="row">
                             <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                              <Nav.Link
-                                href={`/${band._id}/event/${event._id}`}
-                              >
+                              <NavLink to={`/${band._id}/event/${event._id}`}>
                                 <Figure>
                                   <Figure.Image
                                     className="event-img-container"
@@ -42,7 +40,7 @@ const Event = (props) => {
                                     alt="Artist Image"
                                   />
                                 </Figure>
-                              </Nav.Link>
+                              </NavLink>
                             </div>
                             <div className="col eventTitle">
                               <h2>
@@ -70,7 +68,7 @@ const Event = (props) => {
                             </div>
                           </AccordionHeader>
                           <Accordion.Body>
-                            <Nav.Link href={`/${band._id}/event/${event._id}`}>
+                            <NavLink to={`/${band._id}/event/${event._id}`}>
                               <div className="col-7 col-sm-9">
                                 <div className="row">
                                   <h4>{event.venue} </h4>
@@ -82,7 +80,7 @@ const Event = (props) => {
                                   <p className="eventInfo">{event.info}</p>
                                 </div>
                               </div>
-                            </Nav.Link>
+                            </NavLink>
                             <div className="col-5 col-sm-3 saveEventdiv">
                               {id ? (
                                 currentSavedEvents.length ? (
@@ -146,9 +144,7 @@ const Event = (props) => {
                         >
                           <AccordionHeader className="row">
                             <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                              <Nav.Link
-                                href={`/${band._id}/event/${event._id}`}
-                              >
+                              <NavLink to={`/${band._id}/event/${event._id}`}>
                                 <Figure>
                                   <Figure.Image
                                     width={"100%"}
@@ -156,7 +152,7 @@ const Event = (props) => {
                                     alt="Artist Image"
                                   />
                                 </Figure>
-                              </Nav.Link>
+                              </NavLink>
                             </div>
                             <div className="col eventTitle">
                               <h2>
@@ -184,7 +180,7 @@ const Event = (props) => {
                             </div>
                           </AccordionHeader>
                           <Accordion.Body>
-                            <Nav.Link href={`/${band._id}/event/${event._id}`}>
+                            <NavLink to={`/${band._id}/event/${event._id}`}>
                               <div className="col-7 col-sm-9">
                                 <div className="row">
                                   <h4>{event.venue} </h4>
@@ -196,7 +192,7 @@ const Event = (props) => {
                                   <p className="eventInfo">{event.info}</p>
                                 </div>
                               </div>
-                            </Nav.Link>
+                            </NavLink>
                             <div className="col-5 col-sm-3 saveEventdiv">
                               {id ? (
                                 currentSavedEvents.length ? (
@@ -266,8 +262,8 @@ const Event = (props) => {
                       <AccordionItem type={type} eventKey={eventKey}>
                         <AccordionHeader className="row">
                           <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                            <Nav.Link
-                              href={`/${band._embedded.attractions[0].id}/event/${band.id}`}
+                            <NavLink
+                              to={`/${band._embedded.attractions[0].id}/event/${band.id}`}
                             >
                               <Figure>
                                 <Figure.Image
@@ -283,7 +279,7 @@ const Event = (props) => {
                                   }
                                 />
                               </Figure>
-                            </Nav.Link>
+                            </NavLink>
                           </div>
                           <div className="col eventTitle">
                             <h2>{band.name}</h2>
@@ -307,8 +303,8 @@ const Event = (props) => {
                           </div>
                         </AccordionHeader>
                         <Accordion.Body>
-                          <Nav.Link
-                            href={`/${band._embedded.attractions[0].id}/event/${band.id}`}
+                          <NavLink
+                            to={`/${band._embedded.attractions[0].id}/event/${band.id}`}
                           >
                             <div className="col-7 col-sm-9">
                               <div className="row">
@@ -326,7 +322,7 @@ const Event = (props) => {
                                 <p className="eventInfo">{band.info}</p>
                               </div>
                             </div>
-                          </Nav.Link>
+                          </NavLink>
                           <div className="col-5 col-sm-3 saveEventdiv">
                             {id ? (
                               currentSavedEvents.length ? (
@@ -372,8 +368,8 @@ const Event = (props) => {
                       <AccordionItem type={type} eventKey={eventKey}>
                         <AccordionHeader className="row">
                           <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                            <Nav.Link
-                              href={`/${band._embedded.attractions[0].id}/event/${band.id}`}
+                            <NavLink
+                              to={`/${band._embedded.attractions[0].id}/event/${band.id}`}
                             >
                               <Figure>
                                 <Figure.Image
@@ -389,7 +385,7 @@ const Event = (props) => {
                                   }
                                 />
                               </Figure>
-                            </Nav.Link>
+                            </NavLink>
                           </div>
                           <div className="col eventTitle">
                             <h2>{band.name}</h2>
@@ -413,8 +409,8 @@ const Event = (props) => {
                           </div>
                         </AccordionHeader>
                         <Accordion.Body>
-                          <Nav.Link
-                            href={`/${band._embedded.attractions[0].id}/event/${band.id}`}
+                          <NavLink
+                            to={`/${band._embedded.attractions[0].id}/event/${band.id}`}
                           >
                             <div className="col-7 col-sm-9">
                               <div className="row">
@@ -431,7 +427,7 @@ const Event = (props) => {
                                 <p className="eventInfo">{band.info}</p>
                               </div>
                             </div>
-                          </Nav.Link>
+                          </NavLink>
                           <div className="col-5 col-sm-3 saveEventdiv">
                             {id ? (
                               currentSavedEvents.length ? (
@@ -488,8 +484,8 @@ const Event = (props) => {
                     <AccordionItem type={type} eventKey={eventKey}>
                       <AccordionHeader className="row">
                         <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                          <Nav.Link
-                            href={`/${band._embedded.attractions[0].id}/event/${band.id}`}
+                          <NavLink
+                            to={`/${band._embedded.attractions[0].id}/event/${band.id}`}
                           >
                             <Figure>
                               <Figure.Image
@@ -505,7 +501,7 @@ const Event = (props) => {
                                 }
                               />
                             </Figure>
-                          </Nav.Link>
+                          </NavLink>
                         </div>
                         <div className="col eventTitle">
                           <h2>{band.name}</h2>
@@ -529,8 +525,8 @@ const Event = (props) => {
                         </div>
                       </AccordionHeader>
                       <Accordion.Body>
-                        <Nav.Link
-                          href={`/${band._embedded.attractions[0].id}/event/${band.id}`}
+                        <NavLink
+                          to={`/${band._embedded.attractions[0].id}/event/${band.id}`}
                         >
                           <div className="col-7 col-sm-9">
                             <div className="row">
@@ -548,7 +544,7 @@ const Event = (props) => {
                               <p className="eventInfo">{band.info}</p>
                             </div>
                           </div>
-                        </Nav.Link>
+                        </NavLink>
                         <div className="col-5 col-sm-3 saveEventdiv">
                           {id ? (
                             currentSavedEvents.length ? (
@@ -594,8 +590,8 @@ const Event = (props) => {
                     <AccordionItem type={type} eventKey={eventKey}>
                       <AccordionHeader className="row">
                         <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                          <Nav.Link
-                            href={`/${band._embedded.attractions[0].id}/event/${band.id}`}
+                          <NavLink
+                            to={`/${band._embedded.attractions[0].id}/event/${band.id}`}
                           >
                             <Figure>
                               <Figure.Image
@@ -611,7 +607,7 @@ const Event = (props) => {
                                 }
                               />
                             </Figure>
-                          </Nav.Link>
+                          </NavLink>
                         </div>
                         <div className="col eventTitle">
                           <h2>{band.name}</h2>
@@ -635,8 +631,8 @@ const Event = (props) => {
                         </div>
                       </AccordionHeader>
                       <Accordion.Body>
-                        <Nav.Link
-                          href={`/${band._embedded.attractions[0].id}/event/${band.id}`}
+                        <NavLink
+                          to={`/${band._embedded.attractions[0].id}/event/${band.id}`}
                           className="eventDetails"
                         >
                           <div className="col-7 col-sm-9">
@@ -654,7 +650,7 @@ const Event = (props) => {
                               <p className="eventInfo">{band.info}</p>
                             </div>
                           </div>
-                        </Nav.Link>
+                        </NavLink>
                         <div className="col-5 col-sm-3 saveEventdiv">
                           {id ? (
                             currentSavedEvents.length ? (

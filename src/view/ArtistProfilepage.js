@@ -4,11 +4,10 @@ import axios from "axios";
 import Figure from "react-bootstrap/Figure";
 import Accordion from "react-bootstrap/Accordion";
 import AccordionHeader from "react-bootstrap/AccordionHeader";
-import AccordionBody from "react-bootstrap/AccordionBody";
 import AccordionItem from "react-bootstrap/AccordionItem";
 import "../Profilepage.css";
 import "../ArtistCard.css";
-import { useNavigate } from "react-router";
+import { NavLink } from "react-router-dom";
 import { InputGroup, FormControl, Button, ModalBody } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -16,7 +15,6 @@ import Badge from "react-bootstrap/Badge";
 import ListGroup from "react-bootstrap/ListGroup";
 import { Modal, Form, Nav } from "react-bootstrap";
 import Datetime from "react-datetime";
-import PlannedEvents from "../Components/PlannedEvents";
 
 const ArtistProfilepage = (userData) => {
   const user = userData.userData;
@@ -299,7 +297,7 @@ const ArtistProfilepage = (userData) => {
                   <AccordionItem className="AcordionItem" eventKey={eventKey}>
                     <AccordionHeader className="row">
                       <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                        <Nav.Link href={`/${userId}/event/${event._id}`}>
+                        <NavLink to={`/${userId}/event/${event._id}`}>
                           <Figure>
                             <Figure.Image
                               className="event-img"
@@ -308,7 +306,7 @@ const ArtistProfilepage = (userData) => {
                               alt="Artist Image"
                             />
                           </Figure>
-                        </Nav.Link>
+                        </NavLink>
                       </div>
                       <div className="col eventTitle">
                         <h2>
@@ -333,7 +331,7 @@ const ArtistProfilepage = (userData) => {
                       </div>
                     </AccordionHeader>
                     <Accordion.Body>
-                      <Nav.Link href={`/${userId}/event/${event._id}`}>
+                      <NavLink to={`/${userId}/event/${event._id}`}>
                         <div className="row">
                           <p>{event.venue} </p>
                           <p className="venueAddress">{event.address}</p>
@@ -341,7 +339,7 @@ const ArtistProfilepage = (userData) => {
                         <div className="row">
                           <p className="eventInfo">{event.info}</p>
                         </div>
-                      </Nav.Link>
+                      </NavLink>
                       <div className="col-5 col-sm-3 saveEventdiv"></div>
                     </Accordion.Body>
                   </AccordionItem>

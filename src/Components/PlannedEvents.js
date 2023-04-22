@@ -4,7 +4,7 @@ import AccordionHeader from "react-bootstrap/AccordionHeader";
 import AccordionItem from "react-bootstrap/AccordionItem";
 import Button from "react-bootstrap/Button";
 import "../Event.css";
-import { Nav } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 
 const PlannedEvents = (props) => {
   const plannedEvents = props.plannedEvents;
@@ -21,7 +21,7 @@ const PlannedEvents = (props) => {
             <AccordionItem className="AcordionItem" eventKey={eventKey}>
               <AccordionHeader className="row">
                 <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                  <Nav.Link href={`/${event.bandId}/event/${event.id}`}>
+                  <NavLink to={`/${event.bandId}/event/${event.id}`}>
                     <Figure>
                       <Figure.Image
                         className="event-img"
@@ -30,7 +30,7 @@ const PlannedEvents = (props) => {
                         alt="Artist Image"
                       />
                     </Figure>
-                  </Nav.Link>
+                  </NavLink>
                 </div>
                 <div className="col eventTitle">
                   <h2>
@@ -52,7 +52,7 @@ const PlannedEvents = (props) => {
                 </div>
               </AccordionHeader>
               <Accordion.Body>
-                <Nav.Link href={`/${event.bandId}/event/${event.id}`}>
+                <NavLink to={`/${event.bandId}/event/${event.id}`}>
                   <div className="col-7 col-sm-9">
                     <div className="row">
                       <h4>{event.venue} </h4>
@@ -62,7 +62,7 @@ const PlannedEvents = (props) => {
                       <p className="eventInfo">{event.info}</p>
                     </div>
                   </div>
-                </Nav.Link>
+                </NavLink>
                 <div className="col-5 col-sm-3 saveEventdiv">
                   {id ? (
                     currentSavedEvents.length ? (

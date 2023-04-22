@@ -1,14 +1,6 @@
 import { useState, useEffect } from "react";
-import {
-  Image,
-  Nav,
-  Button,
-  Modal,
-  Form,
-  Figure,
-  Accordion,
-} from "react-bootstrap";
-import { useParams, useNavigate } from "react-router-dom";
+import { Image, Button, Modal, Form, Figure, Accordion } from "react-bootstrap";
+import { useParams, NavLink } from "react-router-dom";
 
 import axios from "axios";
 
@@ -606,7 +598,7 @@ const EventsPage = () => {
                   <AccordionItem className="AcordionItem" eventKey={eventKey}>
                     <AccordionHeader className="row">
                       <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                        <Nav.Link href={`/${userId}/event/${event._id}`}>
+                        <NavLink to={`/${userId}/event/${event._id}`}>
                           <Figure>
                             <Figure.Image
                               width={"100%"}
@@ -614,7 +606,7 @@ const EventsPage = () => {
                               alt="Artist Image"
                             />
                           </Figure>
-                        </Nav.Link>
+                        </NavLink>
                       </div>
                       <div className="col eventTitle">
                         <h2>
@@ -639,7 +631,7 @@ const EventsPage = () => {
                       </div>
                     </AccordionHeader>
                     <Accordion.Body>
-                      <Nav.Link href={`/${userId}/event/${event._id}`}>
+                      <NavLink to={`/${userId}/event/${event._id}`}>
                         <div className="row">
                           <p>{event.venue} </p>
                           <p className="venueAddress">{event.address}</p>
@@ -647,7 +639,7 @@ const EventsPage = () => {
                         <div className="row">
                           <p className="eventInfo">{event.info}</p>
                         </div>
-                      </Nav.Link>
+                      </NavLink>
                       <div className="col-5 col-sm-3 saveEventdiv">
                         {id ? (
                           currentSavedEvents.length ? (

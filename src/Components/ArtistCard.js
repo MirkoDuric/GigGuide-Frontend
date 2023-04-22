@@ -4,6 +4,7 @@ import "../ArtistCard.css";
 import Nav from "react-bootstrap/Nav";
 import axios from "axios";
 import Image from "react-bootstrap/Image";
+import { useNavigate } from "react-router-dom";
 
 const ArtistCard = (props) => {
   const bandName = props.name;
@@ -12,14 +13,18 @@ const ArtistCard = (props) => {
   const bandId = props.id;
   const currentFaveArtists = props.currentFaveArtists;
   const id = sessionStorage.getItem("userId");
+  const navigate = useNavigate();
 
+  const onCardClick = () => {
+    navigate(`/userprofile/${bandId}`);
+  };
   return (
     <Card
       className="bg-dark text-white artistCard"
       style={{ width: "auto" }}
       key={bandId}
     >
-      <Nav.Link href={`/userprofile/${bandId}`}>
+      <Nav.Link onClick={onCardClick}>
         <Card.Img src={bandPic} alt="Artist Picture" fluid={true} />
       </Nav.Link>
       <Card.ImgOverlay fluid={true}>
@@ -66,7 +71,7 @@ const ArtistCard = (props) => {
             )
           ) : null}
         </div>
-        <Nav.Link href={`/userprofile/${bandId}`}>
+        <Nav.Link onClick={onCardClick}>
           <Card.Title className="bandName">{bandName}</Card.Title>
           {isTouring ? (
             <Card.Footer className="isTouring">Upcoming Shows</Card.Footer>
