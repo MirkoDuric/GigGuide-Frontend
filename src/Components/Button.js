@@ -49,26 +49,6 @@ const Button = (props) => {
         className="buttons"
       ></Image>
     </NavLink>
-  ) : name === "localartists" ? (
-    <NavLink to={`/${name}`}>
-      <Image
-        fluid={true}
-        roundedCircle={true}
-        src={img}
-        alt={name}
-        className="buttons"
-      ></Image>
-    </NavLink>
-  ) : name === "login" ? (
-    <NavLink to={`/${name}`}>
-      <Image
-        fluid={true}
-        roundedCircle={true}
-        src={img}
-        alt={name}
-        className="buttons"
-      ></Image>
-    </NavLink>
   ) : (
     <Image
       fluid={true}
