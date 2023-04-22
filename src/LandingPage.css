@@ -1,0 +1,110 @@
+.landingpage-container {
+  background-color: #0f110c;
+  padding: 5%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 90px;
+  padding-bottom: 59vh;
+  overflow-x: hidden;
+}
+.buttonsdiv {
+  display: flex;
+  justify-content: flex-end;
+}
+.Logodiv {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.searchbardiv {
+  width: 90%;
+}
+
+@media screen and (max-width: 515px) {
+  .searchbardiv {
+    width: 100%;
+  }
+}
+.titlespan {
+  font-weight: 200;
+  font-size: 2.4rem;
+  margin-left: 1vw;
+  color: #f5efed;
+}
+.titlespan-bold {
+  font-weight: 500;
+  font-size: 2.4rem;
+}
+.Navdiv {
+  background-color: #0f110c;
+}
+.BandsCarouseldiv {
+  margin-top: 60px;
+}
+.BandsCarouseldiv h5 {
+  margin-left: 2rem;
+}
+@media screen and (min-width: 376px) {
+  .BandsCarouseldiv {
+    width: 90%;
+  }
+}
+@media screen and (min-width: 476px) {
+  .BandsCarouseldiv {
+    width: 80%;
+  }
+}
+@media screen and (min-width: 520px) {
+  .BandsCarouseldiv {
+    width: 70%;
+  }
+}
+@media screen and (min-width: 576px) {
+  .BandsCarouseldiv {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 376px) {
+  .localBandsCarouseldiv {
+    width: 90%;
+  }
+}
+@media screen and (min-width: 476px) {
+  .localBandsCarouseldiv {
+    width: 80%;
+  }
+}
+@media screen and (min-width: 520px) {
+  .localBandsCarouseldiv {
+    width: 70%;
+  }
+}
+@media screen and (min-width: 576px) {
+  .localBandsCarouseldiv {
+    width: 100%;
+  }
+}
+h5 {
+  color: #f5efed;
+}
+.eventdiv {
+  width: 100%;
+}
+.buttons {
+  width: auto;
+  height: 2.5rem;
+  margin-right: 0.5rem;
+  /* margin-left: rem; */
+}
+.noShowsdiv {
+  width: 100%;
+}
+@media (min-width: 1024px) {
+  .buttons {
+    width: auto;
+    height: 3rem;
+  }
+}
