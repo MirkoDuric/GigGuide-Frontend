@@ -16,8 +16,6 @@ import Badge from "react-bootstrap/Badge";
 import ListGroup from "react-bootstrap/ListGroup";
 import { Modal, Form, Nav } from "react-bootstrap";
 import Datetime from "react-datetime";
-import moment from "moment";
-import "../Event.css";
 import PlannedEvents from "../Components/PlannedEvents";
 
 const ArtistProfilepage = (userData) => {
@@ -291,7 +289,7 @@ const ArtistProfilepage = (userData) => {
         </div>
       </section>
       <section className="events-and-fav-artist-contaiener">
-        <article className="eventdiv">
+        <article className="favourite-artists-events">
           <p className="event-list-title">{userName} Upcoming Shows:</p>
           <Accordion className="accordion">
             {upcomingEvents.length ? (
@@ -304,6 +302,7 @@ const ArtistProfilepage = (userData) => {
                         <Nav.Link href={`/${userId}/event/${event._id}`}>
                           <Figure>
                             <Figure.Image
+                              className="event-img"
                               width={"100%"}
                               src={userProfileImg}
                               alt="Artist Image"

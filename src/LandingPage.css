@@ -7,6 +7,7 @@
   align-items: center;
   padding-top: 90px;
   padding-bottom: 59vh;
+  overflow-x: hidden;
 }
 .buttonsdiv {
   display: flex;
@@ -17,13 +18,13 @@
   justify-content: flex-start;
   align-items: center;
 }
-.searchbardiv{
-  width:90%;
+.searchbardiv {
+  width: 90%;
 }
 
 @media screen and (max-width: 515px) {
   .searchbardiv {
-     width:100%;
+    width: 100%;
   }
 }
 .titlespan {
@@ -42,55 +43,55 @@
 .BandsCarouseldiv {
   margin-top: 60px;
 }
-.BandsCarouseldiv h5{
+.BandsCarouseldiv h5 {
   margin-left: 2rem;
 }
 @media screen and (min-width: 376px) {
   .BandsCarouseldiv {
-     width: 90%;
+    width: 90%;
   }
 }
 @media screen and (min-width: 476px) {
   .BandsCarouseldiv {
-     width: 80%;
+    width: 80%;
   }
 }
 @media screen and (min-width: 520px) {
   .BandsCarouseldiv {
-     width: 70%;
+    width: 70%;
   }
 }
 @media screen and (min-width: 576px) {
   .BandsCarouseldiv {
-     width: 100%;
+    width: 100%;
   }
 }
 
 @media screen and (min-width: 376px) {
   .localBandsCarouseldiv {
-     width: 90%;
+    width: 90%;
   }
 }
 @media screen and (min-width: 476px) {
   .localBandsCarouseldiv {
-     width: 80%;
+    width: 80%;
   }
 }
 @media screen and (min-width: 520px) {
   .localBandsCarouseldiv {
-     width: 70%;
+    width: 70%;
   }
 }
 @media screen and (min-width: 576px) {
   .localBandsCarouseldiv {
-     width: 100%;
+    width: 100%;
   }
 }
 h5 {
   color: #f5efed;
 }
-.eventdiv{
-  width:100%;
+.eventdiv {
+  width: 100%;
 }
 .buttons {
   width: auto;
@@ -98,7 +99,6 @@ h5 {
   margin-right: 0.5rem;
   margin-left: 0.5rem;
 }
-.noShowsdiv{
+.noShowsdiv {
   width: 100%;
 }
-

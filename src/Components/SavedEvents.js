@@ -34,6 +34,7 @@ const Event = (props) => {
                         <Nav.Link href={`/${event.bandId}/event/${event.id}`}>
                           <Figure>
                             <Figure.Image
+                              className="event-img"
                               width={"100%"}
                               src={`http://localhost:8000/${event.profilePicture}`}
                               alt="Artist Image"
@@ -133,6 +134,7 @@ const Event = (props) => {
                         <Nav.Link href={`/${event.bandId}/event/${event.id}`}>
                           <Figure>
                             <Figure.Image
+                              className="event-img"
                               width={"100%"}
                               src={event.profilePicture}
                               alt="Artist Image"
@@ -237,6 +239,7 @@ const Event = (props) => {
                               <Nav.Link href={`${band.url}`}>
                                 <Figure>
                                   <Figure.Image
+                                    className="event-img"
                                     width={"100%"}
                                     alt="Artist Image"
                                     src={
@@ -336,6 +339,7 @@ const Event = (props) => {
                               <Nav.Link href={band._embedded.venues[0].url}>
                                 <Figure>
                                   <Figure.Image
+                                    className="event-img"
                                     width={"100%"}
                                     alt="Artist Image"
                                     src={
@@ -447,6 +451,7 @@ const Event = (props) => {
                               <Nav.Link href={`${band.url}`}>
                                 <Figure>
                                   <Figure.Image
+                                    className="event-img"
                                     width={"100%"}
                                     alt="Artist Image"
                                     src={
@@ -546,6 +551,7 @@ const Event = (props) => {
                               <Nav.Link href={band._embedded.venues[0].url}>
                                 <Figure>
                                   <Figure.Image
+                                    className="event-img"
                                     width={"100%"}
                                     alt="Artist Image"
                                     src={

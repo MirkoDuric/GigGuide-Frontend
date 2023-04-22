@@ -218,7 +218,7 @@ const FanProfilepage = (userData) => {
                   return artist ? (
                     <Carousel.Item key={index}>
                       <ArtistCard
-                        className="band"
+                        className="band "
                         name={artist.name}
                         id={artist.id}
                         profilePicture={artist.pic}
