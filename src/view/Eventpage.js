@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Image, Button, Modal, Form, Figure, Accordion } from "react-bootstrap";
-import { useParams, NavLink } from "react-router-dom";
+import { useParams, NavLink, useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
