@@ -38,7 +38,7 @@ const Event = (props) => {
                                   <Figure.Image
                                     className="event-img-container"
                                     width={"100%"}
-                                    src={band.profilePicture}
+                                    src={`${process.env.REACT_APP_BACKEND_URL}${band.profilePicture}`}
                                     alt="Artist Image"
                                   />
                                 </Figure>
@@ -152,7 +152,7 @@ const Event = (props) => {
                                 <Figure>
                                   <Figure.Image
                                     width={"100%"}
-                                    src={band.profilePicture}
+                                    src={`${process.env.REACT_APP_BACKEND_URL}${band.profilePicture}`}
                                     alt="Artist Image"
                                   />
                                 </Figure>
