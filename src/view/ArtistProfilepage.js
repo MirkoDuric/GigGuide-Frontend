@@ -7,7 +7,7 @@ import AccordionHeader from "react-bootstrap/AccordionHeader";
 import AccordionItem from "react-bootstrap/AccordionItem";
 import "../Profilepage.css";
 import "../ArtistCard.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { InputGroup, FormControl, Button, ModalBody } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -15,7 +15,6 @@ import Badge from "react-bootstrap/Badge";
 import ListGroup from "react-bootstrap/ListGroup";
 import { Modal, Form, Nav } from "react-bootstrap";
 import Datetime from "react-datetime";
-import { useNavigate } from "react-router-dom";
 
 const ArtistProfilepage = (userData) => {
   const user = userData.userData;
