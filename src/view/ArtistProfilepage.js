@@ -15,6 +15,7 @@ import Badge from "react-bootstrap/Badge";
 import ListGroup from "react-bootstrap/ListGroup";
 import { Modal, Form, Nav } from "react-bootstrap";
 import Datetime from "react-datetime";
+import { useNavigate } from "react-router-dom";
 
 const ArtistProfilepage = (userData) => {
   const user = userData.userData;
