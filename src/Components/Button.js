@@ -9,7 +9,7 @@ const Button = (props) => {
       <Image
         fluid={true}
         roundedCircle={true}
-        src={`${proccess.env.REACT_APP_BACKEND_URL}/profile-pics/${name}.png`}
+        src={`${process.env.REACT_APP_BACKEND_URL}/profile-pics/${name}.png`}
         alt={name}
         className="buttons"
       ></Image>
@@ -19,7 +19,7 @@ const Button = (props) => {
       <Image
         fluid={true}
         roundedCircle={true}
-        src={`${proccess.env.REACT_APP_BACKEND_URL}/profile-pics/${name}.png`}
+        src={`${process.env.REACT_APP_BACKEND_URL}/profile-pics/${name}.png`}
         alt={name}
         className="buttons"
       ></Image>
@@ -28,7 +28,7 @@ const Button = (props) => {
     <Image
       fluid={true}
       roundedCircle={true}
-      src={`${proccess.env.REACT_APP_BACKEND_URL}/profile-pics/${name}.png`}
+      src={`${process.env.REACT_APP_BACKEND_URL}/profile-pics/${name}.png`}
       alt={name}
       className="buttons"
     ></Image>
