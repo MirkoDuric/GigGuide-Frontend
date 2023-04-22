@@ -2,7 +2,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Button from "../Components/Button";
@@ -69,7 +69,7 @@ const CustomNav = (props) => {
               <Nav.Link
                 onClick={() => {
                   sessionStorage.clear();
-                  onLogoutClick;
+                  onLogoutClick();
                 }}
               >
                 Logout
