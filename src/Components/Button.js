@@ -3,13 +3,13 @@ import { NavLink } from "react-router-dom";
 
 const Button = (props) => {
   const name = props.name;
-
+  const img = props.src;
   return name === "homepage" ? (
     <NavLink to={`/`}>
       <Image
         fluid={true}
         roundedCircle={true}
-        src={`${process.env.REACT_APP_BACKEND_URL}/profile-pics/${name}.png`}
+        src={img}
         alt={name}
         className="buttons"
       ></Image>
@@ -19,7 +19,7 @@ const Button = (props) => {
       <Image
         fluid={true}
         roundedCircle={true}
-        src={`${process.env.REACT_APP_BACKEND_URL}/profile-pics/${name}.png`}
+        src={img}
         alt={name}
         className="buttons"
       ></Image>
@@ -28,7 +28,7 @@ const Button = (props) => {
     <Image
       fluid={true}
       roundedCircle={true}
-      src={`${process.env.REACT_APP_BACKEND_URL}/profile-pics/${name}.png`}
+      src={img}
       alt={name}
       className="buttons"
     ></Image>

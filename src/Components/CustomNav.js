@@ -7,6 +7,11 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Button from "../Components/Button";
 import "../CustomNav.css";
+import Login from "../img/Login.png";
+import Logo from "../img/Logo.png";
+import Signup from "../img/Signup.png";
+import localArtistImg from "../img/localartists.png";
+import Homepage from "../img/Homepage.png";
 
 const CustomNav = (props) => {
   const id = sessionStorage.getItem("userId");
@@ -31,7 +36,7 @@ const CustomNav = (props) => {
       <Container fluid>
         <Navbar.Brand>
           <div className="col Logodiv">
-            <Button name="Logo" /> {"  "}
+            <Button name="Logo" src={Logo} /> {"  "}
             <span className="titlespan">
               <span className="titlespan-bold">Gig</span>Guide
             </span>
@@ -82,16 +87,16 @@ const CustomNav = (props) => {
   ) : (
     <Navbar bg="dark" className="navdiv" fixed="top">
       <div className="col Logodiv">
-        <Button name="Logo" /> {"  "}
+        <Button name="Logo" src={Logo} /> {"  "}
         <span className="titlespan">
           <span className="titlespan-bold">Gig</span>Guide
         </span>
       </div>
       <div className="col buttonsdiv">
-        <Button name="localartists" />
-        <Button name="homepage" />
-        <Button name="signup" />
-        <Button name="login" />
+        <Button name="localartists" src={localArtistImg} />
+        <Button name="homepage" src={Homepage} />
+        <Button name="signup" src={Signup} />
+        <Button name="login" src={Login} />
       </div>
     </Navbar>
   );

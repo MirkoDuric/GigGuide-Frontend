@@ -7,7 +7,7 @@ import AccordionHeader from "react-bootstrap/AccordionHeader";
 import AccordionItem from "react-bootstrap/AccordionItem";
 import "../Profilepage.css";
 import "../ArtistCard.css";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { InputGroup, FormControl, Button, ModalBody } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
