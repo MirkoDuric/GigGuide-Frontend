@@ -65,7 +65,7 @@ const CustomNav = (props) => {
               id={`offcanvasNavbarLabel-expand-${false}`}
             >
               <div className="col Logodiv">
-                <Button name="Logo" /> {"  "}
+                <Button name="Logo" src={Logo} /> {"  "}
                 <span className="titlespan">
                   <span className="titlespan-bold">Gig</span>Guide
                 </span>
