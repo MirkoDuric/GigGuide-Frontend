@@ -69,7 +69,7 @@ const CustomNav = (props) => {
               <Nav.Link
                 onClick={() => {
                   sessionStorage.clear();
-                  onLogoutClick;
+                  onLogoutClick();
                 }}
               >
                 Logout
