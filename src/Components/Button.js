@@ -1,5 +1,10 @@
 import Image from "react-bootstrap/Image";
 import { NavLink } from "react-router-dom";
+import homepagebutton from "../css/Homepage.png";
+import loginbutton from "../css/Login.png";
+import signupbutton from "../css/Signup.png";
+import localartistsbutton from "../css/localartists.png";
+import logobutton from "../css/logo.png";
 
 const Button = (props) => {
   const name = props.name;
@@ -14,7 +19,7 @@ const Button = (props) => {
         className="buttons"
       ></Image>
     </NavLink>
-  ) : name !== "Logo" ? (
+  ) : name === "signup" ? (
     <NavLink to={`/${name}`}>
       <Image
         fluid={true}
