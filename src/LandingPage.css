@@ -95,10 +95,16 @@ h5 {
 }
 .buttons {
   width: auto;
-  height: 3rem;
+  height: 2.5rem;
   margin-right: 0.5rem;
-  margin-left: 0.5rem;
+  /* margin-left: rem; */
 }
 .noShowsdiv {
   width: 100%;
+}
+@media (min-width: 1024px) {
+  .buttons {
+    width: auto;
+    height: 3rem;
+  }
 }
