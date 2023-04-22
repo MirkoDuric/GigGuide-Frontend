@@ -1,4 +1,5 @@
 import Container from "react-bootstrap/Container";
+import { useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
@@ -16,23 +17,29 @@ import Homepage from "../img/Homepage.png";
 const CustomNav = (props) => {
   const id = sessionStorage.getItem("userId");
   const navigate = useNavigate();
+  const [expanded, setExpanded] = useState(false);
   const onHomeClick = () => {
+    setExpanded(false);
     navigate("/homepage");
   };
   const onProfileClick = () => {
+    setExpanded(false);
     navigate(`/userprofile/${id}`);
   };
   const onLocalArtistsClick = () => {
+    setExpanded(false);
     navigate("/localartists");
   };
   const onSearchClick = () => {
+    setExpanded(false);
     navigate("/search/0/0/0/0");
   };
   const onLogoutClick = () => {
+    setExpanded(false);
     navigate("/");
   };
   return id ? (
-    <Navbar bg="dark" expand={false} className="navdiv" fixed="top">
+    <Navbar bg="dark" expand={expanded} className="navdiv" fixed="top">
       <Container fluid>
         <Navbar.Brand>
           <div className="col Logodiv">

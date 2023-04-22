@@ -4,8 +4,8 @@ import AccordionHeader from "react-bootstrap/AccordionHeader";
 import AccordionItem from "react-bootstrap/AccordionItem";
 import Button from "react-bootstrap/Button";
 import "../Event.css";
-import { Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
+import { Nav } from "react-bootstrap";
 
 const ArtistEvents = (props) => {
   const plannedEvents = props.plannedEvents;
@@ -23,7 +23,11 @@ const ArtistEvents = (props) => {
             <AccordionItem className="AcordionItem" eventKey={eventKey}>
               <AccordionHeader className="row">
                 <div className="col-5 col-sm-4 col-md-3 col-lg-2">
-                  <NavLink to={`/${event.bandId}/event/${event.id}`}>
+                  <Nav.Link
+                    onClick={() => {
+                      navigate(`/${event.bandId}/event/${event.id}`);
+                    }}
+                  >
                     <Figure>
                       <Figure.Image
                         width={"100%"}
@@ -31,7 +35,7 @@ const ArtistEvents = (props) => {
                         alt="Artist Image"
                       />
                     </Figure>
-                  </NavLink>
+                  </Nav.Link>
                 </div>
                 <div className="col eventTitle">
                   <h2>
@@ -53,7 +57,11 @@ const ArtistEvents = (props) => {
                 </div>
               </AccordionHeader>
               <Accordion.Body>
-                <NavLink to={`/${event.bandId}/event/${event.id}`}>
+                <Nav.Link
+                  onClick={() => {
+                    navigate(`/${event.bandId}/event/${event.id}`);
+                  }}
+                >
                   <div className="col-7 col-sm-9">
                     <div className="row">
                       <h4>{event.venue} </h4>
@@ -63,7 +71,7 @@ const ArtistEvents = (props) => {
                       <p className="eventInfo">{event.info}</p>
                     </div>
                   </div>
-                </NavLink>
+                </Nav.Link>
                 <div className="col-5 col-sm-3 saveEventdiv">
                   {id ? (
                     currentSavedEvents.length ? (
