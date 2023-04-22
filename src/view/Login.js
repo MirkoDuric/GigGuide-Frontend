@@ -46,14 +46,14 @@ const Login = () => {
         console.log(errorData);
         setFailure(true);
         setTimeout(() => {
-          window.location.reload(true);
+          navigate("/login");
         }, 3000);
         throw new Error(errorData.message);
       }
     } catch (err) {
       setFailure(true);
       setTimeout(() => {
-        window.location.reload(true);
+        setFailure(false);
       }, 3000);
       throw err;
     }
