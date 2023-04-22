@@ -7,7 +7,6 @@ import "../css/Signup-Login.css";
 import logo from "../css/logo.png";
 
 const Login = () => {
-  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [success, setSuccess] = useState(false);
@@ -20,7 +19,7 @@ const Login = () => {
     if (id) {
       navigation("/homepage");
     }
-  }, []);
+  }, [id]);
   const handleLogin = async (e) => {
     e.preventDefault();
     const headers = { "Content-Type": "application/json" };
@@ -39,14 +38,14 @@ const Login = () => {
         sessionStorage.setItem("userId", id);
         setSuccess(true);
         setTimeout(() => {
-          navigate("/homepage");
+          navigation("/homepage");
         }, 3000);
       } else {
         const errorData = response.data;
         console.log(errorData);
         setFailure(true);
         setTimeout(() => {
-          navigate("/login");
+          navigation("/login");
         }, 3000);
         throw new Error(errorData.message);
       }
