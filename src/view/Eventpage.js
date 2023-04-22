@@ -398,7 +398,7 @@ const EventsPage = () => {
         id: event._id,
         bandId: band._id,
         ticketUrl: event.ticketUrl,
-        profilePicture: process.env.REACT_APP_BACKEND_URL + band.profilePicture,
+        profilePicture: band.profilePicture,
         artistName: band.name,
         date: event.date,
         startTime: event.startTime,
