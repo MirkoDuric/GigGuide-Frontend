@@ -251,7 +251,11 @@ const LocalBandsPage = () => {
         });
     } else {
       axios
-        .get("http://ip-api.com/json/?fields=countryCode,city,country")
+        .get("http://ip-api.com/json/?fields=countryCode,city,country", {
+          headers: {
+            "Access-Control-Allow-Origin": "*",
+          },
+        })
         .then((response) => {
           setCity(response.data.city);
           setCountryCode(response.data.countryCode);
