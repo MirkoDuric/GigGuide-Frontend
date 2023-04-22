@@ -10,7 +10,22 @@ import "../CustomNav.css";
 
 const CustomNav = (props) => {
   const id = sessionStorage.getItem("userId");
-  const navigation = useNavigate();
+  const navigate = useNavigate();
+  const onHomeClick = () => {
+    navigate("/homepage");
+  };
+  const onProfileClick = () => {
+    navigate(`/userprofile/${id}`);
+  };
+  const onLocalArtistsClick = () => {
+    navigate("/localartists");
+  };
+  const onSearchClick = () => {
+    navigate("/search/0/0/0/0");
+  };
+  const onLogoutClick = () => {
+    navigate("/");
+  };
   return id ? (
     <Navbar bg="dark" expand={false} className="navdiv" fixed="top">
       <Container fluid>
@@ -47,14 +62,14 @@ const CustomNav = (props) => {
           </Offcanvas.Header>
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
-              <Nav.Link href={`/homepage`}>Home</Nav.Link>
-              <Nav.Link href={`/userprofile/${id}`}>Profile</Nav.Link>
-              <Nav.Link href={`/localartists`}>Local Artists</Nav.Link>
-              <Nav.Link href={`/search/0/0/0/0`}>Search</Nav.Link>
+              <Nav.Link onClick={onHomeClick}>Home</Nav.Link>
+              <Nav.Link onClick={onProfileClick}>Profile</Nav.Link>
+              <Nav.Link onClick={onLocalArtistsClick}>Local Artists</Nav.Link>
+              <Nav.Link onClick={onSearchClick}>Search</Nav.Link>
               <Nav.Link
-                href={`/`}
                 onClick={() => {
                   sessionStorage.clear();
+                  onLogoutClick;
                 }}
               >
                 Logout
